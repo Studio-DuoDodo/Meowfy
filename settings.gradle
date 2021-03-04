@@ -1,2 +1,4 @@
+include ':spotify-app-remote'
+include ':spotify-app-remote-release-0.7.1'
 include ':app'
 rootProject.name = "Meowtify"

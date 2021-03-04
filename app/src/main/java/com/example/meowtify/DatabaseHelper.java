@@ -17,7 +17,6 @@ public class DatabaseHelper {
     }
     public String getKey() {
         return this.myRef.push().getKey();
-
     }
     public void updateSong(Song novaSong) {
         myRef.child(novaSong.getIdSong()).setValue(novaSong);
