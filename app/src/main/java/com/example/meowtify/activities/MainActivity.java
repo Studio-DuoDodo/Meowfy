@@ -126,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Auth flow returned an error
                 case ERROR:
-                    // Handle error response
-                    break;
+                                    break;
 
                 // Most likely auth flow was cancelled
                 default:
