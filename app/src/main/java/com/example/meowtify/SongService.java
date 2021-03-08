@@ -47,6 +47,7 @@ public class SongService {
                             JSONObject object = jsonArray.getJSONObject(n);
                             object = object.optJSONObject("track");
                             Song song = gson.fromJson(object.toString(), Song.class);
+                            System.out.println(song.toString());
                             songs.add(song);
                         } catch (JSONException e) {
                             e.printStackTrace();

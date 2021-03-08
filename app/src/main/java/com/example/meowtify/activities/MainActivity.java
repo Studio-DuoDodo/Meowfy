@@ -11,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
+import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
 import com.example.meowtify.fragments.HomeFragment;
+import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.Song;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Song song;
 
     private SongService songService;
+    private ArtistService artistService;
     private ArrayList<Song> recentlyPlayedTracks;
 
 
@@ -50,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
         songService.getRecentlyPlayedTracks(() -> {
             recentlyPlayedTracks = songService.getSongs();
             updateSong();
+        });
+    }
+   private void getArtists() {
+        artistService.getArtistByid(("") -> {
+            ArrayList<Artist> artists = artistService.getArtists();
+
+
+            for (Artist s:artists) {
+                System.out.println(s.toString());
+            }
         });
     }
 
@@ -65,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ;
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
@@ -78,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragment = new HomeFragment();
             changeFragment(currentFragment);
         }
+        artistService= new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
         userView = (TextView) findViewById(R.id.user);
         songView = (TextView) findViewById(R.id.song);
@@ -85,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
-
+        System.out.println(artistService.getArtistByid("", songService.getRecentlyPlayedTracks(() -> {
+            recentlyPlayedTracks = songService.getSongs();
+            updateSong();
+        });));
         getTracks();
 
         addBtn.setOnClickListener(addListener);

@@ -1,21 +1,32 @@
 package com.example.meowtify.models;
 
+import java.util.Date;
+import java.util.List;
+
 public class Song {
     public String getIdSong() {
         return "  notimplemented";
     }
     public String name;
-    public String artista;
+public int popularity;
+    public Date release_date;
+    public List<Artist> artist;
     public String grupo;
+    public int duration_ms;
+public String preview_url;
+  public  Type type;
     //bottom fragment sheet
     //musica youtube
 
     private String id;
 
 
-    public Song(String id, String name) {
+    public Song(String id, String name,Date release_date, int popularity) {
         this.name = name;
         this.id = id;
+        this.release_date=release_date;
+        this.popularity=popularity;
+
     }
 
     public String getId() {
@@ -38,8 +49,11 @@ public class Song {
     public String toString() {
         return "Song{" +
                 "name='" + name + '\'' +
-                ", artista='" + artista + '\'' +
+                ", popularity=" + popularity +
+                ", release_date=" + release_date +
+                ", artist=" + artist +
                 ", grupo='" + grupo + '\'' +
+                ", type=" + type +
                 ", id='" + id + '\'' +
                 '}';
     }
