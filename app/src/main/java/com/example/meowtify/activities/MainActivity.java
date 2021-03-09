@@ -56,14 +56,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
    private void getArtists() {
-        artistService.getArtistByid(("") -> {
+        artistService.getArtistByid("0TnOYISbd1XYRBk9myaseg",() -> {
             ArrayList<Artist> artists = artistService.getArtists();
-
-
             for (Artist s:artists) {
                 System.out.println(s.toString());
             }
         });
+
     }
 
     private void updateSong() {
@@ -100,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
-        System.out.println(artistService.getArtistByid("", songService.getRecentlyPlayedTracks(() -> {
-            recentlyPlayedTracks = songService.getSongs();
-            updateSong();
-        });));
+     //System.out.println(artistService.getArtistByid("",
+
         getTracks();
 
-        addBtn.setOnClickListener(addListener);
 
+        addBtn.setOnClickListener(addListener);
+      getArtists();
 
         }
 
@@ -118,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             recentlyPlayedTracks.remove(0);
         }
         updateSong();
+        getArtists();
     };
     private void changeFragment(Fragment currentFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
