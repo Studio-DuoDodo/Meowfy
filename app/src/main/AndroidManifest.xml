@@ -10,9 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Meowtify">
+        android:theme="@style/Theme.MeowtifyLight">
         <activity android:name=".activities.SplashActivity"
-            android:theme="@style/Theme.Meowtify.Laucher">
+            android:theme="@style/Theme.MeowtifyLight.Laucher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

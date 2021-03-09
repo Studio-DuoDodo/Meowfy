@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
             changeFragment(currentFragment);
         }
         songService = new SongService(getApplicationContext());
-        userView = (TextView) findViewById(R.id.user);
-        songView = (TextView) findViewById(R.id.song);
-        addBtn = (Button) findViewById(R.id.add);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
