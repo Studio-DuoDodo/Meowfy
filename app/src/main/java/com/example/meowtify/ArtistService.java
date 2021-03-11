@@ -9,9 +9,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.Image;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.models.Type;
 import com.example.meowtify.models.genre;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -46,53 +46,48 @@ public class ArtistService {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
-                    Gson gson = new Gson();
-                    try {
+                     try {
                         JSONObject object= response.getJSONObject("followers");
                         Artist artist = new Artist();
                         int followers = object.optInt("total");
-                       artist.setFollowers(followers);
-                       artist.setId(id);
-                      // String name= object.getString("name");
-                     //  artist.setName(name);
-                       artist.setPopularity(object.optInt("popularity"));
-
-                               artist.setGenres((List<genre>) response.getJSONObject("").opt("genres"));
-/*
                         JSONArray jsonArray = response.optJSONArray("genres");
+                       artist.setGenres(new ArrayList<genre>());
                         for (int n = 0; n < jsonArray.length(); n++) {
                             try {
-                                JSONObject object1 = jsonArray.getJSONObject(n);
-                                object1 = object1.optJSONObject("art");
-                                artist.addGenre(object1.get(""));
-                                System.out.println(artist.toString());
+                                String gnere= jsonArray.getString(n);
+                                gnere=  gnere.replace(' ','_');
+                                artist.addGenre(genre.valueOf(gnere));
+                               } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        artist.setFollowers(followers);
+                       artist.setId(id);
+                       String name= response.getString("name");
+                       artist.setName(name);
+                       int popularity = response.getInt("popularity");
+                       artist.setPopularity(popularity);
+                         artist.setType(Type.valueOf(response.getString("type")));
+                        JSONArray jsonArrayImages = response.optJSONArray("images");
+                        for (int n = 0; n < jsonArrayImages.length(); n++) {
+                            try {
+                                Image image= new Image();
+                                image.setHeight(jsonArrayImages.getJSONObject(n).getInt("height"));;
+                                image.setWidth(jsonArrayImages.getJSONObject(n).getInt("width"));;
+                                image.setUrl(jsonArrayImages.getJSONObject(n).getString("url"));;
+                                artist.addImages(image);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-*/
+
                             artistAtomic.set(artist);
                         artists.add(artist);
 
-                        // Artist artist = gson.fromJson(object.toString(), Artist.class);
-                        System.out.println(artist.toString());
+                         System.out.println(artist.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                 /*   JSONArray jsonArray = response.optJSONArray("items");
-                    for (int n = 0; n < jsonArray.length(); n++) {
-                        try {
-                            JSONObject object = jsonArray.getJSONObject(n);
-                            object = object.optJSONObject("artist");
-                            Artist artist = gson.fromJson(object.toString(), Artist.class);
-                            System.out.println(artist.toString());
-                           artistAtomic.set(artist);
-                            artists.add(artist);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                   */
                     callBack.onSuccess();
                 }, error -> {
                     // TODO: Handle error

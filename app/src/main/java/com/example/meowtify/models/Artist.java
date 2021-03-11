@@ -1,5 +1,6 @@
 package com.example.meowtify.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Artist {
@@ -8,6 +9,12 @@ public class Artist {
     public String name;
     public int popularity;
 public String id;
+    public  Type type;
+    public  List<Image> images;
+
+    public Artist() {
+        images= new ArrayList<>();
+    }
 
     public String getId() {
         return id;
@@ -45,12 +52,33 @@ public String id;
         return popularity;
     }
 
+
     public void setPopularity(int popularity) {
         this.popularity = popularity;
     }
 public void addGenre(genre genre){
         this.genres.add(genre);
 }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+    public void  addImages(Image image){
+        images.add(image);
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "Artist{" +
@@ -58,6 +86,9 @@ public void addGenre(genre genre){
                 ", genres=" + genres +
                 ", name='" + name + '\'' +
                 ", popularity=" + popularity +
+                ", id='" + id + '\'' +
+                ", type=" + type +
+                ", images=" + images.toString() +
                 '}';
     }
 }
