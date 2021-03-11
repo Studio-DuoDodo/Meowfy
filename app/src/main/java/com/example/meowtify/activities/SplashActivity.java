@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
-    Button login;
+    private Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +43,16 @@ public class SplashActivity extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        findViewById(R.id.login);
         setContentView(R.layout.activity_splash);
+        login = (Button) findViewById(R.id.buttonLogin);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 authenticateSpotify();
 
-                msharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-                queue = Volley.newRequestQueue(this);
+                msharedPreferences = v.getContext().getSharedPreferences("SPOTIFY", 0);
+                queue = Volley.newRequestQueue(v.getContext());
             }
         });
     }

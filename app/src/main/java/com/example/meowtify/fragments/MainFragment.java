@@ -12,10 +12,10 @@ import com.example.meowtify.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class MainFragment extends Fragment {
 
      private static final String ARG_PARAM2 = "param2";
 
@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public MainFragment() {
         // Required empty public constructor
     }
 
@@ -36,8 +36,8 @@ public class HomeFragment extends Fragment {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static MainFragment newInstance(String param1, String param2) {
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
@@ -58,6 +58,6 @@ public class HomeFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity"
-    android:background="@color/black">
+    android:background="@color/primary">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:src="@mipmap/logo_titel_foreground"/>
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
