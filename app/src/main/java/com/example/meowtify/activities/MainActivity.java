@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.RequestQueue;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
-import com.example.meowtify.fragments.HomeFragment;
+import com.example.meowtify.fragments.MainFragment;
 import com.example.meowtify.models.Song;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -75,20 +75,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            currentFragment = new HomeFragment();
+            currentFragment = new MainFragment();
             changeFragment(currentFragment);
         }
-        songService = new SongService(getApplicationContext());
-        userView = (TextView) findViewById(R.id.user);
-        songView = (TextView) findViewById(R.id.song);
-        addBtn = (Button) findViewById(R.id.add);
+        /*songService = new SongService(getApplicationContext());
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
 
         getTracks();
 
-        addBtn.setOnClickListener(addListener);
+        addBtn.setOnClickListener(addListener);*/
 
 
         }
