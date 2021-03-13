@@ -3,10 +3,13 @@ package com.example.meowtify.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -14,7 +17,11 @@ import com.android.volley.RequestQueue;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
 import com.example.meowtify.fragments.MainFragment;
+import com.example.meowtify.fragments.SearchFragment;
+import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Song;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -28,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue queue;
     Fragment currentFragment;
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
-     private static final String REDIRECT_URI = "http://com.example.meowtify/callback";
+    private static final String REDIRECT_URI = "http://com.example.meowtify/callback";
    // private static final String REDIRECT_URI = " com.example.meowtify://callback";
 
-      private static final int REQUEST_CODE = 1337;
+    private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
 
     private TextView userView;
@@ -42,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SongService songService;
     private ArrayList<Song> recentlyPlayedTracks;
 
-
-
+    private BottomNavigationView navigationMenu;
 
 
     private void getTracks() {
@@ -74,10 +80,56 @@ public class MainActivity extends AppCompatActivity {
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        navigationMenu = findViewById(R.id.bottomNavigation);
+
         if (savedInstanceState == null) {
             currentFragment = new MainFragment();
             changeFragment(currentFragment);
         }
+
+        navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.home:
+                        changeFragment(new MainFragment());
+                        System.out.println("home");
+                        return true;
+                    case R.id.sheare:
+                        changeFragment(new SearchFragment());
+                        System.out.println("sheare");
+                        return true;
+                    case R.id.library:
+                        changeFragment(new YourLibraryFragment());
+                        System.out.println("library");
+                        return true;
+                }
+                System.out.println("null");
+                return false;
+            }
+        });
+
+        /*BottomNavigationView.OnNavigationItemReselectedListener navigationItemReselectedListener =
+                new BottomNavigationView.OnNavigationItemReselectedListener() {
+                    @Override
+                    public void onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch(item.getItemId()) {
+                            case R.id.home:
+                                changeFragment(new MainFragment());
+                                System.out.println("home");
+                                break;
+                            case R.id.sheare:
+                                changeFragment(new SearchFragment());
+                                System.out.println("sheare");
+                                break;
+                            case R.id.library:
+                                changeFragment(new YourLibraryFragment());
+                                System.out.println("library");
+                                break;
+                        }
+                    }
+                };*/
         /*songService = new SongService(getApplicationContext());
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
@@ -131,4 +183,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
