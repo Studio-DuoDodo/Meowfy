@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.google.gson.Gson;
 
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SongService {
@@ -70,6 +72,55 @@ public class SongService {
         };
         queue.add(jsonObjectRequest);
         return songs;
+    }
+    public  Playlist getAPlayListByRef(final  VolleyCallBack callBack,String endpoint){
+  return  new Playlist();
+    }
+
+    //todo move this to Playlist Service
+    public  List<Playlist> getFeaturedPlayList(final VolleyCallBack callBack) {
+        String endpoint = "https://api.spotify.com/v1/browse/featured-playlists" ;
+        List<Playlist> playlists= new ArrayList<>();
+         //+"-H \"Accept: application/json\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer " + MainActivity.TOKEN;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        Gson gson = new Gson();
+                        String message = response.getString("message");
+                        System.out.println(message);
+                        JSONObject object   = response.getJSONObject("playlists");
+                        System.out.println(object.toString());
+                        JSONArray jsonArray = object.getJSONArray("items");
+                        System.out.println(jsonArray.toString());
+                        for (int n = 0; n < jsonArray.length(); n++) {
+
+                            JSONObject   object1 = jsonArray.getJSONObject(n);
+                                System.out.println("last print" + object1.toString());
+                            //     object = object.optJSONObject("tracks");
+                                 Playlist p = gson.fromJson(object1.toString(), Playlist.class);
+                                 System.out.println(p.toString());
+                                  playlists.add(p);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    // TODO: Handle error
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+        return playlists;
     }
     public void addSongToLibrary(Song song) {
         JSONObject payload = preparePutPayload(song);

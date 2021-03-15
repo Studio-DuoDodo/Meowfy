@@ -1,23 +1,40 @@
 package com.example.meowtify.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Playlist {
     boolean colaborative = false;
+    //todo hacer que followers sea una clase con string href y  int total
     int followers;
+    String description;
+
     String href;
     String id;
-    List<Image> images;
+    Image[]  images;
     String name;
     User owner;
     boolean isPublic;
     String snapshotId;
-    List<Song> songs;
-    Type playlist;
+    Track tracks;
+    Type type;
 
     public Playlist() {
-        songs= new ArrayList<>();
+
+    }
+
+    public Playlist(boolean colaborative, int followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, Track tracks, Type type) {
+        this.colaborative = colaborative;
+        this.followers = followers;
+        this.description = description;
+        this.href = href;
+        this.id = id;
+        this.images = images;
+        this.name = name;
+        this.owner = owner;
+        this.isPublic = isPublic;
+        this.snapshotId = snapshotId;
+        this.tracks = tracks;
+        this.type = type;
     }
 
     public boolean isColaborative() {
@@ -52,11 +69,11 @@ public class Playlist {
         this.id = id;
     }
 
-    public List<Image> getImages() {
+    public Image[] getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(Image[] images) {
         this.images = images;
     }
 
@@ -92,23 +109,41 @@ public class Playlist {
         this.snapshotId = snapshotId;
     }
 
-    public List<Song> getSongs() {
-        return songs;
+    public Track getTracks() {
+        return tracks;
     }
 
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
+    public void setTracks(Track tracks) {
+        this.tracks = tracks;
     }
 
     public Type getPlaylist() {
-        return playlist;
+        return type;
     }
 
     public void setPlaylist(Type playlist) {
-        this.playlist = playlist;
+        this.type = playlist;
     }
 
     public String getIdPlaylist() {
         return "notImplemented";
+    }
+
+    @Override
+    public String toString() {
+        return "Playlist{" +
+                "colaborative=" + colaborative +
+                ", followers=" + followers +
+                ", description='" + description + '\'' +
+                ", href='" + href + '\'' +
+                ", id='" + id + '\'' +
+                ", images=" + Arrays.toString(images).toString() +
+                ", name='" + name + '\'' +
+                ", owner=" + owner.toString() +
+                ", isPublic=" + isPublic +
+                ", snapshotId='" + snapshotId + '\'' +
+                ", tracks=" + tracks +
+                ", type=" + type +
+                '}';
     }
 }

@@ -116,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
             recentlyPlayedTracks.remove(0);
         }
         updateSong();
-        getArtists();
+      //  getArtists();
+        songService.getFeaturedPlayList(() -> {
+
+        });
     };
     private void changeFragment(Fragment currentFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
