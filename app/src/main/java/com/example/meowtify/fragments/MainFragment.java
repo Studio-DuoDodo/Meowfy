@@ -3,6 +3,7 @@ package com.example.meowtify.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -26,8 +27,8 @@ public class MainFragment extends Fragment {
 
     private TextView missatgePersonalitzat;
     private RecyclerView lista1, lista2, lista3;
-    private AdapterMainList adapter;
-    private List<GeneralItem> items;
+    private AdapterMainList adapter, adapter2, adapter3;
+    private List<GeneralItem> items = new ArrayList<GeneralItem>();
 
     public MainFragment() {
         // Required empty public constructor
@@ -68,17 +69,26 @@ public class MainFragment extends Fragment {
         lista2 = v.findViewById(R.id.listaYourPlaylist);
         lista3 = v.findViewById(R.id.listaJumpBack);
 
-        items = new ArrayList<GeneralItem>().add(new GeneralItem("Item1", "subItem1"));
+        items.add(new GeneralItem("Item11", "subItem11"));
+        items.add(new GeneralItem("Item21", "subItem21"));
+        items.add(new GeneralItem("Item31", "subItem31"));
         adapter = new AdapterMainList(items);
         lista1.setAdapter(adapter);
+        lista1.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        items = new ArrayList<GeneralItem>(new GeneralItem("Item12", "subItem12"), new GeneralItem("Item22", "subItem22"), new GeneralItem("Item32", "subItem32"));
+        items.add(new GeneralItem("Item12", "subItem12"));
+        items.add(new GeneralItem("Item22", "subItem22"));
+        items.add(new GeneralItem("Item32", "subItem32"));
         adapter = new AdapterMainList(items);
         lista2.setAdapter(adapter);
+        lista2.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        items = new ArrayList<GeneralItem>(new GeneralItem("Item13", "subItem13"), new GeneralItem("Item23", "subItem23"), new GeneralItem("Item33", "subItem33"));
+        items.add(new GeneralItem("Item13", "subItem13"));
+        items.add(new GeneralItem("Item23", "subItem23"));
+        items.add(new GeneralItem("Item33", "subItem33"));
         adapter = new AdapterMainList(items);
         lista3.setAdapter(adapter);
+        lista3.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }
