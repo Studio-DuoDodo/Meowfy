@@ -1,5 +1,7 @@
 package com.example.meowtify.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Song {
     }
     public String name;
 public int popularity;
+@SerializedName("release_date")
     public Date release_date;
     public List<Artist> artist;
     public String grupo;

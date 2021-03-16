@@ -16,12 +16,14 @@ import com.example.meowtify.R;
 import com.example.meowtify.SongService;
 import com.example.meowtify.fragments.HomeFragment;
 import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
@@ -117,10 +119,13 @@ public class MainActivity extends AppCompatActivity {
         }
         updateSong();
       //  getArtists();
-        songService.getFeaturedPlayList(() -> {
+     List<Playlist>  p =  songService.getFeaturedPlayList(() -> {
 
         });
+     songService.getAPlayListByRef(() -> {
+     },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
     };
+
     private void changeFragment(Fragment currentFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
     }

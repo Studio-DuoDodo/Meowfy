@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SongService {
     private ArrayList<Song> songs = new ArrayList<>();
@@ -74,7 +75,47 @@ public class SongService {
         return songs;
     }
     public  Playlist getAPlayListByRef(final  VolleyCallBack callBack,String endpoint){
-  return  new Playlist();
+        AtomicReference<Playlist> playlist = new AtomicReference<>(new Playlist());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        Gson gson = new Gson();
+                        System.out.println("JSON: " + response.toString());
+                        Playlist p = gson.fromJson(response.toString(), Playlist.class);
+                        System.out.println("Playlist p "  + p.toString());
+                        JSONArray jsonArray =
+                                response.getJSONObject("tracks").getJSONArray("items");
+                        System.out.println(jsonArray.toString());
+                        for (int n = 0; n < jsonArray.length(); n++) {
+
+                            JSONObject   object1 = jsonArray.getJSONObject(n).getJSONObject("track");
+                            System.out.println("last print" + object1.toString());
+
+                            //     object = object.optJSONObject("tracks");
+                            Song  s = gson.fromJson(object1.toString(), Song.class);
+                            System.out.println("Song " + n +  ": " + s.toString());
+
+playlist.set(p);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    // TODO: Handle error
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+  return  playlist.get();
     }
 
     //todo move this to Playlist Service
