@@ -33,6 +33,7 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
         holder.title.setText(itmes.get(position).getTitel());
         holder.subTitel.setText(itmes.get(position).getSubTitel());
         holder.image.setImageResource(R.drawable.ic_launcher_foreground);
+
     }
 
     @Override

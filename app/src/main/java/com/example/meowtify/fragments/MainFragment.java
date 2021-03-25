@@ -74,21 +74,21 @@ public class MainFragment extends Fragment {
         items.add(new GeneralItem("Item31", "subItem31"));
         adapter = new AdapterMainList(items);
         lista1.setAdapter(adapter);
-        lista1.setLayoutManager(new LinearLayoutManager(getContext()));
+        lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         items.add(new GeneralItem("Item12", "subItem12"));
         items.add(new GeneralItem("Item22", "subItem22"));
         items.add(new GeneralItem("Item32", "subItem32"));
         adapter = new AdapterMainList(items);
         lista2.setAdapter(adapter);
-        lista2.setLayoutManager(new LinearLayoutManager(getContext()));
+        lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         items.add(new GeneralItem("Item13", "subItem13"));
         items.add(new GeneralItem("Item23", "subItem23"));
         items.add(new GeneralItem("Item33", "subItem33"));
         adapter = new AdapterMainList(items);
         lista3.setAdapter(adapter);
-        lista3.setLayoutManager(new LinearLayoutManager(getContext()));
+        lista3.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
 
         return v;
     }
