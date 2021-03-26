@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginRight="5dp">
+
+    <ImageView
+        android:id="@+id/image_lista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titol"
+        android:layout_below="@id/image_lista"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        tools:text="nom llista"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subtitol"
+        android:layout_below="@id/titol"
+        android:textColor="@color/primaryLigth2"
+        tools:text="nom llista"/>
+
+</RelativeLayout>

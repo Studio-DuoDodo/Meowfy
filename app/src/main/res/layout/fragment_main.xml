@@ -1,16 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MainFragment">
+    tools:context=".fragments.MainFragment"
+    android:paddingLeft="15dp"
+    android:paddingBottom="60dp"
+    android:background="@color/primary">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
+        android:id="@+id/missatgePersonalitzat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="HOLA"
         android:textColor="@color/white"
-        android:gravity="center"/>
+        android:textStyle="bold"
+        android:layout_marginVertical="10dp"
+        android:textSize="25sp"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/recentlyPlayed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recently played"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/missatgePersonalitzat"
+        android:textSize="25sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaRecently"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/recentlyPlayed"
+        tools:listitem="@layout/item_lista_main"/>
+
+    <TextView
+        android:id="@+id/yourPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your playlist"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/listaRecently"
+        android:textSize="25sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaYourPlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/yourPlaylist"/>
+
+    <TextView
+        android:id="@+id/jumpBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jump back in"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/listaYourPlaylist"
+        android:textSize="25sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaJumpBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/jumpBack"/>
+
+    <TextView
+        android:id="@+id/jumpBack2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jump back in"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/listaJumpBack"
+        android:textSize="25sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaJumpBack2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/jumpBack2"/>
+
+
+</RelativeLayout>
+</ScrollView>
