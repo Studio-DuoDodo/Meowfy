@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="wrap_content"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MainFragment"
     android:paddingLeft="15dp"
+    android:paddingBottom="60dp"
     android:background="@color/primary">
 
     <TextView
@@ -73,6 +74,24 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_below="@id/jumpBack"/>
+
+    <TextView
+        android:id="@+id/jumpBack2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jump back in"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/listaJumpBack"
+        android:textSize="25sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaJumpBack2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/jumpBack2"/>
+
 
 </RelativeLayout>
 </ScrollView>

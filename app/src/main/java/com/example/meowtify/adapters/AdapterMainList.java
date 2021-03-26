@@ -1,5 +1,6 @@
 package com.example.meowtify.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,18 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.GeneralItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainListHolder> {
     List<GeneralItem> itmes;
+    Context context;
 
-    public AdapterMainList(List<GeneralItem> itmes) {
+    public AdapterMainList(List<GeneralItem> itmes, Context context) {
         this.itmes = itmes;
+        this.context = context;
     }
 
     @NonNull
@@ -32,8 +40,7 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
     public void onBindViewHolder(@NonNull MainListHolder holder, int position) {
         holder.title.setText(itmes.get(position).getTitel());
         holder.subTitel.setText(itmes.get(position).getSubTitel());
-        holder.image.setImageResource(R.drawable.ic_launcher_foreground);
-
+        Picasso.with(context).load(itmes.get(position).getImage()).into(holder.image);
     }
 
     @Override

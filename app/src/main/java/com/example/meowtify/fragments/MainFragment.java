@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.meowtify.R;
@@ -16,6 +17,7 @@ import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.models.GeneralItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,8 +28,8 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private TextView missatgePersonalitzat;
-    private RecyclerView lista1, lista2, lista3;
-    private AdapterMainList adapter, adapter2, adapter3;
+    private RecyclerView lista1, lista2, lista3, lista4;
+    private AdapterMainList adapter;
     private List<GeneralItem> items = new ArrayList<GeneralItem>();
 
     public MainFragment() {
@@ -68,27 +70,43 @@ public class MainFragment extends Fragment {
         lista1 = v.findViewById(R.id.listaRecently);
         lista2 = v.findViewById(R.id.listaYourPlaylist);
         lista3 = v.findViewById(R.id.listaJumpBack);
+        lista4 = v.findViewById(R.id.listaJumpBack2);
 
-        items.add(new GeneralItem("Item11", "subItem11"));
-        items.add(new GeneralItem("Item21", "subItem21"));
-        items.add(new GeneralItem("Item31", "subItem31"));
-        adapter = new AdapterMainList(items);
+        items = new ArrayList<GeneralItem>(Arrays.asList(
+                new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item21", "subItem21", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+        ));
+        adapter = new AdapterMainList(items, getContext());
         lista1.setAdapter(adapter);
         lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        items.add(new GeneralItem("Item12", "subItem12"));
-        items.add(new GeneralItem("Item22", "subItem22"));
-        items.add(new GeneralItem("Item32", "subItem32"));
-        adapter = new AdapterMainList(items);
+        items = new ArrayList<GeneralItem>(Arrays.asList(
+                new GeneralItem("Item12", "subItem12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item22", "subItem22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item32", "subItem32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+        ));
+        adapter = new AdapterMainList(items, getContext());
         lista2.setAdapter(adapter);
         lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        items.add(new GeneralItem("Item13", "subItem13"));
-        items.add(new GeneralItem("Item23", "subItem23"));
-        items.add(new GeneralItem("Item33", "subItem33"));
-        adapter = new AdapterMainList(items);
+        items = new ArrayList<GeneralItem>(Arrays.asList(
+                new GeneralItem("Item13", "subItem13", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item23", "subItem23", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item33", "subItem33", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+        ));
+        adapter = new AdapterMainList(items, getContext());
         lista3.setAdapter(adapter);
         lista3.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+
+        items = new ArrayList<GeneralItem>(Arrays.asList(
+                new GeneralItem("Item13", "subItem13", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item23", "subItem23", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item33", "subItem33", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+        ));
+        adapter = new AdapterMainList(items, getContext());
+        lista4.setAdapter(adapter);
+        lista4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         return v;
     }

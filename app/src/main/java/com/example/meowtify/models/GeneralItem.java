@@ -1,18 +1,18 @@
 package com.example.meowtify.models;
 
 import android.media.Image;
+import android.widget.ScrollView;
 
 public class GeneralItem {
-    private Image image;
-    private String titel, subTitel;
+    private String image, titel, subTitel;
 
-    public GeneralItem( String titel, String subTitel) {
-        //this.image = image;
+    public GeneralItem(String titel, String subTitel, String image) {
+        this.image = image;
         this.titel = titel;
         this.subTitel = subTitel;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -24,7 +24,7 @@ public class GeneralItem {
         return subTitel;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
