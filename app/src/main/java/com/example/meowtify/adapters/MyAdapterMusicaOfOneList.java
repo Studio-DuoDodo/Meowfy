@@ -1,4 +1,4 @@
-package com.example.meowtify;
+package com.example.meowtify.adapters;
 
 public class MyAdapterMusicaOfOneList {
 }

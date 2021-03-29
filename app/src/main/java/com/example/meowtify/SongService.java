@@ -73,7 +73,7 @@ public class SongService {
         };
         queue.add(jsonObjectRequest);
         return songs;
-    }  public List<Playlist> getRecentlyPlayLists(final VolleyCallBack callBack) {
+    }  public List<Playlist> getUserPlayLists(final VolleyCallBack callBack) {
         String endpoint = "https://api.spotify.com/v1/me/player/recently-played" ;
                 //+"-H \"Accept: application/json\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer " + MainActivity.TOKEN;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

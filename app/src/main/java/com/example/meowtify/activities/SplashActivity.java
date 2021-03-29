@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+  //      getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
         login = (Button) findViewById(R.id.buttonLogin);
 
