@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
-import com.example.meowtify.fragments.HomeFragment;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
@@ -90,17 +89,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            currentFragment = new HomeFragment();
-            changeFragment(currentFragment);
+      //      currentFragment = new HomeFragment();
+        //    changeFragment(currentFragment);
         }
         artistService= new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
-        userView = (TextView) findViewById(R.id.user);
-        songView = (TextView) findViewById(R.id.song);
+      //  userView = (TextView) findViewById(R.id.user);
+         songView = (TextView) findViewById(R.id.song);
         addBtn = (Button) findViewById(R.id.add);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        userView.setText(sharedPreferences.getString("userid", "No User"));
+        //userView.setText(sharedPreferences.getString("userid", "No User"));
      //System.out.println(artistService.getArtistByid("",
 
         getTracks();
