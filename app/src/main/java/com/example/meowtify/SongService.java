@@ -29,6 +29,7 @@ public class SongService {
     private SharedPreferences sharedPreferences;
     //
     private RequestQueue queue;
+    private ArrayList<Playlist> playlists= new ArrayList<>();
 
     public SongService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -37,6 +38,10 @@ public class SongService {
 
     public ArrayList<Song> getSongs() {
         return songs;
+    }
+    public ArrayList<Playlist> getPlaylists() {
+        System.out.println(playlists.toString() + "Vendetta");
+        return playlists;
     }
 
     public ArrayList<Song> getRecentlyPlayedTracks(final VolleyCallBack callBack) {
@@ -102,6 +107,7 @@ public class SongService {
                             Playlist p = gson.fromJson(object1.toString(), Playlist.class);
                             System.out.println(p.toString());
                             playlists.add(p);
+                            this.playlists.add(p);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -123,6 +129,7 @@ public class SongService {
             }
         };
         queue.add(jsonObjectRequest);
+
         return playlists;
     }
 

@@ -17,12 +17,17 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainListHolder> {
-    List<GeneralItem> itmes;
+    List<GeneralItem> items;
     Context context;
 
-    public AdapterMainList(List<GeneralItem> itmes, Context context) {
-        this.itmes = itmes;
+    public AdapterMainList(List<GeneralItem> items, Context context) {
+        this.items = items;
         this.context = context;
+    }
+
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -34,14 +39,14 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
 
     @Override
     public void onBindViewHolder(@NonNull MainListHolder holder, int position) {
-        holder.title.setText(itmes.get(position).getTitle());
-        holder.subTitel.setText(itmes.get(position).getSubtitle());
-        Picasso.with(context).load(itmes.get(position).getImage()).into(holder.image);
+        holder.title.setText(items.get(position).getTitle());
+        holder.subTitel.setText(items.get(position).getSubtitle());
+        Picasso.with(context).load(items.get(position).getImage()).into(holder.image);
     }
 
     @Override
     public int getItemCount() {
-        return itmes.size();
+        return items.size();
     }
 
     public class MainListHolder extends RecyclerView.ViewHolder{
