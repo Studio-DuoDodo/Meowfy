@@ -6,10 +6,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MainFragment"
-    android:paddingLeft="15dp"
-    android:paddingBottom="60dp"
-    android:background="@color/primary">
+    tools:context=".fragments.MainFragment">
 
     <TextView
         android:id="@+id/missatgePersonalitzat"
@@ -18,7 +15,6 @@
         tools:text="HOLA"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_marginVertical="10dp"
         android:textSize="25sp"/>
 
     <TextView
