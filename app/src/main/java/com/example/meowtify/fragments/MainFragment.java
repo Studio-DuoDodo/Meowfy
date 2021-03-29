@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.DragAndDropPermissions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,13 @@ import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.models.GeneralItem;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,6 +76,22 @@ public class MainFragment extends Fragment {
         lista2 = v.findViewById(R.id.listaYourPlaylist);
         lista3 = v.findViewById(R.id.listaJumpBack);
         lista4 = v.findViewById(R.id.listaJumpBack2);
+
+        int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
+
+        System.out.println(date);
+
+        if (8 > date) {
+            missatgePersonalitzat.setText("Too early");
+        } else if (12 > date) {
+            missatgePersonalitzat.setText("Good morning");
+        } else if (15 > date) {
+            missatgePersonalitzat.setText("God noon");
+        } else if (21 > date) {
+            missatgePersonalitzat.setText("Good afternoon");
+        } else {
+            missatgePersonalitzat.setText("Good evening");
+        }
 
         items = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
