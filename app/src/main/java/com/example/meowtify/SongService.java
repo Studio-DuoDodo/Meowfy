@@ -73,6 +73,41 @@ public class SongService {
         };
         queue.add(jsonObjectRequest);
         return songs;
+    }  public List<Playlist> getRecentlyPlayLists(final VolleyCallBack callBack) {
+        String endpoint = "https://api.spotify.com/v1/me/player/recently-played" ;
+                //+"-H \"Accept: application/json\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer " + MainActivity.TOKEN;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    Gson gson = new Gson();
+                    JSONArray jsonArray = response.optJSONArray("items");
+
+                    for (int n = 0; n < jsonArray.length(); n++) {
+                        try {
+                            JSONObject object = jsonArray.getJSONObject(n);
+                            object = object.optJSONObject("track");
+                            Song song = gson.fromJson(object.toString(), Song.class);
+                            System.out.println(song.toString());
+                            songs.add(song);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    // TODO: Handle error
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+        return new ArrayList<>();
     }
     public  Playlist getAPlayListByRef(final  VolleyCallBack callBack,String endpoint){
         AtomicReference<Playlist> playlist = new AtomicReference<>(new Playlist());
