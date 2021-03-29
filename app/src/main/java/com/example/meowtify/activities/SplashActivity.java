@@ -104,6 +104,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Most likely auth flow was cancelled
                 default:
                     // Handle other cases
+
             }
         }
     }

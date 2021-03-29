@@ -12,6 +12,9 @@ public class DatabaseHelper {
     public DatabaseHelper(String myRef) {
         this.myRef = database.getReference(myRef);
     }
+    public DatabaseHelper() {
+        this.myRef = database.getReference("Meowfy");
+    }
     public DatabaseReference getMyRef() {
         return myRef;
     }

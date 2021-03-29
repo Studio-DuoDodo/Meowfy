@@ -11,15 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
+import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
-import com.example.meowtify.fragments.MainFragment;
+import com.example.meowtify.fragments.HomeFragment;
+import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Song song;
 
     private SongService songService;
+    private ArtistService artistService;
     private ArrayList<Song> recentlyPlayedTracks;
 
 
@@ -51,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
             recentlyPlayedTracks = songService.getSongs();
             updateSong();
         });
+    }
+   private void getArtists() {
+        artistService.getArtistByid("0TnOYISbd1XYRBk9myaseg",() -> {
+            ArrayList<Artist> artists = artistService.getArtists();
+            for (Artist s:artists) {
+                System.out.println(s.toString());
+            }
+        });
+
     }
 
     private void updateSong() {
@@ -65,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ;
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
@@ -75,18 +90,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            currentFragment = new MainFragment();
+            currentFragment = new HomeFragment();
             changeFragment(currentFragment);
         }
-        /*songService = new SongService(getApplicationContext());
+        artistService= new ArtistService(getApplicationContext());
+        songService = new SongService(getApplicationContext());
+        userView = (TextView) findViewById(R.id.user);
+        songView = (TextView) findViewById(R.id.song);
+        addBtn = (Button) findViewById(R.id.add);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
+     //System.out.println(artistService.getArtistByid("",
 
         getTracks();
 
-        addBtn.setOnClickListener(addListener);*/
 
+        addBtn.setOnClickListener(addListener);
+      getArtists();
 
         }
 
@@ -97,7 +118,14 @@ public class MainActivity extends AppCompatActivity {
             recentlyPlayedTracks.remove(0);
         }
         updateSong();
+      //  getArtists();
+     List<Playlist>  p =  songService.getFeaturedPlayList(() -> {
+
+        });
+     songService.getAPlayListByRef(() -> {
+     },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
     };
+
     private void changeFragment(Fragment currentFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
     }

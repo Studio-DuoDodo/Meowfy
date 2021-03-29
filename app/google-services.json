@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734398374675",
+    "project_id": "meowtify",
+    "storage_bucket": "meowtify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734398374675:android:3524e5e301bd15f90fb0e6",
+        "android_client_info": {
+          "package_name": "com.example.meowtify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734398374675-rs1vbe8qrq8hptr085l4crajkkf1b6hv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtOGEg7pR_RXZ97IuZHxWrSL7ZMDRvA_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734398374675-rs1vbe8qrq8hptr085l4crajkkf1b6hv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
