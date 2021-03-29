@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.YourLibraryFragment">
 
     <TextView
@@ -14,17 +15,33 @@
         android:textStyle="bold"
         android:textSize="25sp"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/libraryNavigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/secctionTitel" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/libraryNavigation" />
+        android:layout_below="@+id/secctionTitel">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary">
+            <com.google.android.material.tabs.TabItem
+                android:text="Playlist"
+                android:accessibilityPaneTitle="Playlist"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="start" />
+            <com.google.android.material.tabs.TabItem
+                android:text="Artistas"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end" />
+            <com.google.android.material.tabs.TabItem
+                android:text="Albunes"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>
