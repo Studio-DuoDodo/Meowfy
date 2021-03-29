@@ -133,9 +133,9 @@ apiStuff();
         addBtn = (Button) findViewById(R.id.add);
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
-        getTracks();
+        //      getTracks();
         addBtn.setOnClickListener(addListener);
-        getArtists(); 
+    //    getArtists();
     }
 
     private void changeFragment(Fragment currentFragment) {

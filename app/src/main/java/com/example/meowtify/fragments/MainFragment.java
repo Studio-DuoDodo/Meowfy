@@ -1,23 +1,21 @@
 package com.example.meowtify.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.DragAndDropPermissions;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.example.meowtify.R;
+import com.example.meowtify.SongService;
 import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Playlist;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +29,7 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment {
+    private SongService songService;
 
     private TextView missatgePersonalitzat;
     private RecyclerView lista1, lista2, lista3, lista4;
@@ -64,6 +63,8 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
            
         }
+        songService = new SongService(getContext());
+
     }
 
     @Override
@@ -94,22 +95,25 @@ public class MainFragment extends Fragment {
         }
 
         items = new ArrayList<GeneralItem>(Arrays.asList(
+
                 new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
                 new GeneralItem("Item21", "subItem21", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+                new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item41", "subItem41", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
         ));
         adapter = new AdapterMainList(items, getContext());
         lista1.setAdapter(adapter);
         lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        items = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("Item12", "subItem12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item22", "subItem22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item32", "subItem32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
-        ));
-        adapter = new AdapterMainList(items, getContext());
+         List<GeneralItem> items21 = new ArrayList<>();
+        List<Playlist>  items2 =  songService.getUserPlayLists(()->{},100000,5);
+        System.out.println("items2= " + items2.toString());
+        for (Playlist item:items2) {
+        items21.add(item.toGeneralItem());
+         }
+        System.out.println("Items: = " + items21.toString());
+        adapter = new AdapterMainList(items21, getContext());
         lista2.setAdapter(adapter);
-        lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+         lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         items = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("Item13", "subItem13", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),

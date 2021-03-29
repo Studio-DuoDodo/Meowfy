@@ -2,7 +2,7 @@ package com.example.meowtify.models;
 
 import java.util.Arrays;
 
-public class Playlist {
+public class Playlist extends GeneralItem {
     boolean colaborative = false;
     //todo hacer que followers sea una clase con string href y  int total
     int followers;
@@ -19,10 +19,20 @@ public class Playlist {
     Type type;
 
     public Playlist() {
+        super("","","");
 
     }
 
+    public  GeneralItem  toGeneralItem(){
+        GeneralItem item= new GeneralItem(name,description,images[0].url);
+        System.out.println("GeneralItem generado: " + item.toString());
+ return item;
+    }
     public Playlist(boolean colaborative, int followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, Track tracks, Type type) {
+        super("","","");
+        super.setImage(images[0].url);
+        super.setTitle(name);
+        super.setSubtitle(description);
         this.colaborative = colaborative;
         this.followers = followers;
         this.description = description;
