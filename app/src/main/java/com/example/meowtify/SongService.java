@@ -74,27 +74,49 @@ public class SongService {
         queue.add(jsonObjectRequest);
         return songs;
     }
-    public List<Playlist> getUserPlayLists(final VolleyCallBack callBack) {
-        String endpoint = "https://api.spotify.com/v1/me/player/recently-played" ;
+    public List<Playlist> getUserPlayLists(final VolleyCallBack callBack,int max, int offset) {
+        String endpoint = "https://api.spotify.com/v1/me/playlists?limit=" + max + "&offset="+ offset;
                 //+"-H \"Accept: application/json\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer " + MainActivity.TOKEN;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
+                    System.out.println("Response :  " + response.toString());
                     Gson gson = new Gson();
-                    JSONArray jsonArray = response.optJSONArray("items");
+                    JSONArray jsonArray = null;
+                    try {
+                        jsonArray = response.getJSONArray("items");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                    for (int n = 0; n < jsonArray.length(); n++) {
+             /*       for (int n = 0; n < jsonArray.length(); n++) {
                         try {
                             JSONObject object = jsonArray.getJSONObject(n);
                             object = object.optJSONObject("track");
                             Song song = gson.fromJson(object.toString(), Song.class);
                             System.out.println(song.toString());
                             songs.add(song);
-                        } catch (JSONException e) {
+               */
+
+                    try {
+
+                        assert jsonArray != null;
+                        System.out.println(jsonArray.toString());
+                        for (int n = 0; n < jsonArray.length(); n++) {
+
+                            JSONObject object1 = jsonArray.getJSONObject(n);
+                            System.out.println("print playlist user" + object1.toString());
+                            //     object = object.optJSONObject("tracks");
+                            Playlist p = gson.fromJson(object1.toString(), Playlist.class);
+                            System.out.println(p.toString());
+
+                        }
+                } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
+
                     callBack.onSuccess();
                 }, error -> {
+                    System.out.println("Error");
                     // TODO: Handle error
 
                 }) {
