@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
 import com.example.meowtify.fragments.CreatePlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.squareup.picasso.Picasso;
-import androidx.fragment.app.*;
+
 import java.util.List;
 
 public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.LibraryListHolder> {
@@ -57,13 +58,13 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
         }
 
         public void bindData(GeneralItem generalItem){
-            title.setText(generalItem.getTitel());
-            if(generalItem.getSubTitel() != null){
-                subTitel.setText(generalItem.getSubTitel());
+            title.setText(generalItem.getTitle());
+            if(generalItem.getSubtitle() != null){
+                subTitel.setText(generalItem.getSubtitle());
             }
             Picasso.with(context).load(generalItem.getImage()).into(image);
 
-            if(generalItem.getTitel().equals("Create playlist")){
+            if(generalItem.getTitle().equals("Create playlist")){
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

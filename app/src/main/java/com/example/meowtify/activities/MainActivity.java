@@ -128,8 +128,8 @@ apiStuff();
     private void apiStuff() {
         artistService= new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
-        userView = (TextView) findViewById(R.id.user);
-        songView = (TextView) findViewById(R.id.song);
+       // userView = (TextView) findViewById(R.id.user);
+     //   songView = (TextView) findViewById(R.id.song);
         addBtn = (Button) findViewById(R.id.add);
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
