@@ -21,7 +21,13 @@ public class Playlist {
     Type type;
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(name,description,images[0].url);
+        GeneralItem item;
+        if (images!=null && images.length!=0){
+         item= new GeneralItem(name,description,images[0].url);
+        }else {
+         item= new GeneralItem(name,description,"https://www.futuro.cl/wp-content/uploads/2020/06/145d9c203f45af092d3ab58de5ab9518-590x340.jpg");
+
+        }
         System.out.println("GeneralItem generado: " + item.toString());
  return item;
     }
