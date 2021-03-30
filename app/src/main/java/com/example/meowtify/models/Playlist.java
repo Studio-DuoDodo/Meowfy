@@ -1,12 +1,14 @@
 package com.example.meowtify.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 public class Playlist {
     boolean colaborative = false;
     //todo hacer que followers sea una clase con string href y  int total
-    int followers;
-    String description;
+    @SerializedName("followers")
+    private Followers followers;    String description;
 
     String href;
     String id;
@@ -18,11 +20,12 @@ public class Playlist {
     Track tracks;
     Type type;
 
-    public Playlist() {
-
+    public  GeneralItem  toGeneralItem(){
+        GeneralItem item= new GeneralItem(name,description,images[0].url);
+        System.out.println("GeneralItem generado: " + item.toString());
+ return item;
     }
-
-    public Playlist(boolean colaborative, int followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, Track tracks, Type type) {
+    public Playlist(boolean colaborative, Followers followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, Track tracks, Type type) {
         this.colaborative = colaborative;
         this.followers = followers;
         this.description = description;
@@ -45,11 +48,11 @@ public class Playlist {
         this.colaborative = colaborative;
     }
 
-    public int getFollowers() {
+    public Followers getFollowers() {
         return followers;
     }
 
-    public void setFollowers(int followers) {
+    public void setFollowers(Followers followers) {
         this.followers = followers;
     }
 

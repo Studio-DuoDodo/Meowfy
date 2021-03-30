@@ -8,23 +8,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.GeneralItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainListHolder> {
-    List<GeneralItem> itmes;
+    List<GeneralItem> items;
+
     Context context;
 
-    public AdapterMainList(List<GeneralItem> itmes, Context context) {
-        this.itmes = itmes;
+    public AdapterMainList(List<GeneralItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
-
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public MainListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,16 +42,13 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
 
     @Override
     public void onBindViewHolder(@NonNull MainListHolder holder, int position) {
-        holder.title.setText(itmes.get(position).getTitel());
-        if(itmes.get(position).getSubTitel() != null){
-            holder.subTitel.setText(itmes.get(position).getSubTitel());
-        }
-        Picasso.with(context).load(itmes.get(position).getImage()).into(holder.image);
+        holder.title.setText(items.get(position).getTitle());
+        holder.subTitel.setText(items.get(position).getSubtitle());
+        Picasso.with(context).load(items.get(position).getImage()).into(holder.image);
     }
-
     @Override
     public int getItemCount() {
-        return itmes.size();
+        return items.size();
     }
 
     public class MainListHolder extends RecyclerView.ViewHolder{
@@ -53,9 +58,10 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
         public MainListHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titol_main);
-            subTitel = itemView.findViewById(R.id.subtitol_main);
-            image = itemView.findViewById(R.id.image_main);
+            title = itemView.findViewById(R.id.titol);
+            subTitel = itemView.findViewById(R.id.subtitol);
+            image = itemView.findViewById(R.id.image_lista);
+
         }
     }
 }

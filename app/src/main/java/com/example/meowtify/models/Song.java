@@ -15,7 +15,10 @@ public int popularity;
     public Date release_date;
     public List<Artist> artist;
     public String grupo;
+    public Image[] images;
+    public Album album;
     public int duration_ms;
+
 public String preview_url;
   public  Type type;
     //bottom fragment sheet
@@ -23,8 +26,13 @@ public String preview_url;
 
     private String id;
 
+    public  GeneralItem  toGeneralItem(){
+        GeneralItem item= new GeneralItem(name,album.getName(),album.getImages().get(0).url);
 
-    public Song(String id, String name,Date release_date, int popularity) {
+
+        System.out.println("GeneralItem generado: " + item.toString());
+        return item;
+    }    public Song(String id, String name,Date release_date, int popularity) {
         this.name = name;
         this.id = id;
         this.release_date=release_date;

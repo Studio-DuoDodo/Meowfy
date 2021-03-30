@@ -1,38 +1,47 @@
 package com.example.meowtify.models;
 
-import android.media.Image;
-import android.widget.ScrollView;
-
 public class GeneralItem {
-    private String image, titel, subTitel;
+    private String image, title, subtitle;
 
-    public GeneralItem(String titel, String subTitel, String image) {
+    public GeneralItem(String title, String subTitle, String image) {
         this.image = image;
-        this.titel = titel;
-        this.subTitel = subTitel;
+        this.title = title;
+        this.subtitle = subTitle;
+    }
+
+    public GeneralItem() {
     }
 
     public String getImage() {
         return image;
     }
 
-    public String getTitel() {
-        return titel;
+    public String getTitle() {
+        return title;
     }
 
-    public String getSubTitel() {
-        return subTitel;
+    public String getSubtitle() {
+        return subtitle;
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
-    public void setTitel(String titel) {
-        this.titel = titel;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setSubTitel(String subTitel) {
-        this.subTitel = subTitel;
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneralItem{" +
+                "image='" + image + '\'' +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                '}';
     }
 }

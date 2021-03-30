@@ -20,7 +20,6 @@ import com.example.meowtify.fragments.MainFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
-import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -28,7 +27,6 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragment = new MainFragment();
             changeFragment(currentFragment);
         }
-//apiStuff();
+apiStuff();
         navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -128,16 +126,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void apiStuff() {
-       /* artistService= new ArtistService(getApplicationContext());
+        artistService= new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
         userView = (TextView) findViewById(R.id.user);
         songView = (TextView) findViewById(R.id.song);
         addBtn = (Button) findViewById(R.id.add);
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         userView.setText(sharedPreferences.getString("userid", "No User"));
-        getTracks();
+        //      getTracks();
         addBtn.setOnClickListener(addListener);
-        getArtists(); */
+    //    getArtists();
     }
 
     private void changeFragment(Fragment currentFragment) {
@@ -178,14 +176,15 @@ public class MainActivity extends AppCompatActivity {
         if (recentlyPlayedTracks.size() > 0) {
             recentlyPlayedTracks.remove(0);
         }
-        updateSong();
+       updateSong();
         //  getArtists();
-        songService.getFeaturedPlayList(() -> {
-            List<Playlist> p =  songService.getFeaturedPlayList(() -> {
+     //   songService.getFeaturedPlayList(() -> {
+       //     List<Playlist> p =  songService.getFeaturedPlayList(() -> {
 
-            });
-            songService.getAPlayListByRef(() -> {
-            },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
-        });
+         //   });
+           // songService.getAPlayListByRef(() -> {
+           // },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
+       // });
+        //pl.getUserPlayLists(()->{},10,0);
     };
 }
