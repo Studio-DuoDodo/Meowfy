@@ -29,7 +29,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
     @NonNull
     @Override
     public LibraryListAdd1Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary_recomended, parent, false);
         return new LibraryListAdd1Holder(v);
     }
 
@@ -69,6 +69,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
                     //metode per eliminar de la lista de recomenats
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
                     itmes.remove(position);
+                    notifyDataSetChanged();
                 }
             });
         }
