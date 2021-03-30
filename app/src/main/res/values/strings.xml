@@ -2,7 +2,11 @@
     <string name="app_name">Meowtify</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello main</string>
-    <string name="home">Home</string>
     <string name="sheare">search</string>
-    <string name="your_library">Your Library</string>
+    <string name="playlist">Playlist</string>
+    <string name="artistas">Artistas</string>
+    <string name="albunes">Albunes</string>
+    <string name="home">home</string>
+    <string name="your_library">your library</string>
+    <string name="textNewList">Give your playlist a name</string>
 </resources>

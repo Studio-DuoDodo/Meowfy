@@ -26,21 +26,20 @@
             android:layout_height="wrap_content"
             android:background="@color/primary">
             <com.google.android.material.tabs.TabItem
-                android:text="Playlist"
-                android:accessibilityPaneTitle="Playlist"
+                android:text="@string/playlist"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="start" />
             <com.google.android.material.tabs.TabItem
-                android:text="Artistas"
+                android:text="@string/artistas"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+            <com.google.android.material.tabs.TabItem
+                android:text="@string/albunes"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textAlignment="viewEnd"
                 android:layout_gravity="end" />
-            <com.google.android.material.tabs.TabItem
-                android:text="Albunes"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
         </com.google.android.material.tabs.TabLayout>
     </androidx.viewpager.widget.ViewPager>
 

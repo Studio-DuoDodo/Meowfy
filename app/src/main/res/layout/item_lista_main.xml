@@ -6,7 +6,7 @@
     android:layout_marginRight="5dp">
 
     <ImageView
-        android:id="@+id/image_lista"
+        android:id="@+id/image_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
@@ -16,16 +16,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titol"
-        android:layout_below="@id/image_lista"
+        android:id="@+id/titol_main"
+        android:layout_below="@id/image_main"
         android:textStyle="bold"
         android:textColor="@color/white"
         tools:text="nom llista"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/subtitol"
-        android:layout_below="@id/titol"
+        android:id="@+id/subtitol_main"
+        android:layout_below="@id/titol_main"
         android:textColor="@color/primaryLigth2"
         tools:text="nom llista"/>
 

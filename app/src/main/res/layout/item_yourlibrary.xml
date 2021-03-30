@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="10dp">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_library"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titel_library"
+        android:layout_toRightOf="@id/image_library"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        tools:text="nom llista"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/subtitel_library"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titel_library"
+        android:layout_toEndOf="@+id/image_library"
+        android:layout_toRightOf="@+id/image_library"
+        android:textColor="@color/primaryLigth2"
+        android:layout_marginLeft="10dp"
+        tools:text="name creator"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"/>
+</RelativeLayout>
