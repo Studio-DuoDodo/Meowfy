@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import androidx.fragment.app.*;
 import java.util.List;
 
-public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.MainListHolder> {
+public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.LibraryListHolder> {
     List<GeneralItem> itmes;
     Context context;
 
@@ -29,13 +29,13 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
 
     @NonNull
     @Override
-    public MainListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LibraryListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary, parent, false);
-        return new MainListHolder(v);
+        return new LibraryListHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainListHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LibraryListHolder holder, int position) {
         holder.bindData(itmes.get(position));
     }
 
@@ -44,11 +44,11 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
         return itmes.size();
     }
 
-    public class MainListHolder extends RecyclerView.ViewHolder{
+    public class LibraryListHolder extends RecyclerView.ViewHolder{
         TextView title, subTitel;
         ImageView image;
 
-        public MainListHolder(@NonNull View itemView) {
+        public LibraryListHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.titel_library);
