@@ -64,9 +64,9 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
             followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //metodo para añadir artista
+                    //Todo: metodo para añadir artista
 
-                    //metode per eliminar de la lista de recomenats
+                    //Todo: metode per eliminar de la lista de recomenats
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
                     itmes.remove(position);
                     notifyDataSetChanged();
