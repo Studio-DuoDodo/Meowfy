@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titel_library"
+        android:id="@+id/name_album"
         android:layout_toRightOf="@id/image_library"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
@@ -26,12 +26,11 @@
         tools:text="nom llista"
         android:layout_marginStart="10dp"
         android:textSize="20sp"/>
-
     <TextView
-        android:id="@+id/subtitel_library"
+        android:id="@+id/name_autor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titel_library"
+        android:layout_below="@id/name_album"
         android:layout_toEndOf="@+id/image_library"
         android:layout_toRightOf="@+id/image_library"
         android:textColor="@color/primaryLigth2"
@@ -40,13 +39,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"/>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/follow_button"
-        android:text="FOLLOW"
+        android:id="@+id/follow_album"
         android:layout_alignParentRight="true"
+        android:foregroundGravity="center_vertical"
         android:layout_marginVertical="20dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:src="@drawable/ic_baseline_favorite_border_24"
+        android:background="@color/primary"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

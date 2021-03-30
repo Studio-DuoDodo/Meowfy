@@ -75,9 +75,9 @@ public class PlaylistFragment extends Fragment {
 
         List<GeneralItem> items = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("Create playlist", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item12", "subItem12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item22", "subItem22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item32", "subItem32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+                new GeneralItem("Item12", "creator12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item22", "creator22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+                new GeneralItem("Item32", "creator32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
         ));
         AdapterLibraryList adapter = new AdapterLibraryList(items, getContext());
         listaPlaylist.setAdapter(adapter);

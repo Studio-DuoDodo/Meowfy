@@ -38,7 +38,7 @@
             android:id="@+id/recomended_library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_yourlibrary_recomended"
+            tools:listitem="@layout/item_yourlibrary_recomended1"
             android:layout_below="@id/subtext_recomended"
             android:layout_marginTop="20dp" />
 </RelativeLayout>
