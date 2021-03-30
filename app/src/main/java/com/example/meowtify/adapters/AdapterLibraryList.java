@@ -20,11 +20,16 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.LibraryListHolder> {
-    List<GeneralItem> itmes;
+    List<GeneralItem> items;
     Context context;
 
-    public AdapterLibraryList(List<GeneralItem> itmes, Context context) {
-        this.itmes = itmes;
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    public AdapterLibraryList(List<GeneralItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -37,12 +42,12 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
 
     @Override
     public void onBindViewHolder(@NonNull LibraryListHolder holder, int position) {
-        holder.bindData(itmes.get(position));
+        holder.bindData(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return itmes.size();
+        return items.size();
     }
 
     public class LibraryListHolder extends RecyclerView.ViewHolder{

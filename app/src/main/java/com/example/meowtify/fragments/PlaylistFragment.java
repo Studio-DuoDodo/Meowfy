@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meowtify.PlaylistService;
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterLibraryList;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Playlist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,13 +67,17 @@ public class PlaylistFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    PlaylistService playlistService ;
 
+    AdapterLibraryList adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         listaPlaylist = v.findViewById(R.id.lista_library);
+        playlistService = new PlaylistService(v.getContext());
+        playlistService.getUserPlayLists(this::IntroduceMyPlaylists,50,0);
 
         List<GeneralItem> items = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("Create playlist", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
@@ -79,10 +85,25 @@ public class PlaylistFragment extends Fragment {
                 new GeneralItem("Item22", "creator22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
                 new GeneralItem("Item32", "creator32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
         ));
-        AdapterLibraryList adapter = new AdapterLibraryList(items, getContext());
+
+
+
+        adapter = new AdapterLibraryList(items, getContext());
         listaPlaylist.setAdapter(adapter);
         listaPlaylist.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
+    }
+    private void IntroduceMyPlaylists() {
+        List<Playlist> itemsSongs = playlistService.getPlaylists();
+        List<GeneralItem> items21 = new ArrayList<>();
+        items21.add(   new GeneralItem("Create playlist", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"));
+        for (Playlist p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
+        }
+        System.out.println("Items in param : = " + items21.toString());
+        adapter.setItems(items21);
+        System.out.println("The list " + adapter.toString());
     }
 }

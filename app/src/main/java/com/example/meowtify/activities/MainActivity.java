@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navigationMenu = findViewById(R.id.bottomNavigation);
 
         if (savedInstanceState == null) {
             currentFragment = new MainFragment();
             changeFragment(currentFragment);
         }
 apiStuff();
+        navigationMenu = findViewById(R.id.bottomNavigation);
         navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -130,11 +130,11 @@ apiStuff();
         songService = new SongService(getApplicationContext());
        // userView = (TextView) findViewById(R.id.user);
      //   songView = (TextView) findViewById(R.id.song);
-        addBtn = (Button) findViewById(R.id.add);
+      //  addBtn = (Button) findViewById(R.id.add);
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        userView.setText(sharedPreferences.getString("userid", "No User"));
+    //    userView.setText(sharedPreferences.getString("userid", "No User"));
         //      getTracks();
-        addBtn.setOnClickListener(addListener);
+       // addBtn.setOnClickListener(addListener);
     //    getArtists();
     }
 
