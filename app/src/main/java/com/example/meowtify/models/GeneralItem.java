@@ -9,6 +9,9 @@ public class GeneralItem {
         this.subtitle = subTitle;
     }
 
+    public GeneralItem() {
+    }
+
     public String getImage() {
         return image;
     }

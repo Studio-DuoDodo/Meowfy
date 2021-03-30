@@ -185,6 +185,6 @@ apiStuff();
            // songService.getAPlayListByRef(() -> {
            // },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
        // });
-        songService.getUserPlayLists(()->{},10,0);
+        //pl.getUserPlayLists(()->{},10,0);
     };
 }

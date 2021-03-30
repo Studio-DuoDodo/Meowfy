@@ -1,6 +1,5 @@
 package com.example.meowtify.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,10 @@ import com.example.meowtify.PlaylistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
 import com.example.meowtify.adapters.AdapterMainList;
+import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
+import com.example.meowtify.models.Song;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,12 +34,18 @@ import java.util.Locale;
 public class MainFragment extends Fragment {
     private SongService songService;
     private PlaylistService playlistService;
-    BackTask backTask;
 
     private TextView missatgePersonalitzat;
-    private RecyclerView lista1, lista2, lista3, lista4;
-    private AdapterMainList adapter;
-    private List<GeneralItem> items = new ArrayList<GeneralItem>();
+    private RecyclerView lista1, lista2, lista3, lista4,lista5;
+    public  List<AdapterMainList> adapters = new ArrayList<>(6);
+
+    final  List<GeneralItem> defaultItem = new ArrayList<GeneralItem>(Arrays.asList(
+
+            new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+            new GeneralItem("Item21", "subItem21", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+            new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
+            new GeneralItem("Item41", "subItem41", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+    ));
 
     public MainFragment() {
         // Required empty public constructor
@@ -64,9 +71,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-           
-        }
+
 
 
     }
@@ -75,35 +80,28 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        List<GeneralItem> items21 = new ArrayList<>();
+     adapters = new ArrayList<>();
+
         playlistService = new PlaylistService(v.getContext());
-        final List<Playlist>[] items2 = new List[]{new ArrayList<>()};
-        AdapterMainList adapter1 = new AdapterMainList(items21, getContext());
-
-        playlistService.getUserPlayLists(()->{
-            items2[0] =playlistService.getPlaylists();
-            for (Playlist p: items2[0]
-            ) {
-                items21.add(p.toGeneralItem());
-            }
-            System.out.println("Items in param : = " + items21.toString());
-            adapter1.setItems(items21);
-
-        },50,0);
+          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
 
 
-        System.out.println("items2= " + items2[0].toString());
+
 
         missatgePersonalitzat = v.findViewById(R.id.missatgePersonalitzat);
         lista1 = v.findViewById(R.id.listaRecently);
         lista2 = v.findViewById(R.id.listaYourPlaylist);
         lista3 = v.findViewById(R.id.listaJumpBack);
         lista4 = v.findViewById(R.id.listaJumpBack2);
+        lista5 = v.findViewById(R.id.listaRecomendedByDeveloper);
+
 
         int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
-
         System.out.println(date);
-
         if (8 > date) {
             missatgePersonalitzat.setText("Too early");
         } else if (12 > date) {
@@ -115,57 +113,83 @@ public class MainFragment extends Fragment {
         } else {
             missatgePersonalitzat.setText("Good evening");
         }
-
-        items = new ArrayList<GeneralItem>(Arrays.asList(
-
-                new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item21", "subItem21", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item41", "subItem41", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
-        ));
-        adapter = new AdapterMainList(items, getContext());
-        lista1.setAdapter(adapter);
+        songService = new SongService(v.getContext());
+        lista1.setAdapter(adapters.get(0));
         lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        lista2.setAdapter(adapter1);
-         lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        adapter.notifyDataSetChanged();
-        items = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("Item13", "subItem13", "https://mosaic.scdn.co/640/e337f3661f68bc4d96a554de0ad7988d65edb25a134cd5ccaef9d411eba33df9542db9ba731aaf98ec04f9acee17a7576f939eb5aa317d20c6322494c4b4399d9b7c6f61b6a6ee70c616bc1a985c7ab8"),
-                new GeneralItem("Item23", "subItem23", "https://mosaic.scdn.co/60/ab67616d0000b27305fda9ec255cb06c5342fb6dab67616d0000b2734ef422e5fd3e7ca85b47e3fdab67616d0000b27379604d10cd1083e9af0a7891ab67616d0000b27388f50f79184550f7346a1c6d%27%7D"),
-                new GeneralItem("Item33", "subItem33", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
-        ));
-        adapter = new AdapterMainList(items, getContext());
-        lista3.setAdapter(adapter);
+        lista2.setAdapter(adapters.get(1));
+        lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        lista3.setAdapter(adapters.get(2));
         lista3.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
-
-        items = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("Item13", "subItem13", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item23", "subItem23", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item33", "subItem33", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
-        ));
-        adapter = new AdapterMainList(items, getContext());
-        lista4.setAdapter(adapter);
+        lista4.setAdapter(adapters.get(3));
         lista4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        lista5.setAdapter(adapters.get(4));
+        lista5.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        return v;
+        songService.getRecentlyPlayedTracks(this::IntroduceRecentlyPlayedSongs);
+        playlistService.getFeaturedPlayList(this::IntroduceFeaturedPlaylists);
+        playlistService.getUserPlayLists(this::IntroduceMyPlaylists,50,0);
+        playlistService.getNewReleases(this::IntroduceNewReleases,"JP",10,0);
+        playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"5tXPbKvuDsSgctH5Mlpn18");
+        playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"7xsdr3YuARtJxqssk1m3Kq");
+        playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"3ForlWAUJFtzxezcS47JmB");
+        playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"6dJMlk3nncKD4y0wzuyhWr");
+ return v;
     }
-    class BackTask extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            // do web stuff
-            return null;
+    private void IntroduceRecentlyPlayedSongs() {
+        List<Song> itemsSongs = songService.getSongs();
+        List<GeneralItem> items21 = new ArrayList<>();
+        System.out.println("Songs" + songService.getSongs().toString());
+        for (Song p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
         }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            // fetches data now start anim
-         //   doAnimation();
-
-        }
-
+        System.out.println("Items in param : = " + items21.toString());
+        adapters.get(0).setItems(items21);
     }
+    private void IntroduceMyPlaylists() {
+        List<Playlist> itemsSongs = playlistService.getPlaylists();
+        List<GeneralItem> items21 = new ArrayList<>();
+        for (Playlist p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
+        }
+        System.out.println("Items in param : = " + items21.toString());
+        adapters.get(1).setItems(items21);
+        System.out.println("The list " + adapters.get(1).toString());
+    }
+    private void IntroduceDevelopersPlaylist() {
+        List<Playlist> itemsSongs= playlistService.getDevelopersPlaylist();
+        List<GeneralItem> items21 = new ArrayList<>();
+        for (Playlist p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
+        }
+        System.out.println("Items in dev : = " + items21.toString());
+        adapters.get(4).setItems(items21);
+        System.out.println("The  dev list " + adapters.get(4).toString());
+    }
+    private void IntroduceFeaturedPlaylists() {
+        List<Playlist> itemsSongs = playlistService.getFeaturedPlaylistsPlaylists();
+        List<GeneralItem> items21 = new ArrayList<>();
+        for (Playlist p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
+        }
+        System.out.println("Items in param : = " + items21.toString());
+        adapters.get(2).setItems(items21);
+        System.out.println("The list " + adapters.get(2).toString());
+    }
+    private void IntroduceNewReleases() {
+        List<Album> itemsSongs = playlistService.getNewReleases();
+        List<GeneralItem> items21 = new ArrayList<>();
+        for (Album p: itemsSongs
+        ) {
+            items21.add(p.toGeneralItem());
+        }
+        System.out.println("Items in param for new releases : = " + items21.toString());
+        adapters.get(3).setItems(items21);
+        System.out.println("The list " + adapters.get(3).toString());
+    }
+//todo limpiar codigo
 }

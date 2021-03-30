@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.google.gson.Gson;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaylistService {
     String token = "ids=7ouMYWpwJ422jRcDASZB7P%2C4VqPOruhp5EdPBeR92t6lQ%2C2takcwOaAZWiXQijPHIx7B";
@@ -29,6 +29,7 @@ public class PlaylistService {
     //
     private RequestQueue queue;
     private ArrayList<Playlist> playlists= new ArrayList<>();
+    private ArrayList<Playlist> featuredPlaylists= new ArrayList<>();
 
     public PlaylistService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -39,6 +40,10 @@ public class PlaylistService {
     public ArrayList<Playlist> getPlaylists() {
         System.out.println(playlists.toString() + "Vendetta");
         return playlists;
+    }
+    public ArrayList<Playlist> getFeaturedPlaylistsPlaylists() {
+        System.out.println(playlists.toString() + "Vendetta");
+        return featuredPlaylists;
     }
 
 
@@ -94,10 +99,69 @@ public class PlaylistService {
 
         return playlists;
     }
+    List<Album> newReleases= new ArrayList<>();
+    List<Playlist> developersPlaylist= new ArrayList<>();
 
-    public Playlist getAPlayListByRef(final VolleyCallBack callBack, String endpoint) {
-        AtomicReference<Playlist> playlist = new AtomicReference<>(new Playlist());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+    public List<Album> getNewReleases() {
+        return newReleases;
+    }
+    public List<Playlist> getDevelopersPlaylist(){
+        System.out.println("Developers playlist is " + developersPlaylist.toString()) ;
+     return developersPlaylist;
+    }
+
+    public List<Album> getNewReleases(final  VolleyCallBack callBack, String country, int limit, int offset){
+ String endpoint=    "https://api.spotify.com/v1/browse/new-releases?country=" + country  + "&limit=" + limit + "&offset="+ offset;
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+            (Request.Method.GET, endpoint, null, response -> {
+                System.out.println("Response :  " + response.toString());
+                Gson gson = new Gson();
+                JSONObject jsonObject=   response.optJSONObject("albums");
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray("items");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    assert jsonArray != null;
+                    System.out.println(jsonArray.toString());
+                    for (int n = 0; n < jsonArray.length(); n++) {
+
+                        JSONObject object1 = jsonArray.getJSONObject(n);
+                        System.out.println("print new releases album" + object1.toString());
+                        //     object = object.optJSONObject("tracks");
+                        Album a = gson.fromJson(object1.toString(), Album.class);
+                        System.out.println(a.toString());
+                        newReleases.add(a);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                callBack.onSuccess();
+            }, error -> {
+                System.out.println("Error");
+                // TODO: Handle error
+
+            }) {
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            Map<String, String> headers = new HashMap<>();
+            String token = sharedPreferences.getString("token", "");
+            String auth = "Bearer " + token;
+            headers.put("Authorization", auth);
+            return headers;
+        }
+    };
+    queue.add(jsonObjectRequest);
+
+    return newReleases;
+}
+
+    public void getAPlayListByRef(final VolleyCallBack callBack, String playlistId) {
+        String endpoint = "https://api.spotify.com/v1/playlists/"+playlistId;
+         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
                     try {
                         Gson gson = new Gson();
@@ -116,8 +180,8 @@ public class PlaylistService {
                             Song s = gson.fromJson(object1.toString(), Song.class);
                             System.out.println("Song " + n + ": " + s.toString());
 
-                            playlist.set(p);
-                        }
+                        }                             developersPlaylist.add(p);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -135,8 +199,8 @@ public class PlaylistService {
                 return headers;
             }
         };
+        queue.add(jsonObjectRequest);
 
-        return playlist.get();
     }
 
     //todo move this to Playlist Service
@@ -161,7 +225,7 @@ public class PlaylistService {
                             //     object = object.optJSONObject("tracks");
                             Playlist p = gson.fromJson(object1.toString(), Playlist.class);
                             System.out.println(p.toString());
-                            playlists.add(p);
+                            featuredPlaylists.add(p);
 
                         }
                     } catch (JSONException e) {

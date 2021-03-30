@@ -62,7 +62,7 @@
         android:id="@+id/jumpBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jump back in"
+        android:text="Featured Playlists"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaYourPlaylist"
@@ -79,7 +79,7 @@
         android:id="@+id/jumpBack2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jump back in"
+        android:text="New releases"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaJumpBack"
@@ -91,6 +91,22 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_below="@id/jumpBack2"/>
+  <TextView
+        android:id="@+id/jumpRecomendedByDeveloper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recomended by the developer"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@id/listaJumpBack2"
+        android:textSize="25sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaRecomendedByDeveloper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/jumpRecomendedByDeveloper"/>
 
 
 </RelativeLayout>
