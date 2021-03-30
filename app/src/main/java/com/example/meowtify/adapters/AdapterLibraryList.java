@@ -66,8 +66,9 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
             title.setText(generalItem.getTitle());
             if(generalItem.getSubtitle() != null){
                 subTitel.setText(generalItem.getSubtitle());
+                Picasso.with(context).load(generalItem.getImage()).into(image);
+                image.setPadding(0,0,0,0);
             }
-            Picasso.with(context).load(generalItem.getImage()).into(image);
 
             if(generalItem.getTitle().equals("Create playlist")){
                 itemView.setOnClickListener(new View.OnClickListener() {

@@ -97,7 +97,7 @@ public class PlaylistFragment extends Fragment {
     private void IntroduceMyPlaylists() {
         List<Playlist> itemsSongs = playlistService.getPlaylists();
         List<GeneralItem> items21 = new ArrayList<>();
-        items21.add(   new GeneralItem("Create playlist", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"));
+        items21.add(   new GeneralItem("Create playlist", null, null));
         for (Playlist p: itemsSongs
         ) {
             items21.add(p.toGeneralItem());
