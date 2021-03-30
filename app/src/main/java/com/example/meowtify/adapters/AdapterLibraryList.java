@@ -66,7 +66,8 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
             title.setText(generalItem.getTitle());
             if(generalItem.getSubtitle() != null){
                 subTitel.setText(generalItem.getSubtitle());
-                Picasso.with(context).load(generalItem.getImage()).into(image);
+                Picasso.with(context).load(generalItem.getImage()).
+                        resize(220, 220).into(image);
                 image.setPadding(0,0,0,0);
             }
 

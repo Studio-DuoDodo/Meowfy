@@ -38,9 +38,7 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
 
     @Override
     public void onBindViewHolder(@NonNull MainListHolder holder, int position) {
-        holder.title.setText(items.get(position).getTitle());
-        holder.subTitel.setText(items.get(position).getSubtitle());
-        Picasso.with(context).load(items.get(position).getImage()).into(holder.image);
+        holder.bindData(items.get(position));
     }
     @Override
     public int getItemCount() {
@@ -58,6 +56,19 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
             subTitel = itemView.findViewById(R.id.subtitol_main);
             image = itemView.findViewById(R.id.image_main);
 
+        }
+
+        public void bindData(GeneralItem generalItem) {
+            if(generalItem.getTitle().length() > 18){
+                generalItem.setTitle(generalItem.getTitle().substring(0, 17)+"...");
+            }
+            title.setText(generalItem.getTitle());
+            if(generalItem.getSubtitle().length() > 18){
+                generalItem.setSubtitle(generalItem.getSubtitle().substring(0, 17)+"...");
+            }
+            subTitel.setText(generalItem.getSubtitle());
+            Picasso.with(context).load(generalItem.getImage()).
+                    resize(400, 400).into(image);
         }
     }
 }
