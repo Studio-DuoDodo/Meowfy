@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragment = new MainFragment();
             changeFragment(currentFragment);
         }
-apiStuff();
+//apiStuff();
         navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -128,7 +128,7 @@ apiStuff();
     }
 
     private void apiStuff() {
-        artistService= new ArtistService(getApplicationContext());
+       /* artistService= new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
         userView = (TextView) findViewById(R.id.user);
         songView = (TextView) findViewById(R.id.song);
@@ -137,7 +137,7 @@ apiStuff();
         userView.setText(sharedPreferences.getString("userid", "No User"));
         getTracks();
         addBtn.setOnClickListener(addListener);
-        getArtists(); 
+        getArtists(); */
     }
 
     private void changeFragment(Fragment currentFragment) {

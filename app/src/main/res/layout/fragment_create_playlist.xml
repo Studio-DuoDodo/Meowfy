@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CreatePlaylistFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_newlist"
+        android:text="@string/textNewList"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="180dp"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_name"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:layout_below="@id/text_newlist"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginVertical="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel_button"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:text="CANCEL"
+        android:layout_marginRight="220dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_marginEnd="200dp"
+        android:layout_below="@id/new_name"
+        android:textColor="@color/primaryLigth2"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_button"
+        android:textAlignment="viewStart"
+        android:layout_marginLeft="220dp"
+        android:gravity="start"
+        android:text="SKIP"
+        android:layout_below="@id/new_name"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+</RelativeLayout>

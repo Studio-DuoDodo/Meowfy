@@ -3,12 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.YourLibraryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/secctionTitel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Music"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello library" />
-
+        android:layout_below="@+id/secctionTitel"
+        android:layout_marginRight="10dp">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primary">
+            <com.google.android.material.tabs.TabItem
+                android:text="@string/playlist"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="start" />
+            <com.google.android.material.tabs.TabItem
+                android:text="@string/artistas"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+            <com.google.android.material.tabs.TabItem
+                android:text="@string/albunes"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end" />
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
 </RelativeLayout>
