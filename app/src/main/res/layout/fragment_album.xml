@@ -1,42 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AlbumFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artistas_library"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_yourlibrary"/>
-
+    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_recomended"
-        android:text="Recommended albums"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/artistas_library"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/subtext_recomended"
-        android:text="Based on the songs you like"
-        android:textStyle="bold"
-        android:textColor="@color/primaryLigth2"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/text_recomended"/>
+        android:layout_height="match_parent"
+        android:text="album"
+        android:textColor="@color/white"/>
 
-    <!-- TODO: Update recycler artist to albums -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recomended_library"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_yourlibrary_recomended1"
-        android:layout_below="@id/subtext_recomended"
-        android:layout_marginTop="20dp" />
-</RelativeLayout>
+</FrameLayout>

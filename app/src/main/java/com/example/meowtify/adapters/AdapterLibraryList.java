@@ -9,11 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
+import com.example.meowtify.activities.MainActivity;
+import com.example.meowtify.fragments.AlbumFragment;
+import com.example.meowtify.fragments.ArtistFragment;
 import com.example.meowtify.fragments.CreatePlaylistFragment;
+import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -75,6 +81,13 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
                 Picasso.with(context).load(generalItem.getImage()).
                         resize(220, 220).into(image);
                 image.setPadding(0,0,0,0);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Utilitis.navigationToAAP(generalItem, context);
+                    }
+                });
             } else {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

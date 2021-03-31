@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
@@ -78,7 +79,7 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Todo: navigation to artist, album, playlist perfil or reproductor del itemGeneral
+                    Utilitis.navigationToAAP(generalItem, context);
 
                     if(!searchFragment.checkRecentlySearch(generalItem)){
                         searchFragment.recentlySearchList.add(generalItem);

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
 import com.example.meowtify.models.GeneralItem;
 import com.squareup.picasso.Picasso;
 
@@ -72,6 +73,13 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
                     itmes.remove(position);
                     notifyDataSetChanged();
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utilitis.navigationToAAP(generalItem, context);
                 }
             });
         }

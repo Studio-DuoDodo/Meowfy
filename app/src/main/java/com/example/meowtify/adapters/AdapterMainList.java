@@ -2,6 +2,7 @@ package com.example.meowtify.adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
+import com.example.meowtify.activities.MainActivity;
+import com.example.meowtify.fragments.AlbumFragment;
+import com.example.meowtify.fragments.ArtistFragment;
+import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -81,6 +89,13 @@ public class    AdapterMainList extends RecyclerView.Adapter<AdapterMainList.Mai
             subTitel.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(400, 400).into(image);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utilitis.navigationToAAP(generalItem, context);
+                }
+            });
         }
     }
 }

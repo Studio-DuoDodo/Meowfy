@@ -25,7 +25,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/missatgePersonalitzat"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaRecently"
@@ -44,7 +45,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaRecently"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaYourPlaylist"
@@ -62,7 +64,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaYourPlaylist"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaJumpBack"
         android:layout_width="match_parent"
@@ -79,7 +82,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaJumpBack"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaJumpBack2"
         android:layout_width="match_parent"
@@ -87,7 +91,8 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_below="@id/jumpBack2"/>
-  <TextView
+
+    <TextView
         android:id="@+id/jumpRecomendedByDeveloper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +100,8 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/listaJumpBack2"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaRecomendedByDeveloper"
         android:layout_width="match_parent"

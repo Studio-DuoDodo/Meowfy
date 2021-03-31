@@ -41,10 +41,10 @@ public class MainFragment extends Fragment {
 
     final  List<GeneralItem> defaultItem = new ArrayList<GeneralItem>(Arrays.asList(
 
-            new GeneralItem("id", "Item11", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item12", null),
-            new GeneralItem("id", "Item21", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item22", null),
-            new GeneralItem("id", "Item31", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item32", null),
-            new GeneralItem("id", "Item41", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item42", null)
+            new GeneralItem("5tXPbKvuDsSgctH5Mlpn18", "Item11", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item12", null),
+            new GeneralItem("7xsdr3YuARtJxqssk1m3Kq", "Item21", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item22", null),
+            new GeneralItem("3ForlWAUJFtzxezcS47JmB", "Item31", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item32", null),
+            new GeneralItem("6dJMlk3nncKD4y0wzuyhWr", "Item41", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item42", null)
     ));
 
     public MainFragment() {
@@ -191,5 +191,6 @@ public class MainFragment extends Fragment {
         adapters.get(3).setItems(items21);
         System.out.println("The list " + adapters.get(3).toString());
     }
+
 //todo limpiar codigo
 }

@@ -11,15 +11,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.RequestQueue;
 import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
+import com.example.meowtify.fragments.AlbumFragment;
+import com.example.meowtify.fragments.ArtistFragment;
 import com.example.meowtify.fragments.MainFragment;
+import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -27,6 +32,8 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";

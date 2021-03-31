@@ -1,24 +1,14 @@
 package com.example.meowtify.fragments;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.meowtify.PlaylistService;
 import com.example.meowtify.R;
-import com.example.meowtify.adapters.AdapterLibraryList;
-import com.example.meowtify.models.GeneralItem;
-import com.example.meowtify.models.Playlist;
-import com.example.meowtify.models.Type;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,8 +25,6 @@ public class PlaylistFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    RecyclerView listaPlaylist;
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -68,41 +56,11 @@ public class PlaylistFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    PlaylistService playlistService ;
 
-    AdapterLibraryList adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_playlist, container, false);
-
-        listaPlaylist = v.findViewById(R.id.lista_library);
-        playlistService = new PlaylistService(v.getContext());
-        playlistService.getUserPlayLists(this::IntroduceMyPlaylists,50,0);
-
-        List<GeneralItem> items = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("id", "Create playlist", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", null, null),
-                new GeneralItem("id", "Item12", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null),
-                new GeneralItem("id", "Item22", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null),
-                new GeneralItem("id", "Item32", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null)
-        ));
-
-        adapter = new AdapterLibraryList(items, getContext());
-        listaPlaylist.setAdapter(adapter);
-        listaPlaylist.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return v;
-    }
-    private void IntroduceMyPlaylists() {
-        List<Playlist> itemsSongs = playlistService.getPlaylists();
-        List<GeneralItem> items21 = new ArrayList<>();
-        items21.add(   new GeneralItem("id", "Create playlist", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", null, null));
-        for (Playlist p: itemsSongs
-        ) {
-            items21.add(p.toGeneralItem());
-        }
-        System.out.println("Items in param : = " + items21.toString());
-        adapter.setItems(items21);
-        System.out.println("The list " + adapter.toString());
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_playlist, container, false);
     }
 }

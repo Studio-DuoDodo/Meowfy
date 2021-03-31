@@ -3,12 +3,11 @@ package com.example.meowtify.adapters;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.meowtify.fragments.AlbumFragment;
-import com.example.meowtify.fragments.ArtistFragment;
-import com.example.meowtify.fragments.PlaylistFragment;
+import com.example.meowtify.fragments.AlbumLibraryFragment;
+import com.example.meowtify.fragments.ArtistLibraryFragment;
+import com.example.meowtify.fragments.PlaylistLibraryFragment;
 
 public class LibraryPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -20,9 +19,9 @@ public class LibraryPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return  new PlaylistFragment();
-            case 1: return  new ArtistFragment();
-            default: return  new AlbumFragment();
+            case 0: return  new PlaylistLibraryFragment();
+            case 1: return  new ArtistLibraryFragment();
+            default: return  new AlbumLibraryFragment();
         }
     }
 
