@@ -1,47 +1,78 @@
 package com.example.meowtify.models;
 
 public class GeneralItem {
-    private String image, title, subtitle;
+    private String id, name, image, extra1, extra2;
+    Type type;
 
-    public GeneralItem(String title, String subTitle, String image) {
+    public GeneralItem(String id, String name, Type type, String image, String extra1, String extra2) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
         this.image = image;
-        this.title = title;
-        this.subtitle = subTitle;
+        this.extra1 = extra1;
+        this.extra2 = extra2;
     }
 
     public GeneralItem() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public String getImage() {
         return image;
     }
 
-    public String getTitle() {
-        return title;
+    public String getExtra1() {
+        return extra1;
     }
 
-    public String getSubtitle() {
-        return subtitle;
+    public String getExtra2() {
+        return extra2;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setExtra1(String extra1) {
+        this.extra1 = extra1;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+    public void setExtra2(String extra2) {
+        this.extra2 = extra2;
     }
 
     @Override
     public String toString() {
         return "GeneralItem{" +
-                "image='" + image + '\'' +
-                ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", extra1='" + extra1 + '\'' +
+                ", extra2='" + extra2 + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

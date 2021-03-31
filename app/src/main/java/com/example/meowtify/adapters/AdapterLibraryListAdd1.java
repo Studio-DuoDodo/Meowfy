@@ -58,8 +58,9 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
         }
 
         public void bindData(GeneralItem generalItem, int position){
-            nameArtist.setText(generalItem.getTitle());
-            numSongs.setText(generalItem.getSubtitle());
+            nameArtist.setText(generalItem.getName());
+            String subtitel = "songs "+generalItem.getExtra1();
+            numSongs.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
                 resize(220, 220).into(image);;
             followButton.setOnClickListener(new View.OnClickListener() {

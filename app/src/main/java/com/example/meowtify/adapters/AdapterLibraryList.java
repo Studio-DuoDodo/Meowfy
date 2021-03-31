@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.meowtify.R;
 import com.example.meowtify.fragments.CreatePlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -63,15 +64,19 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
         }
 
         public void bindData(GeneralItem generalItem){
-            title.setText(generalItem.getTitle());
-            if(generalItem.getSubtitle() != null){
-                subTitel.setText(generalItem.getSubtitle());
+            title.setText(generalItem.getName());
+            if(generalItem.getExtra1() != null){
+
+                String subtitel = "";
+                if(generalItem.getType() == Type.playlist) subtitel = "by ";
+                if(generalItem.getType() == Type.artist) subtitel = "songs ";
+                subtitel += generalItem.getExtra1();
+                subTitel.setText(subtitel);
+
                 Picasso.with(context).load(generalItem.getImage()).
                         resize(220, 220).into(image);
                 image.setPadding(0,0,0,0);
-            }
-
-            if(generalItem.getTitle().equals("Create playlist")){
+            } else {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
