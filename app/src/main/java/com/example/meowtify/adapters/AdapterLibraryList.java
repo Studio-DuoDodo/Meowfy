@@ -69,7 +69,6 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
 
                 String subtitel = "";
                 if(generalItem.getType() == Type.playlist) subtitel = "by ";
-                if(generalItem.getType() == Type.artist) subtitel = "songs ";
                 subtitel += generalItem.getExtra1();
                 subTitel.setText(subtitel);
 
