@@ -1,15 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView
     android:layout_height="match_parent"
-    tools:context=".fragments.PlaylistFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".fragments.PlaylistFragment"
+    tools:background="@color/primary"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="playlist"
-        android:textColor="@color/white"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_playlist"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            tools:src="@drawable/logo_meowfy"
+            tools:padding="80dp"
+            tools:background="@color/primaryLigth2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_playlist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image_playlist"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            tools:text="convinacion POP-ROCK"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subname_playlist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/name_playlist"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            tools:text="BY SGRANELLV · 1 FOLLOWER"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shuffel_playlist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/subname_playlist"
+            android:text="SHUFFEL PLAY"
+            android:layout_marginTop="15dp"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/follow_playlist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/shuffel_playlist"
+            android:text="follow"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/songs"
+            android:layout_below="@id/follow_playlist"
+            tools:listitem="@layout/item_search"/>
+    </RelativeLayout>
+</ScrollView>
