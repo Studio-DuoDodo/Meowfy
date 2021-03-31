@@ -12,7 +12,7 @@
             android:id="@+id/artistas_library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_yourlibrary"/>
+            tools:listitem="@layout/item_yourlibrary" />
 
         <TextView
             android:layout_width="match_parent"
