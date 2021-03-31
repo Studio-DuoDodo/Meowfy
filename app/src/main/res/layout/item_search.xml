@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    tools:background="@color/primary">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_search"
+        android:src="@drawable/laucher_screen"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        tools:padding="15dp"
+        tools:background="@color/primaryLigth1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titel_search"
+        android:layout_toRightOf="@id/image_search"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        tools:text="nom"
+        android:layout_marginStart="10dp"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/subtitel_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titel_search"
+        android:layout_toEndOf="@+id/image_search"
+        android:layout_toRightOf="@+id/image_search"
+        android:textColor="@color/primaryLigth2"
+        android:layout_marginLeft="10dp"
+        tools:text="subtitel"
+        android:layout_marginStart="10dp"/>
+
+</RelativeLayout>
