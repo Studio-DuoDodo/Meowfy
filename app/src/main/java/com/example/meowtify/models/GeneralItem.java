@@ -1,6 +1,8 @@
 package com.example.meowtify.models;
 
-public class GeneralItem {
+import java.io.Serializable;
+
+public class GeneralItem implements Serializable {
     private String id, name, image, extra1, extra2;
     Type type;
 

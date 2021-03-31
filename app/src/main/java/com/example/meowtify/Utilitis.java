@@ -9,12 +9,13 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.meowtify.fragments.AlbumFragment;
 import com.example.meowtify.fragments.ArtistFragment;
 import com.example.meowtify.fragments.PlaylistFragment;
+import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.models.GeneralItem;
 
 public class Utilitis {
     public static void navigationToAAP(GeneralItem generalItem, Context context) {
         Bundle bundle = new Bundle();
-        bundle.putString("id", generalItem.getId());
+        bundle.putSerializable("generalItem", generalItem);
         Fragment fragment;
 
         switch (generalItem.getType()){
@@ -28,8 +29,7 @@ public class Utilitis {
                 fragment =  new AlbumFragment();
                 break;
             default:
-                //todo: canviar el fragment de album a reproductor
-                fragment =  new AlbumFragment();
+                fragment =  new ReproductorFragment();
         }
 
         fragment.setArguments(bundle);
