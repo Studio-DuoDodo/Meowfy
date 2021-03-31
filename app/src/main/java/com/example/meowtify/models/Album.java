@@ -4,125 +4,97 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Album {
+public class Album{
 
-    @SerializedName("images")
-    private List<Image> images;
+	@SerializedName("total_tracks")
+	private int totalTracks;
 
-    @SerializedName("available_markets")
-    private List<String> availableMarkets;
+	@SerializedName("images")
+	private List<Image> images;
 
-    @SerializedName("release_date_precision")
-    private String releaseDatePrecision;
+	@SerializedName("artists")
+	private List<ArtistsItem> artists;
 
-    @SerializedName("type")
-    private Type type;
+	@SerializedName("release_date")
+	private String releaseDate;
 
-    @SerializedName("uri")
-    private String uri;
+	@SerializedName("name")
+	private String name;
 
-    @SerializedName("total_tracks")
-    private int totalTracks;
+	@SerializedName("album_type")
+	private String albumType;
 
-    @SerializedName("artists")
-    private List<ArtistsItem> artists;
+	@SerializedName("release_date_precision")
+	private String releaseDatePrecision;
 
-    @SerializedName("release_date")
-    private String releaseDate;
+	@SerializedName("href")
+	private String href;
 
-    @SerializedName("name")
-    private String name;
+	@SerializedName("id")
+	private String id;
 
-    @SerializedName("album_type")
-    private String albumType;
+	@SerializedName("type")
+	private Type type;
 
-    @SerializedName("href")
-    private String href;
+	@SerializedName("external_urls")
+	private ExternalUrls externalUrls;
 
-    @SerializedName("id")
-    private String id;
+	@SerializedName("uri")
+	private String uri;
 
-    @SerializedName("external_urls")
-    private ExternalUrls externalUrls;
+	public int getTotalTracks(){
+		return totalTracks;
+	}
 
-    public List<Image> getImages() {
-        return images;
-    }
+	public List<Image> getImages(){
+		return images;
+	}
 
-    public List<String> getAvailableMarkets() {
-        return availableMarkets;
-    }
+	public List<ArtistsItem> getArtists(){
+		return artists;
+	}
 
-    public String getReleaseDatePrecision() {
-        return releaseDatePrecision;
-    }
+	public String getReleaseDate(){
+		return releaseDate;
+	}
 
-    public Type getType() {
-        return type;
-    }
+	public String getName(){
+		return name;
+	}
 
-    public String getUri() {
-        return uri;
-    }
+	public String getAlbumType(){
+		return albumType;
+	}
 
-    public int getTotalTracks() {
-        return totalTracks;
-    }
+	public String getReleaseDatePrecision(){
+		return releaseDatePrecision;
+	}
 
-    public List<ArtistsItem> getArtists() {
-        return artists;
-    }
+	public String getHref(){
+		return href;
+	}
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
+	public String getId(){
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Type getType(){
+		return type;
+	}
 
-    public String getAlbumType() {
-        return albumType;
-    }
+	public ExternalUrls getExternalUrls(){
+		return externalUrls;
+	}
 
-    public String getHref() {
-        return href;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public ExternalUrls getExternalUrls() {
-        return externalUrls;
-    }
-
-    @Override
-    public String toString() {
-        return
-                "Album{" +
-                        "images = '" + images + '\'' +
-                        ",available_markets = '" + availableMarkets + '\'' +
-                        ",release_date_precision = '" + releaseDatePrecision + '\'' +
-                        ",type = '" + type + '\'' +
-                        ",uri = '" + uri + '\'' +
-                        ",total_tracks = '" + totalTracks + '\'' +
-                        ",artists = '" + artists + '\'' +
-                        ",release_date = '" + releaseDate + '\'' +
-                        ",name = '" + name + '\'' +
-                        ",album_type = '" + albumType + '\'' +
-                        ",href = '" + href + '\'' +
-                        ",id = '" + id + '\'' +
-                        ",external_urls = '" + externalUrls + '\'' +
-                        "}";
-    }
-
-    public GeneralItem toGeneralItem() {
-        GeneralItem item= new GeneralItem();
-        item.setId(id);
-        item.setName(name);
-        item.setType(type);
-        item.setImage(getImages().get(0).url);
-        item.setExtra1(artists.get(0).getName());
-        return  item;}
+	public String getUri(){
+		return uri;
+	}
+	public GeneralItem toGeneralItem() {
+		GeneralItem item= new GeneralItem();
+		item.setId(id);
+		item.setName(name);
+		item.setType(type);
+		item.setImage(getImages().get(0).getUrl());
+		item.setExtra1(artists.get(0).getName());
+		return  item;}
 }

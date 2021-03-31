@@ -65,6 +65,7 @@ public class ArtistService {
                        artist.setId(id);
                        String name= response.getString("name");
                        artist.setName(name);
+                       artist.setTotal(response.getInt("total"));
                        int popularity = response.getInt("popularity");
                        artist.setPopularity(popularity);
                          artist.setType(Type.valueOf(response.getString("type")));
@@ -98,6 +99,7 @@ public class ArtistService {
                 Map<String, String> headers = new HashMap<>();
                 String token = sharedPreferences.getString("token", "");
                 String auth = "Bearer " + token;
+
                 headers.put("Authorization", auth);
                 return headers;
             }

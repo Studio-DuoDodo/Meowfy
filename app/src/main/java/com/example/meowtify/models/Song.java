@@ -13,7 +13,8 @@ public class Song {
 public int popularity;
 @SerializedName("release_date")
     public Date release_date;
-    public List<Artist> artist;
+    public List<Artist> artists;
+
     public String grupo;
     public Image[] images;
     public Album album;
@@ -27,7 +28,7 @@ public String preview_url;
     private String id;
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).url, album.getName(), null);
+        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), album.getName(), null);
 
 
         System.out.println("GeneralItem generado: " + item.toString());
@@ -64,7 +65,7 @@ public String preview_url;
                 "name='" + name + '\'' +
                 ", popularity=" + popularity +
                 ", release_date=" + release_date +
-                ", artist=" + artist +
+                ", artist=" + artists +
                 ", grupo='" + grupo + '\'' +
                 ", type=" + type +
                 ", id='" + id + '\'' +

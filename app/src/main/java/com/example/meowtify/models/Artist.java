@@ -10,6 +10,7 @@ public class Artist {
     public int popularity;
     public String id;
     public  Type type;
+   public int total=0;
     public  List<Image> images;
 
     public Artist() {
@@ -66,6 +67,14 @@ public void addGenre(genre genre){
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public List<Image> getImages() {
