@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterLibraryList;
-import com.example.meowtify.adapters.AdapterLibraryListAdd1;
 import com.example.meowtify.adapters.AdapterLibraryListAdd2;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,14 +78,14 @@ public class AlbumFragment extends Fragment {
         listaRecomended = v.findViewById(R.id.recomended_library);
 
         List<GeneralItem> album = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("album12", "artist12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("album22", "artist22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("album32", "artist32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+                new GeneralItem("id", "album12", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista1", null),
+                new GeneralItem("id", "album22", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista2", null),
+                new GeneralItem("id", "album32", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista3", null)
         ));
         List<GeneralItem> recomendedAlbum = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("album12", "artist12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("album22", "artist22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("album32", "artist32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+                new GeneralItem("id", "album12", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista1", null),
+                new GeneralItem("id", "album22", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista2", null),
+                new GeneralItem("id", "album32", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista3", null)
         ));
 
         AdapterLibraryList adapter = new AdapterLibraryList(album, getContext());

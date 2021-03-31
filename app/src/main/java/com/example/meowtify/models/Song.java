@@ -27,12 +27,14 @@ public String preview_url;
     private String id;
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(name,album.getName(),album.getImages().get(0).url);
+        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).url, album.getName(), null);
 
 
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
-    }    public Song(String id, String name,Date release_date, int popularity) {
+    }
+
+    public Song(String id, String name,Date release_date, int popularity) {
         this.name = name;
         this.id = id;
         this.release_date=release_date;

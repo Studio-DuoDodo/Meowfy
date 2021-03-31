@@ -23,9 +23,9 @@ public class Playlist {
     public  GeneralItem  toGeneralItem(){
         GeneralItem item;
         if (images!=null && images.length!=0){
-         item= new GeneralItem(name,"by " + owner.display_name,images[0].url);
+         item= new GeneralItem(id, name, type,images[0].url, owner.display_name, null);
         }else {
-         item= new GeneralItem(name,"by " + owner.display_name ,"https://www.futuro.cl/wp-content/uploads/2020/06/145d9c203f45af092d3ab58de5ab9518-590x340.jpg");
+         item= new GeneralItem(id, name, type, "https://www.futuro.cl/wp-content/uploads/2020/06/145d9c203f45af092d3ab58de5ab9518-590x340.jpg", owner.display_name, null);
 
         }
         System.out.println("GeneralItem generado: " + item.toString());

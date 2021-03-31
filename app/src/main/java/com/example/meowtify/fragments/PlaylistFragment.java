@@ -14,6 +14,7 @@ import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterLibraryList;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
+import com.example.meowtify.models.Type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,10 +81,10 @@ public class PlaylistFragment extends Fragment {
         playlistService.getUserPlayLists(this::IntroduceMyPlaylists,50,0);
 
         List<GeneralItem> items = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("Create playlist", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item12", "creator12", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item22", "creator22", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-                new GeneralItem("Item32", "creator32", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+                new GeneralItem("id", "Create playlist", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", null, null),
+                new GeneralItem("id", "Item12", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null),
+                new GeneralItem("id", "Item22", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null),
+                new GeneralItem("id", "Item32", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null)
         ));
 
         adapter = new AdapterLibraryList(items, getContext());
@@ -95,7 +96,7 @@ public class PlaylistFragment extends Fragment {
     private void IntroduceMyPlaylists() {
         List<Playlist> itemsSongs = playlistService.getPlaylists();
         List<GeneralItem> items21 = new ArrayList<>();
-        items21.add(   new GeneralItem("Create playlist", null, null));
+        items21.add(   new GeneralItem("id", "Create playlist", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", null, null));
         for (Playlist p: itemsSongs
         ) {
             items21.add(p.toGeneralItem());

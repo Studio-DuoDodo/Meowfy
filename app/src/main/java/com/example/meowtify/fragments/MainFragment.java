@@ -41,10 +41,10 @@ public class MainFragment extends Fragment {
 
     final  List<GeneralItem> defaultItem = new ArrayList<GeneralItem>(Arrays.asList(
 
-            new GeneralItem("Item11", "subItem11", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-            new GeneralItem("Item21", "subItem21", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-            new GeneralItem("Item31", "subItem31", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2"),
-            new GeneralItem("Item41", "subItem41", "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2")
+            new GeneralItem("id", "Item11", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item12", null),
+            new GeneralItem("id", "Item21", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item22", null),
+            new GeneralItem("id", "Item31", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item32", null),
+            new GeneralItem("id", "Item41", null, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "Item42", null)
     ));
 
     public MainFragment() {

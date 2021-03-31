@@ -8,7 +8,7 @@ public class Artist {
     public List<genre> genres;
     public String name;
     public int popularity;
-public String id;
+    public String id;
     public  Type type;
     public  List<Image> images;
 
@@ -90,5 +90,13 @@ public void addGenre(genre genre){
                 ", type=" + type +
                 ", images=" + images.toString() +
                 '}';
+    }
+
+    public  GeneralItem  toGeneralItem(){
+        GeneralItem item= new GeneralItem(id, name, type, images.get(0).url, null, null);
+
+
+        System.out.println("GeneralItem generado: " + item.toString());
+        return item;
     }
 }

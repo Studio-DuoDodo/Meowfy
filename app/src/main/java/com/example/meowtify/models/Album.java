@@ -16,7 +16,7 @@ public class Album {
     private String releaseDatePrecision;
 
     @SerializedName("type")
-    private String type;
+    private Type type;
 
     @SerializedName("uri")
     private String uri;
@@ -57,7 +57,7 @@ public class Album {
         return releaseDatePrecision;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -119,8 +119,10 @@ public class Album {
 
     public GeneralItem toGeneralItem() {
         GeneralItem item= new GeneralItem();
-        item.setTitle(name);
-        item.setSubtitle(artists.get(0).getName());
+        item.setId(id);
+        item.setName(name);
+        item.setType(type);
         item.setImage(getImages().get(0).url);
-    return  item;}
+        item.setExtra1(artists.get(0).getName());
+        return  item;}
 }
