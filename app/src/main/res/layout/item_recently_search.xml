@@ -2,39 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="10dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/image_library"
+        android:id="@+id/image_search"
         android:src="@drawable/laucher_screen"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         tools:padding="15dp"
-        tools:background="@color/primaryLigth1"/>
+        tools:background="@color/primaryLigth1"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titel_search"
-        android:layout_toRightOf="@id/image_library"
+        android:layout_toRightOf="@id/image_search"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
         tools:text="nom"
         android:layout_marginStart="10dp"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:layout_toEndOf="@id/image_search" />
 
     <TextView
         android:id="@+id/subtitel_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/titel_search"
-        android:layout_toEndOf="@+id/image_library"
-        android:layout_toRightOf="@+id/image_library"
+        android:layout_toEndOf="@+id/image_search"
+        android:layout_toRightOf="@+id/image_search"
         android:textColor="@color/primaryLigth2"
         android:layout_marginLeft="10dp"
         tools:text="subtitel"

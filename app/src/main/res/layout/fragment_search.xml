@@ -9,14 +9,13 @@
     android:layout_marginRight="20dp"
     android:layout_marginEnd="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titel"
         android:text="Search"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -29,7 +28,8 @@
         app:boxBackgroundColor="@color/primaryLigth1"
         android:textColorHint="@color/primaryLigth2"
         app:endIconMode="clear_text"
-        app:endIconDrawable="@drawable/ic_baseline_close_24">
+        app:endIconDrawable="@drawable/ic_baseline_close_24"
+        android:layout_marginTop="5dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,11 +43,21 @@
         tools:listitem="@layout/item_search"
         android:layout_below="@id/search_edit"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textRecycel"
+        android:text="Recent searches"
+        android:layout_below="@id/search_edit"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_recenly_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_recently_search"
-        android:layout_below="@id/search_edit"/>
+        android:layout_below="@id/textRecycel"/>
 
 </RelativeLayout>
