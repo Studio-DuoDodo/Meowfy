@@ -45,17 +45,4 @@ public class ArtistsItem{
 	public String getUri(){
 		return uri;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"ArtistsItem{" + 
-			"name = '" + name + '\'' + 
-			",href = '" + href + '\'' + 
-			",id = '" + id + '\'' + 
-			",type = '" + type + '\'' + 
-			",external_urls = '" + externalUrls + '\'' + 
-			",uri = '" + uri + '\'' + 
-			"}";
-		}
 }

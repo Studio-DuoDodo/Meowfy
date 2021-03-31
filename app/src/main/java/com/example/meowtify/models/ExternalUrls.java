@@ -10,12 +10,4 @@ public class ExternalUrls{
 	public String getSpotify(){
 		return spotify;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"ExternalUrls{" + 
-			"spotify = '" + spotify + '\'' + 
-			"}";
-		}
 }

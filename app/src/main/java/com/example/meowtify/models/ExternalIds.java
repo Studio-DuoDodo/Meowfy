@@ -10,12 +10,4 @@ public class ExternalIds{
 	public String getIsrc(){
 		return isrc;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"ExternalIds{" + 
-			"isrc = '" + isrc + '\'' + 
-			"}";
-		}
 }
