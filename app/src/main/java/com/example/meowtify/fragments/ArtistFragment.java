@@ -78,14 +78,14 @@ public class ArtistFragment extends Fragment {
         listaRecomended = v.findViewById(R.id.recomended_library);
 
         List<GeneralItem> artist = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("id", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "1", null),
-                new GeneralItem("id", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "2", null),
-                new GeneralItem("id", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "3", null)
+                new GeneralItem("id", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 1", null),
+                new GeneralItem("id", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 2", null),
+                new GeneralItem("id", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 3", null)
         ));
         List<GeneralItem> recomendedArtist = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("id", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "1", null),
-                new GeneralItem("id", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "2", null),
-                new GeneralItem("id", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "3", null)
+                new GeneralItem("id", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 1", null),
+                new GeneralItem("id", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 2", null),
+                new GeneralItem("id", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 3", null)
         ));
 
         AdapterLibraryList adapter = new AdapterLibraryList(artist, getContext());

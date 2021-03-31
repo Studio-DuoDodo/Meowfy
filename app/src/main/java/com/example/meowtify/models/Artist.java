@@ -102,7 +102,7 @@ public void addGenre(genre genre){
     }
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(id, name, type, images.get(0).url, null, null);
+        GeneralItem item= new GeneralItem(id, name, type, images.get(0).url, "songs "+total, null);
 
 
         System.out.println("GeneralItem generado: " + item.toString());

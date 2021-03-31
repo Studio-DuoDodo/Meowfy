@@ -28,8 +28,7 @@ public String preview_url;
     private String id;
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), album.getName(), null);
-
+        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), artists.get(0).name, album.getName());
 
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
