@@ -104,11 +104,12 @@ public class PlaylistFragment extends Fragment {
             playlistService.getAPlayListByRef(this::getPlayListForId, generalItem.getId());
         }
 
-        Picasso.with(getContext()).load(playlist.getImages()[0].url).
+        //todo: una vez ya se coja la playlist de la api descomentar estas lineas
+        /*Picasso.with(getContext()).load(playlist.getImages()[0].url).
                 resize(500, 500).into(imagePlaylist);
         namePlaylist.setText(playlist.getName());
         String subtitel = "BY "+ playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
-        subtitelPlaylist.setText(subtitel);
+        subtitelPlaylist.setText(subtitel);*/
 
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
