@@ -2,7 +2,9 @@ package com.example.meowtify.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Playlist {
     boolean colaborative = false;
@@ -17,7 +19,7 @@ public class Playlist {
     User owner;
     boolean isPublic;
     String snapshotId;
-    Track tracks;
+   List<Song> songs= new ArrayList<>();
     Type type;
 
     public  GeneralItem  toGeneralItem(){
@@ -31,7 +33,12 @@ public class Playlist {
         System.out.println("GeneralItem generado: " + item.toString());
  return item;
     }
-    public Playlist(boolean colaborative, Followers followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, Track tracks, Type type) {
+
+    public Playlist() {
+        songs= new ArrayList<>();
+    }
+
+    public Playlist(boolean colaborative, Followers followers, String description, String href, String id, Image[] images, String name, User owner, boolean isPublic, String snapshotId, List<Song> songs, Type type) {
         this.colaborative = colaborative;
         this.followers = followers;
         this.description = description;
@@ -42,8 +49,9 @@ public class Playlist {
         this.owner = owner;
         this.isPublic = isPublic;
         this.snapshotId = snapshotId;
-        this.tracks = tracks;
+    //    this.tracks = tracks;
         this.type = type;
+        songs= new ArrayList<>();
     }
 
     public boolean isColaborative() {
@@ -118,12 +126,9 @@ public class Playlist {
         this.snapshotId = snapshotId;
     }
 
-    public Track getTracks() {
-        return tracks;
-    }
 
-    public void setTracks(Track tracks) {
-        this.tracks = tracks;
+    public List<Song> getSongs() {
+        return songs;
     }
 
     public Type getPlaylist() {
@@ -137,7 +142,9 @@ public class Playlist {
     public String getIdPlaylist() {
         return "notImplemented";
     }
-
+public void AddSong(Song s){
+        songs.add(s);
+}
     @Override
     public String toString() {
         return "Playlist{" +
@@ -151,7 +158,7 @@ public class Playlist {
                 ", owner=" + owner.toString() +
                 ", isPublic=" + isPublic +
                 ", snapshotId='" + snapshotId + '\'' +
-                ", tracks=" + tracks +
+                ", tracks=" + songs +
                 ", type=" + type +
                 '}';
     }

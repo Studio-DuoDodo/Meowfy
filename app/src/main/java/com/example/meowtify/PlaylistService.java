@@ -179,6 +179,7 @@ public class PlaylistService {
                             //     object = object.optJSONObject("tracks");
                             Song s = gson.fromJson(object1.toString(), Song.class);
                             System.out.println("Song " + n + ": " + s.toString());
+                            p.AddSong(s);
 
                         }                             developersPlaylist.add(p);
 
@@ -247,6 +248,63 @@ public class PlaylistService {
         };
         queue.add(jsonObjectRequest);
         return playlists;
+    }
+
+
+    public void followAPlaylist(Playlist playlist) {
+        JSONObject payload = preparePutPayload(playlist);
+        System.out.println("ID to follow" + " = " + playlist.getId());
+        JsonObjectRequest jsonObjectRequest = prepareFollowPlaylistRequest(payload,playlist.getId());
+        queue.add(jsonObjectRequest);
+    }
+
+    private JsonObjectRequest prepareFollowPlaylistRequest(JSONObject payload, String id) {
+        return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/playlists/"+id+"/followers", payload, response -> {
+        }, error -> {
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
+ private JsonObjectRequest prepareUnfollowPlaylistRequest(JSONObject payload, String id) {
+        return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/playlists/"+id+"/followers", payload, response -> {
+        }, error -> {
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
+
+    private JSONObject preparePutPayload(Playlist  playlist) {
+
+        JSONObject ids = new JSONObject();
+        try {
+            ids.put("public", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
+    public void unfollowAPlaylist(Playlist playlist) {
+        JSONObject payload =  new JSONObject();
+        System.out.println("ID to follow" + " = " + playlist.getId());
+        JsonObjectRequest jsonObjectRequest = prepareUnfollowPlaylistRequest(payload,playlist.getId());
+        queue.add(jsonObjectRequest);
     }
 
 

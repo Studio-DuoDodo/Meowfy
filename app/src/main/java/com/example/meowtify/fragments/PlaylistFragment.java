@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meowtify.PlaylistService;
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Followers;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
+import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 
 import java.util.ArrayList;
@@ -34,16 +36,16 @@ public class PlaylistFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     ImageView imagePlaylist;
     TextView namePlaylist, subtitelPlaylist;
     Button buttonShuffel, buttonFolllow;
     RecyclerView songs;
+    Playlist playlist;
     AdapterSongsList adapterSongs;
+    PlaylistService playlistService;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -80,24 +82,23 @@ public class PlaylistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist, container, false);
-
+        playlistService = new PlaylistService(v.getContext());
         imagePlaylist = v.findViewById(R.id.image_playlist);
         namePlaylist = v.findViewById(R.id.name_playlist);
         subtitelPlaylist = v.findViewById(R.id.subname_playlist);
         buttonShuffel = v.findViewById(R.id.shuffel_playlist);
         buttonFolllow = v.findViewById(R.id.follow_playlist);
         songs = v.findViewById(R.id.songs);
-        Playlist playlist = new Playlist(false, new Followers(), null, null, null, null, null, null, true, null, null, null);
+        playlist = new Playlist(false, new Followers(), null, null, null, null, null, null, true, null, null, null);
 
         Bundle b = getArguments();
-        if(b != null){
+        if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
-
-            //todo: get playlist from api with id.
+            playlistService.getAPlayListByRef(this::updatePlaylistByAPI, generalItem.getId());
         }
 
         namePlaylist.setText(playlist.getName());
-        String subtitel = "BY "+ playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+        String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
         subtitelPlaylist.setText(subtitel);
 
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +111,19 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //todo: add to the follow playlist
+                PlaylistService playlistService = new PlaylistService(v.getContext());
+                System.out.println("ID to follow" + " = " + playlist.getId());
+               String text = buttonFolllow.getText().toString();
+                System.out.println(text);
+               if (text.equals("follow")){
+                   playlistService.followAPlaylist(playlist);
+                  text="unfollow";
+               }else if (text.equals("unfollow")){
+                   text="follow";
+                   playlistService.unfollowAPlaylist(playlist);
+
+               }
+                buttonFolllow.setText(text);
             }
         });
 
@@ -125,5 +139,19 @@ public class PlaylistFragment extends Fragment {
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
+    }
+
+    public void updatePlaylistByAPI() {
+        List<Playlist> playlists = playlistService.getDevelopersPlaylist();
+        List<GeneralItem> generalItemList = new ArrayList<>();
+        for (Song s : playlists.get(0).getSongs()) {
+            generalItemList.add(s.toGeneralItem());
+        }
+        playlist = playlists.get(0);
+        namePlaylist.setText(playlist.getName());
+        String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+        subtitelPlaylist.setText(subtitel);
+
+        adapterSongs.setItems(generalItemList);
     }
 }

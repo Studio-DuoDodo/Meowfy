@@ -11,20 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.RequestQueue;
 import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
-import com.example.meowtify.fragments.AlbumFragment;
-import com.example.meowtify.fragments.ArtistFragment;
 import com.example.meowtify.fragments.MainFragment;
-import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
-import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -33,14 +28,12 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
-
 public class MainActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
     private static final String REDIRECT_URI = "http://com.example.meowtify/callback";
     // private static final String REDIRECT_URI = " com.example.meowtify://callback";
     private static final int REQUEST_CODE = 1337;
-    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+    private static final String SCOPES = "user-read-playback-position,user-read-private,user-read-email,playlist-read-private,user-library-read,user-library-modify,user-top-read,playlist-read-collaborative,ugc-image-upload,user-follow-read,user-follow-modify,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,user-read-recently-played";
     Fragment currentFragment;
     BottomNavigationView navigationMenu;
     private SharedPreferences.Editor editor;

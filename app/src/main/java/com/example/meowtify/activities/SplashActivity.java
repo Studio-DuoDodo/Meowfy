@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
     // private static final String REDIRECT_URI = " com.example.meowtify://callback";
 
     private static final int REQUEST_CODE = 1337;
-    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+    private static final String SCOPES = "user-read-playback-position,user-read-private,user-read-email,playlist-read-private,user-library-read,user-library-modify,user-top-read,playlist-read-collaborative,ugc-image-upload,user-follow-read,user-follow-modify,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,user-read-recently-played,playlist-modify-public,playlist-modify-private";
     private Button login;
 
     @Override
