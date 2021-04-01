@@ -52,10 +52,10 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
         public LibraryListAdd2Holder(@NonNull View itemView) {
             super(itemView);
 
-            nameAlbum = itemView.findViewById(R.id.name_album);
+            nameAlbum = itemView.findViewById(R.id.name_album1);
             nameArtist = itemView.findViewById(R.id.name_autor);
             image = itemView.findViewById(R.id.image_library);
-            followButton = itemView.findViewById(R.id.follow_album);
+            followButton = itemView.findViewById(R.id.favorits_album1);
         }
 
         public void bindData(GeneralItem generalItem, int position){
