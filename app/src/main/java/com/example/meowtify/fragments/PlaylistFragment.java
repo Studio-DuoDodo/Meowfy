@@ -13,7 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.meowtify.PlaylistService;
+import com.example.meowtify.models.User;
+import com.example.meowtify.services.PlaylistService;
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Followers;
@@ -21,6 +22,7 @@ import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,17 +93,16 @@ public class PlaylistFragment extends Fragment {
         buttonShuffel = v.findViewById(R.id.shuffel_playlist);
         buttonFolllow = v.findViewById(R.id.follow_playlist);
         songs = v.findViewById(R.id.songs);
-        playlist = new Playlist(false, new Followers(), null, null, null, null, null, null, true, null, null, null);
-
-        Bundle b = getArguments();
+        playlist = new Playlist(false, new Followers(), null, null, null, null, null, new User("default"), true, null, null, null);
+        Picasso.with(v.getContext()).load("http://i.imgur.com/DvpvklR.png").into(imagePlaylist);
+         Bundle b = getArguments();
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
             playlistService.getAPlayListByRef(this::updatePlaylistByAPI, generalItem.getId());
         }
 
         namePlaylist.setText(playlist.getName());
-        //todo: canviar que muestre solo el nombre del creador no toda su informacion
-        String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+         String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
         subtitelPlaylist.setText(subtitel);
 
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +161,8 @@ public class PlaylistFragment extends Fragment {
              }
              playlist = playlists.get(0);
              namePlaylist.setText(playlist.getName());
-             String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+             Picasso.with(getView().getContext()).load(playlist.getImages()[0].url).into(imagePlaylist);
+             String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
              subtitelPlaylist.setText(subtitel);
 
              adapterSongs.setItems(generalItemList);

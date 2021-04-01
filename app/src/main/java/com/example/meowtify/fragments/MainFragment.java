@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.meowtify.PlaylistService;
+import com.example.meowtify.services.PlaylistService;
 import com.example.meowtify.R;
-import com.example.meowtify.SongService;
+import com.example.meowtify.services.SongService;
 import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;

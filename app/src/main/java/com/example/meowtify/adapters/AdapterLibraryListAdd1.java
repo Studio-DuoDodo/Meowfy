@@ -19,11 +19,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryListAdd1.LibraryListAdd1Holder> {
-    List<GeneralItem> itmes;
+    List<GeneralItem> items;
     Context context;
 
-    public AdapterLibraryListAdd1(List<GeneralItem> itmes, Context context) {
-        this.itmes = itmes;
+    public AdapterLibraryListAdd1(List<GeneralItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -36,12 +36,12 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
 
     @Override
     public void onBindViewHolder(@NonNull LibraryListAdd1Holder holder, int position) {
-        holder.bindData(itmes.get(position), position);
+        holder.bindData(items.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return itmes.size();
+        return items.size();
     }
 
     public class LibraryListAdd1Holder extends RecyclerView.ViewHolder{
@@ -71,7 +71,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
 
                     //Todo: metode per eliminar de la lista de recomenats
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
-                    itmes.remove(position);
+                    items.remove(position);
                     notifyDataSetChanged();
                 }
             });

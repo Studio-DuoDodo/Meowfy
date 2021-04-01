@@ -8,17 +8,18 @@
     xmlns:tools="http://schemas.android.com/tools">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/image_playlist"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            tools:src="@drawable/logo_meowfy"
+            tools:src="@drawable/common_google_signin_btn_text_dark"
             tools:padding="80dp"
-            tools:background="@color/primaryLigth2"/>
+            tools:background="@color/primaryLigth2"
+            android:contentDescription="TODO" />
 
         <TextView
             android:layout_width="wrap_content"

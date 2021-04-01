@@ -2,11 +2,6 @@ package com.example.meowtify.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +10,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
+import com.example.meowtify.services.AlbumService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class AlbumFragment extends Fragment {
 
     AdapterSongsList adapterSongs;
     Album album;
-
+    AlbumService albumService;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -86,7 +86,7 @@ public class AlbumFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_album, container, false);
-
+        albumService = new AlbumService(v.getContext());
         imagePlaylist = v.findViewById(R.id.image_album);
         nameAlbum = v.findViewById(R.id.name_album2);
         subtitelAlbum = v.findViewById(R.id.subname_album);
@@ -95,10 +95,11 @@ public class AlbumFragment extends Fragment {
         songs = v.findViewById(R.id.songs);
 
         Bundle b = getArguments();
-        if(b != null){
+        if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
             //todo: get the album from the api with the id of generalItem.
+            albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
         }
 
         //todo: una vez ya se coja el album de la api descomentar estas lineas
@@ -118,11 +119,11 @@ public class AlbumFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if(buttonFavorite.getDrawable() == getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24)){
+                    if (buttonFavorite.getDrawable() == getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24)) {
                         buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
 
                         //todo: add to the favorit list of albums
-                    }else {
+                    } else {
                         buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
                         //todo: delete of the favorit list of albums
                     }
@@ -142,5 +143,32 @@ public class AlbumFragment extends Fragment {
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
+    }
+
+    private void updateAlbumByAPI() {
+        Album currentAlbum = albumService.getLastAlbum();
+        final boolean[] bool = new boolean[1];
+        //  albumService.checkIfTheUserFollowsAPlaylist(()->{
+            /*bool[0] = playlistService.isLastCheck();
+            System.out.println("the callback bool is" + bool);
+            Toast.makeText(getView().getContext(), "\"the callback bool is\" + bool", Toast.LENGTH_SHORT).show();
+            if (bool[0]){
+                buttonFolllow.setText("unfollow");
+            }else buttonFolllow.setText("follow");
+            List<GeneralItem> generalItemList = new ArrayList<>();
+            for (Song s : playlists.get(0).getSongs()) {
+                generalItemList.add(s.toGeneralItem());
+            } */
+        nameAlbum.setText(currentAlbum.getName());
+        System.out.println("last album has" + currentAlbum.toString());
+        if (currentAlbum.getImages() != null)
+            Picasso.with(getContext()).load(currentAlbum.getImages().get(0).url).into(imagePlaylist);
+        String subtitel = "BY " + currentAlbum.getArtistNames() + " · " + currentAlbum.getTotalTracks() + " TRACKS";
+
+        subtitelAlbum.setText(subtitel);
+
+        adapterSongs.setItems(currentAlbum.getSongsConverted());
+        //});
+
     }
 }

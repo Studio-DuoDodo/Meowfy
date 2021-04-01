@@ -7,6 +7,14 @@ public class User {
     public String email;
     public String id;
 
+    public String getDisplayName() {
+        return display_name;
+    }
+
+    public User(String display_name) {
+        this.display_name = display_name;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -16,5 +24,9 @@ public class User {
                 ", email='" + email + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public String getId() {
+        return id;
     }
 }

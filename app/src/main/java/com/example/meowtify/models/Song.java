@@ -33,6 +33,12 @@ public String preview_url;
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
     }
+    public  GeneralItem  toGeneralItem(String url,String name){
+        GeneralItem item= new GeneralItem(id, name, type,  url, artists.get(0).name, name);
+
+        System.out.println("GeneralItem generado: " + item.toString());
+        return item;
+    }
 
     public Song(String id, String name,Date release_date, int popularity) {
         this.name = name;

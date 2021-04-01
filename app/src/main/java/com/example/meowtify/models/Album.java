@@ -2,99 +2,147 @@ package com.example.meowtify.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Album{
+public class Album {
 
-	@SerializedName("total_tracks")
-	private int totalTracks;
+    List<Song> songs = new ArrayList<>();
+    @SerializedName("total_tracks")
+    private int totalTracks;
+    @SerializedName("images")
+    private List<Image> images;
+    @SerializedName("artists")
+    private List<ArtistsItem> artists;
+    @SerializedName("release_date")
+    private String releaseDate;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("album_type")
+    private String albumType;
+    @SerializedName("release_date_precision")
+    private String releaseDatePrecision;
+    @SerializedName("href")
+    private String href;
+    @SerializedName("id")
+    private String id;
+    @SerializedName("type")
+    private Type type;
+    @SerializedName("external_urls")
+    private ExternalUrls externalUrls;
+    @SerializedName("uri")
+    private String uri;
 
-	@SerializedName("images")
-	private List<Image> images;
+    public String getArtistNames() {
+        String artistNames = "";
+        for (int i = 0; i < artists.size(); i++) {
+            if (i == artists.size() - 1) {
+                artistNames += artists.get(i).getName();
 
-	@SerializedName("artists")
-	private List<ArtistsItem> artists;
+            } else {
+                artistNames += artists.get(i).getName() + ", ";
 
-	@SerializedName("release_date")
-	private String releaseDate;
+            }
+        }
+        return artistNames;
+    }
 
-	@SerializedName("name")
-	private String name;
+    public int getTotalTracks() {
+        return totalTracks;
+    }
 
-	@SerializedName("album_type")
-	private String albumType;
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 
-	@SerializedName("release_date_precision")
-	private String releaseDatePrecision;
+    public List<Image> getImages() {
+        return images;
+    }
 
-	@SerializedName("href")
-	private String href;
+    public List<ArtistsItem> getArtists() {
+        return artists;
+    }
 
-	@SerializedName("id")
-	private String id;
+    public String getReleaseDate() {
+        return releaseDate;
+    }
 
-	@SerializedName("type")
-	private Type type;
+    public String getName() {
+        return name;
+    }
 
-	@SerializedName("external_urls")
-	private ExternalUrls externalUrls;
+    public String getAlbumType() {
+        return albumType;
+    }
 
-	@SerializedName("uri")
-	private String uri;
+    public String getReleaseDatePrecision() {
+        return releaseDatePrecision;
+    }
 
-	public int getTotalTracks(){
-		return totalTracks;
-	}
+    public String getHref() {
+        return href;
+    }
 
-	public List<Image> getImages(){
-		return images;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public List<ArtistsItem> getArtists(){
-		return artists;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public String getReleaseDate(){
-		return releaseDate;
-	}
+    public ExternalUrls getExternalUrls() {
+        return externalUrls;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public List<Song> getSongs() {
+        return songs;
+    }
 
-	public String getAlbumType(){
-		return albumType;
-	}
+    public List<GeneralItem> getSongsConverted() {
+        List<GeneralItem> songs = new ArrayList<>();
+        for (Song s : this.songs) {
+            songs.add(s.toGeneralItem(images.get(0).url, name));
+        }
+        return songs;
+    }
 
-	public String getReleaseDatePrecision(){
-		return releaseDatePrecision;
-	}
+    public String getUri() {
+        return uri;
+    }
 
-	public String getHref(){
-		return href;
-	}
+    public void addSong(Song s) {
+        songs.add(s);
+    }
 
-	public String getId(){
-		return id;
-	}
+    public GeneralItem toGeneralItem() {
+        GeneralItem item = new GeneralItem();
+        item.setId(id);
+        item.setName(name);
+        item.setType(type);
+        if (images!=null)
+        item.setImage(images.get(0).getUrl());
+      else item.setImage("https://static.wikia.nocookie.net/memes-pedia/images/a/ac/Cj2.jpg/revision/latest?cb=20200708183438&path-prefix=es");
+        item.setExtra1(artists.get(0).getName());
+        return item;
+    }
 
-	public Type getType(){
-		return type;
-	}
-
-	public ExternalUrls getExternalUrls(){
-		return externalUrls;
-	}
-
-	public String getUri(){
-		return uri;
-	}
-	public GeneralItem toGeneralItem() {
-		GeneralItem item= new GeneralItem();
-		item.setId(id);
-		item.setName(name);
-		item.setType(type);
-		item.setImage(getImages().get(0).getUrl());
-		item.setExtra1(artists.get(0).getName());
-		return  item;}
+    @Override
+    public String toString() {
+        return "Album{" +
+                "songs=" + songs +
+                ", totalTracks=" + totalTracks +
+                ", images=" + images +
+                ", artists=" + artists +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", name='" + name + '\'' +
+                ", albumType='" + albumType + '\'' +
+                ", releaseDatePrecision='" + releaseDatePrecision + '\'' +
+                ", href='" + href + '\'' +
+                ", id='" + id + '\'' +
+                ", type=" + type +
+                ", externalUrls=" + externalUrls +
+                ", uri='" + uri + '\'' +
+                '}';
+    }
 }

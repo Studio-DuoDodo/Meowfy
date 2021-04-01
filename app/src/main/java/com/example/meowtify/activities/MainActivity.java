@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.meowtify.ArtistService;
+import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.R;
-import com.example.meowtify.SongService;
+import com.example.meowtify.services.SongService;
 import com.example.meowtify.fragments.MainFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;

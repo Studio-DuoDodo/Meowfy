@@ -20,16 +20,16 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearchRecentlyList.SearchListAdd2Holder> {
-    List<GeneralItem> itmes;
+    List<GeneralItem> items;
     Context context;
 
-    public void setItmes(List<GeneralItem> itmes) {
-        this.itmes = itmes;
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
         notifyDataSetChanged();
     }
 
-    public AdapterSearchRecentlyList(List<GeneralItem> itmes, Context context) {
-        this.itmes = itmes;
+    public AdapterSearchRecentlyList(List<GeneralItem> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -42,12 +42,12 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
 
     @Override
     public void onBindViewHolder(@NonNull SearchListAdd2Holder holder, int position) {
-        holder.bindData(itmes.get(position), position);
+        holder.bindData(items.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return itmes.size();
+        return items.size();
     }
 
     public class SearchListAdd2Holder extends RecyclerView.ViewHolder{
@@ -82,7 +82,7 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
 
                     //Todo: metode per eliminar de la lista de recomenats
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
-                    itmes.remove(position);
+                    items.remove(position);
                     notifyDataSetChanged();
                 }
             });
