@@ -39,6 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_AppCompat);
+        setTheme(R.style.Theme_AppCompat);
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -77,6 +78,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         Intent newintent = new Intent(SplashActivity.this, MainActivity.class);
+
         startActivity(newintent);
     }@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
