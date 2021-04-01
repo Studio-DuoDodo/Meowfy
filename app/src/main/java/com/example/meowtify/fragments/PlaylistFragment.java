@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,6 +69,7 @@ public class PlaylistFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,15 +145,26 @@ public class PlaylistFragment extends Fragment {
 
     public void updatePlaylistByAPI() {
         List<Playlist> playlists = playlistService.getDevelopersPlaylist();
-        List<GeneralItem> generalItemList = new ArrayList<>();
-        for (Song s : playlists.get(0).getSongs()) {
-            generalItemList.add(s.toGeneralItem());
-        }
-        playlist = playlists.get(0);
-        namePlaylist.setText(playlist.getName());
-        String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
-        subtitelPlaylist.setText(subtitel);
+        final boolean[] bool = new boolean[1];
+         playlistService.checkIfTheUserFollowsAPlaylist(()->{
+         bool[0] = playlistService.isLastCheck();
+         System.out.println("the callback bool is" + bool);
+         Toast.makeText(getView().getContext(), "\"the callback bool is\" + bool", Toast.LENGTH_SHORT).show();
+         if (bool[0]){
+             buttonFolllow.setText("unfollow");
+         }else buttonFolllow.setText("follow");
+             List<GeneralItem> generalItemList = new ArrayList<>();
+             for (Song s : playlists.get(0).getSongs()) {
+                 generalItemList.add(s.toGeneralItem());
+             }
+             playlist = playlists.get(0);
+             namePlaylist.setText(playlist.getName());
+             String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+             subtitelPlaylist.setText(subtitel);
 
-        adapterSongs.setItems(generalItemList);
+             adapterSongs.setItems(generalItemList);
+
+     },playlists.get(0).getId());
+
     }
 }

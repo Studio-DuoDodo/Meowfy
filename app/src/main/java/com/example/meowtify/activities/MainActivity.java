@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.RequestQueue;
 import com.example.meowtify.ArtistService;
 import com.example.meowtify.R;
 import com.example.meowtify.SongService;
@@ -37,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment currentFragment;
     BottomNavigationView navigationMenu;
     private SharedPreferences.Editor editor;
-    private SharedPreferences msharedPreferences;
-    private RequestQueue queue;
-    private TextView userView;
+      private TextView userView;
     private TextView songView;
     private Button addBtn;
     private Song song;
@@ -84,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+Bundle b= getIntent().getExtras();
 
         if (savedInstanceState == null) {
             currentFragment = new MainFragment();
