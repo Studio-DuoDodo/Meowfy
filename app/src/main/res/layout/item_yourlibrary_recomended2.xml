@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name_album1"
+        android:id="@+id/name_album"
         android:layout_toRightOf="@id/image_library"
         android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
@@ -30,7 +30,7 @@
         android:id="@+id/name_autor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name_album1"
+        android:layout_below="@id/name_album"
         android:layout_toEndOf="@+id/image_library"
         android:layout_toRightOf="@+id/image_library"
         android:textColor="@color/primaryLigth2"
@@ -42,7 +42,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/favorits_album1"
+        android:id="@+id/follow_album"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_baseline_favorite_border_24"

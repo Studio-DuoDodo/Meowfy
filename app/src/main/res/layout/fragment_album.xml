@@ -1,77 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".fragments.AlbumFragment"
-    tools:background="@color/primary"
-    xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".fragments.AlbumFragment">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/image_album"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            tools:src="@drawable/logo_meowfy"
-            tools:padding="80dp"
-            tools:background="@color/primaryLigth2"/>
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="album"
+        android:textColor="@color/white"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name_album2"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/image_album"
-            android:textStyle="bold"
-            android:layout_marginHorizontal="50dp"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            tools:text="Rarezas Raras"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/subname_album"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/name_album2"
-            android:textStyle="bold"
-            android:layout_marginHorizontal="50dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            tools:text="Album by El Reno Renardo · 2020"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/shuffel_album"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/subname_album"
-            android:text="SHUFFEL PLAY"
-            android:layout_marginTop="15dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/favorits_album2"
-            android:layout_toRightOf="@id/shuffel_album"
-            android:layout_below="@id/subname_album"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            android:background="@color/primary" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/songs"
-            android:layout_below="@id/shuffel_album"
-            tools:listitem="@layout/item_search"/>
-
-    </RelativeLayout>
-</ScrollView>
+</FrameLayout>
