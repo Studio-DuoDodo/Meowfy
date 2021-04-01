@@ -100,6 +100,7 @@ public class PlaylistFragment extends Fragment {
         }
 
         namePlaylist.setText(playlist.getName());
+        //todo: canviar que muestre solo el nombre del creador no toda su informacion
         String subtitel = "BY " + playlist.getOwner() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
         subtitelPlaylist.setText(subtitel);
 
