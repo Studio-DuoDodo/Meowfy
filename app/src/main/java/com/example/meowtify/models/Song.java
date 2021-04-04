@@ -2,6 +2,7 @@ package com.example.meowtify.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,29 +13,29 @@ public class Song {
     public String name;
 public int popularity;
 @SerializedName("release_date")
-    public Date release_date;
-    public List<Artist> artists;
+      private Date release_date;
+    private    List<Artist> artists;
 
-    public String grupo;
-    public Image[] images;
-    public Album album;
-    public int duration_ms;
-
-public String preview_url;
-  public  Type type;
+    private   String grupo;
+    private   Image[] images;
+    private  Album album;
+    private  int duration_ms;
+@SerializedName("preview_url")
+    private String preview_url;
+    private  Type type;
     //bottom fragment sheet
     //musica youtube
 
     private String id;
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), artists.get(0).name, album.getName());
+        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), artists.get(0).getName(), album.getName());
 
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
     }
     public  GeneralItem  toGeneralItem(String url,String name){
-        GeneralItem item= new GeneralItem(id, name, type,  url, artists.get(0).name, name);
+        GeneralItem item= new GeneralItem(id, name, type,  url, artists.get(0).getName(), name);
 
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
@@ -64,14 +65,54 @@ public String preview_url;
         this.name = name;
     }
 
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public Date getRelease_date() {
+        return release_date;
+    }
+
+    public List<Artist> getArtists() {
+        return artists;
+    }
+
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public Image[] getImages() {
+        return images;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public int getDuration_ms() {
+        return duration_ms;
+    }
+
+    public String getPreview_url() {
+        return preview_url;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
                 "name='" + name + '\'' +
                 ", popularity=" + popularity +
                 ", release_date=" + release_date +
-                ", artist=" + artists +
+                ", artists=" + artists +
                 ", grupo='" + grupo + '\'' +
+                ", images=" + Arrays.toString(images) +
+                ", album=" + album +
+                ", duration_ms=" + duration_ms +
+                ", preview_url='" + preview_url + '\'' +
                 ", type=" + type +
                 ", id='" + id + '\'' +
                 '}';

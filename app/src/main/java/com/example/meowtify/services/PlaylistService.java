@@ -11,8 +11,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.meowtify.VolleyCallBack;
 import com.example.meowtify.models.Album;
+import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.models.Type;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -20,12 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlaylistService {
+    public List<GeneralItem> lastSearched;
     String token = "ids=7ouMYWpwJ422jRcDASZB7P%2C4VqPOruhp5EdPBeR92t6lQ%2C2takcwOaAZWiXQijPHIx7B";
     String token2 = "BQBmx65FSMiYCKgQh-_0LHs-_GrOAiHlfcKc1x8oaoDxhUDP7FsLghn9N0MSJaSt8wLofLAePIO0zcZTL8z_pUIuieiWp47T8YYlQ8dRKAB7zFCNnhoDa86pyYLbBhEFXCd5QHeDH9GYm771YZe15TeAwQuPMUKrM2Ej2bRKYjyWvQ0vHnzt9vziMU8nB4cPjKDFpD3CnoRyHbTZVDIUz4fzif4Ul3a6XIVgDxXXCLBoy2dYtn5tmCXl-tTpntdmR-WNVHzdmYMeY-ujttt_XXOuh8TPiiSI71zuVKExgwyl";
     //
@@ -261,7 +266,7 @@ public class PlaylistService {
     public AtomicBoolean checkIfTheUserFollowsAPlaylist(final VolleyCallBack callBack, String playlistId) {
         AtomicBoolean user = new AtomicBoolean(false);
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/followers/contains?ids=" + sharedPreferences.getString("userid", null);
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, endpoint, null, response -> {
                     try {
                         for (int n = 0; n < response.length(); n++) {
@@ -290,7 +295,7 @@ public class PlaylistService {
             }
 
         };
-        queue.add(jsonObjectRequest);
+        queue.add(jsonArrayRequest);
         return user;
     }
 
@@ -343,6 +348,92 @@ public class PlaylistService {
         }
         return ids;
     }
+
+    public List<GeneralItem> search(final VolleyCallBack callBack, String wordsToSearch, List<Type> types, String market, int limit, int offset) {
+        String endpoint = "https://api.spotify.com/v1/search?q=" + wordsToSearch + "&type=" + convertTypeListToQueryString(types) + "&market=" + market + "&limit=" + limit + "&offset" + offset;
+        List<GeneralItem> result = new ArrayList<>();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        JSONArray jsonArray = null;
+                        Gson gson = new Gson();
+                        for (Type t : types) {
+                            jsonArray = response.getJSONObject(t.toString() + "s").getJSONArray("items");
+                            List<JSONObject> jsonObjects = new ArrayList<>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonObjects.add(jsonArray.getJSONObject(i));
+                            }
+                            System.out.println("tHE PRE ERROR LENGTH IS " + jsonArray.length());
+                            if (jsonArray==null ||jsonArray.length()!=0){
+                            switch (t) {
+                                case album:
+                                    Album[] a = gson.fromJson(Arrays.toString(jsonObjects.toArray()), Album[].class);
+                                    for (Album album : a) {
+                                        result.add(album.toGeneralItem());
+                                    }
+                                    break;
+                                case track:
+                                    Song[] s = gson.fromJson(Arrays.toString(jsonObjects.toArray()), Song[].class);
+                                    for (Song song : s) {
+                                        result.add(song.toGeneralItem());
+                                    }
+                                    break;
+                                case playlist:
+                                    Playlist[] p = gson.fromJson(Arrays.toString(jsonObjects.toArray()), Playlist[].class);
+                                    for (Playlist playlist : p) {
+                                        result.add(playlist.toGeneralItem());
+                                    }
+                                    break;
+                                case artist:
+                                    Artist[] artists = gson.fromJson(Arrays.toString(jsonObjects.toArray()), Artist[].class);
+                                    for (Artist artist : artists) {
+                                        result.add(artist.toGeneralItem());
+                                    }
+                                    break;
+                            }}
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                        searchResults=result;
+                    callBack.onSuccess();
+
+                }, error -> {
+                    // TODO: Handle error
+                    System.out.println("error on error " + error.toString() + error.getMessage() + error.getLocalizedMessage());
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+
+        };
+        queue.add(jsonObjectRequest);
+        return result;
+    }
+List<GeneralItem> searchResults= new ArrayList<>();
+
+    public List<GeneralItem> getSearchResults() {
+        return searchResults;
+    }
+
+    private String convertTypeListToQueryString(List<Type> types) {
+        String result = "";
+        for (int i = 0; i < types.size(); i++) {
+            if (types.size() - 1 != i) {
+                result += types.get(i).toString() + "%2C";
+            } else {
+                result += types.get(i).toString();
+            }
+        }
+        return result;
+    }
+
 
     public void unfollowAPlaylist(Playlist playlist) {
         JSONObject payload = new JSONObject();

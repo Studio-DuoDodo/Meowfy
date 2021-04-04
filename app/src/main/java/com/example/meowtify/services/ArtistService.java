@@ -50,7 +50,8 @@ public class ArtistService {
                      try {
                         JSONObject object= response.getJSONObject("followers");
                         Artist artist = new Artist();
-                        int followers = object.optInt("total");
+                        //todo arreglar esta basura
+                        //int followers = object.optInt("total");
                         JSONArray jsonArray = response.optJSONArray("genres");
                        artist.setGenres(new ArrayList<genre>());
                         for (int n = 0; n < jsonArray.length(); n++) {
@@ -62,7 +63,7 @@ public class ArtistService {
                                 e.printStackTrace();
                             }
                         }
-                        artist.setFollowers(followers);
+                     //   artist.setFollowers(followers);
                        artist.setId(id);
                        String name= response.getString("name");
                        artist.setName(name);

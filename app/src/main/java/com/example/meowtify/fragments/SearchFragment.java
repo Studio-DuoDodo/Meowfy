@@ -21,6 +21,7 @@ import com.example.meowtify.adapters.AdapterSearchList;
 import com.example.meowtify.adapters.AdapterSearchRecentlyList;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
+import com.example.meowtify.services.PlaylistService;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class SearchFragment extends Fragment {
     public AdapterSearchRecentlyList adapterRecently;
     private TextView recentlyText;
     public List<GeneralItem> recentlySearchList;
-
+    PlaylistService playlistService;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -129,9 +130,14 @@ public class SearchFragment extends Fragment {
                 recentlySearch.setVisibility(View.INVISIBLE);
                 recentlyText.setVisibility(View.INVISIBLE);
                 search.setVisibility(View.VISIBLE);
-
+                 playlistService= new PlaylistService(v.getContext());
                 //Todo: hacer el search de entre albums artistas, songs, playlist, con esto como base charSequence.
+               playlistService.search(this::updateSearchByAPI,charSequence.toString(),new ArrayList<Type>(Arrays.asList(Type.artist,Type.album,Type.playlist,Type.track)),"ES",40,0);
             }
+            public void updateSearchByAPI() {
+                adapterSearch.setItems(playlistService.getSearchResults());
+            }
+
 
             @Override
             public void afterTextChanged(Editable editable) {

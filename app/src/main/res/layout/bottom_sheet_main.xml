@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheet"
+    android:layout_width="match_parent"
+     android:layout_height="70dp"
+    android:orientation="vertical"
+     app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_hideable="true"
+    android:background="@color/primaryLigth1"
+    app:behavior_peekHeight="64dp"
+    android:layout_marginTop="530dp">
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_launcher_background"
+    android:id="@+id/currentSongImage"
+    />
+
+
+    <TextView
+        android:id="@+id/songTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_toRightOf="@id/currentSongImage"
+        android:padding="16dp"
+        android:text="Song title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/songTitle"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="-22dp"
+        android:layout_toRightOf="@id/currentSongImage"
+        android:padding="20dp"
+        android:text="Subtitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <ImageButton
+        android:id="@+id/favActualSong"
+        android:layout_width="90dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_toEndOf="@id/songTitle"
+        android:layout_toRightOf="@id/songTitle"
+        android:src="@drawable/ic_baseline_favorite_24" />
+    <ImageButton
+        android:id="@+id/playSong"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_toEndOf="@id/favActualSong"
+        android:layout_toRightOf="@id/favActualSong"
+        android:src="@android:drawable/ic_media_play" />
+
+</RelativeLayout>

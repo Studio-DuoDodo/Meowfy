@@ -1,35 +1,73 @@
 package com.example.meowtify.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Artist {
-    public int followers;
+    public Followers followers;
     public List<genre> genres;
-    public String name;
-    public int popularity;
-    public String id;
-    public  Type type;
-   public int total=0;
+     public int popularity;
+     public int total=0;
     public  List<Image> images;
 
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("href")
+    private String href;
+
+    @SerializedName("id")
+    private String id;
+
+    @SerializedName("type")
+    private Type type;
+
+    @SerializedName("external_urls")
+    private ExternalUrls externalUrls;
+
+    @SerializedName("uri")
+    private String uri;
+
+    public String getName(){
+        return name;
+    }
+
+    public String getHref(){
+        return href;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public Type getType(){
+        return type;
+    }
+
+    public ExternalUrls getExternalUrls(){
+        return externalUrls;
+    }
+
+    public String getUri(){
+        return uri;
+    }
     public Artist() {
         images= new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
-    }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public int getFollowers() {
+    public Followers getFollowers() {
         return followers;
     }
 
-    public void setFollowers(int followers) {
+    public void setFollowers(Followers followers) {
         this.followers = followers;
     }
 
@@ -41,9 +79,6 @@ public class Artist {
         this.genres = genres;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -61,9 +96,6 @@ public void addGenre(genre genre){
         this.genres.add(genre);
 }
 
-    public Type getType() {
-        return type;
-    }
 
     public void setType(Type type) {
         this.type = type;
@@ -102,8 +134,13 @@ public void addGenre(genre genre){
     }
 
     public  GeneralItem  toGeneralItem(){
-        GeneralItem item= new GeneralItem(id, name, type, images.get(0).url, "songs "+total, null);
+        GeneralItem item;
+        if (images!=null && images.size()>0)
+         item= new GeneralItem(id, name, type, images.get(0).url, "songs "+total, null);
+        else{
+            item= new GeneralItem(id, name, type, "https://consequenceofsound.net/wp-content/uploads/2015/10/screen-shot-2015-10-17-at-6-57-13-pm.png", "songs "+total, null);
 
+        }
 
         System.out.println("GeneralItem generado: " + item.toString());
         return item;
