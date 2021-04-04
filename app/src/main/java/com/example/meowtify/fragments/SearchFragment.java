@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment {
     AdapterSearchList adapterSearch;
     public AdapterSearchRecentlyList adapterRecently;
     private TextView recentlyText;
-    public List<GeneralItem> recentlySearchList;
+    public static List<GeneralItem> recentlySearchList= new ArrayList<>();
     PlaylistService playlistService;
     public SearchFragment() {
         // Required empty public constructor
@@ -100,12 +100,7 @@ public class SearchFragment extends Fragment {
                 new GeneralItem("id3", "album", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist11", null),
                 new GeneralItem("id4", "track", Type.track, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist12", null)
         ));
-        recentlySearchList = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("id5", "playlist", Type.playlist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "creator12", null),
-                new GeneralItem("id6", "artist", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs "+1, null),
-                new GeneralItem("id7", "album", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist111", null),
-                new GeneralItem("id8", "track", Type.track, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist12", null)
-        ));
+
 
         adapterSearch = new AdapterSearchList(searchList, getContext(), this);
         search.setAdapter(adapterSearch);
@@ -131,8 +126,7 @@ public class SearchFragment extends Fragment {
                 recentlyText.setVisibility(View.INVISIBLE);
                 search.setVisibility(View.VISIBLE);
                  playlistService= new PlaylistService(v.getContext());
-                //Todo: hacer el search de entre albums artistas, songs, playlist, con esto como base charSequence.
-               playlistService.search(this::updateSearchByAPI,charSequence.toString(),new ArrayList<Type>(Arrays.asList(Type.artist,Type.album,Type.playlist,Type.track)),"ES",40,0);
+                 playlistService.search(this::updateSearchByAPI,charSequence.toString(),new ArrayList<Type>(Arrays.asList(Type.artist,Type.album,Type.playlist,Type.track)),"ES",40,0);
             }
             public void updateSearchByAPI() {
                 adapterSearch.setItems(playlistService.getSearchResults());

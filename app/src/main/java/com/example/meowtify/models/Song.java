@@ -2,9 +2,11 @@ package com.example.meowtify.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class Song {
     public String getIdSong() {
@@ -49,6 +51,21 @@ public int popularity;
 
     }
 
+    public Song(String name, String preview_url, String id) {
+        this.name = name;
+        this.preview_url = preview_url;
+        this.id = id;
+    }
+public  Song(){
+    Random random= new Random();
+    artists= new ArrayList<>();
+
+        artists.add(new Artist( ));
+        name="Test Song" + random.nextInt()*30;
+        id="" + random.nextInt(100000);
+
+
+}
     public String getId() {
         return id;
     }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
 import com.example.meowtify.Utilitis;
+import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -90,6 +91,7 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    SearchFragment.recentlySearchList.add(generalItem);
                     Utilitis.navigationToAAP(generalItem, context);
                 }
             });

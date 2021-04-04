@@ -56,6 +56,7 @@ public class Artist {
     }
     public Artist() {
         images= new ArrayList<>();
+        name= "Ryuk";
     }
 
 

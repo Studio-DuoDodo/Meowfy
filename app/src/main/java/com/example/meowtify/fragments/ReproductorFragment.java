@@ -1,8 +1,14 @@
 package com.example.meowtify.fragments;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
@@ -18,13 +24,17 @@ import androidx.fragment.app.Fragment;
 import com.example.meowtify.R;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.services.AlbumService;
+import com.example.meowtify.services.notifications.CreateNotification;
 import com.example.meowtify.services.MediaPlayerService;
+import com.example.meowtify.services.notifications.OnClearFromRecentService;
+import com.example.meowtify.services.notifications.Playable;
 import com.example.meowtify.services.SongService;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
@@ -34,7 +44,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
  * Use the {@link ReproductorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReproductorFragment extends Fragment {
+public class ReproductorFragment extends Fragment implements Playable {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -47,13 +57,7 @@ public class ReproductorFragment extends Fragment {
     Intent mediaPlayerServiceIntent;
     MediaPlayerService mediaPlayerService;
     SongService songService;
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        Intent mIntent = new Intent(  getContext(), MediaPlayerService.class);
-        getActivity().bindService(mIntent, mConnection, BIND_AUTO_CREATE);
-    };
+    AlbumService albumService;
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -68,6 +72,32 @@ public class ReproductorFragment extends Fragment {
             mBounded = true;
             MediaPlayerService.LocalBinder mLocalBinder = (MediaPlayerService.LocalBinder) service;
             mediaPlayerService = mLocalBinder.getServerInstance();
+        }
+    };
+    NotificationManager notificationManager;
+    List<Song> tracks;
+    int position = 0;
+    boolean isPlaying = false;
+    View v;
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getExtras().getString("actionname");
+            switch (action) {
+                case CreateNotification.ACTION_PREVIUOS:
+                    onTrackPrevious();
+                    break;
+                case CreateNotification.ACTION_PLAY:
+                    if (isPlaying) {
+                        onTrackPause();
+                    } else {
+                        onTrackPlay();
+                    }
+                    break;
+                case CreateNotification.ACTION_NEXT:
+                    onTrackNext();
+                    break;
+            }
         }
     };
     // TODO: Rename and change types of parameters
@@ -96,6 +126,26 @@ public class ReproductorFragment extends Fragment {
         return fragment;
     }
 
+    private void createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CreateNotification.CHANNEL_ID,
+                    "Meowfy", NotificationManager.IMPORTANCE_LOW);
+
+            notificationManager = getActivity().getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Intent mIntent = new Intent(getContext(), MediaPlayerService.class);
+        getActivity().bindService(mIntent, mConnection, BIND_AUTO_CREATE);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,8 +172,14 @@ public class ReproductorFragment extends Fragment {
         backwardButton = v.findViewById(R.id.prevButton);
         songImage = v.findViewById(R.id.currentSongImage);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
-        v.getContext().bindService(mediaPlayerServiceIntent, mConnection, BIND_AUTO_CREATE);
-
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPlaying) {
+                    onTrackPause();
+                } else onTrackPlay();
+            }
+        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -136,58 +192,124 @@ public class ReproductorFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded)
+                if (mBounded&&tracks!=null) {
                     System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
-                 mediaPlayerService.changeProgress(progress );
+                    mediaPlayerService.changeProgress(progress);
+
+                    onTrackPlay();
+                }
 
             }
         });
-        /* if(!isServiceRunning(MediaPlayerService.class))
-       // {
-              // }
-    */
-        v.getContext().startService(mediaPlayerServiceIntent);
 
+        this.v = v;
         return v;
     }
 
     private void updateSongByAPI() {
+        v.getContext().startService(mediaPlayerServiceIntent);
+        v.getContext().bindService(mediaPlayerServiceIntent, mConnection, BIND_AUTO_CREATE);
+
         Song s = songService.getLastSearchedSong();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel();
+            v.getContext().registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
+            v.getContext().startService(new Intent(getContext(), OnClearFromRecentService.class));
+        }
         if (mBounded)
-        seekBar.setMax(30000);
+            seekBar.setMax(30000);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.scheduleWithFixedDelay(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
-            }
-        }, 1, 1, TimeUnit.MICROSECONDS);
-        seekBar.setProgress(0);
+
+
+        //seekBar.setProgress(0);
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
         if (mBounded)
-        mediaPlayerService.changeSong(s);
+            mediaPlayerService.changeSong(s);
+        albumService = new AlbumService(v.getContext());
+        albumService.getAlbumByRef(() -> {
+            tracks = albumService.getLastAlbum().getSongs();
+            onTrackPlay();
+          /*  service.scheduleWithFixedDelay(new Runnable() {
+                @Override
+                public void run() {
+                    do {
+                        seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
+                        System.out.println("progress changed to" + seekBar.getProgress());
+
+                    } while (seekBar.getProgress() != seekBar.getMax());
+                }
+            }, 1, 1, TimeUnit.MILLISECONDS);
+*/
+        }, s.getAlbum().getId());
+
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mBounded) {
-             getContext().unbindService(mConnection);
-            mBounded = false;
+        //  if (mBounded) {
+        //       getContext().unbindService(mConnection);
+        //    mBounded = false;
 
+        //   }
+    }
+
+    @Override
+    public void onTrackPrevious() {
+
+        position--;
+        CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+        //title.setText(tracks.get(position).getName());
+
+    }
+
+    @Override
+    public void onTrackPlay() {
+
+        CreateNotification.createNotification(getContext(), tracks.get(position),
+                android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+        playButton.setImageResource(android.R.drawable.ic_media_pause);
+        if (mBounded)
+            mediaPlayerService.resume();
+        //title.setText(tracks.get(position).getTitle());
+        isPlaying = true;
+
+    }
+
+    @Override
+    public void onTrackPause() {
+
+        CreateNotification.createNotification(getContext(), tracks.get(position),
+                android.R.drawable.ic_media_play, position, tracks.size() - 1);
+        if (mBounded)
+            mediaPlayerService.pause();
+        playButton.setImageResource(android.R.drawable.ic_media_play);
+        //   title.setText(tracks.get(position).getTitle());
+        isPlaying = false;
+
+    }
+
+    @Override
+    public void onTrackNext() {
+        position++;
+        CreateNotification.createNotification(getContext(), tracks.get(position),
+                android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+        //  title.setText(tracks.get(position).getTitle());
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.cancelAll();
         }
+*/
+        //  getView().getContext().unregisterReceiver(broadcastReceiver);
     }
 
     ;
-   /* private boolean isServiceRunning(Class<?> serviceClass) {
-        @SuppressLint("ServiceCast") ActivityManager manager = (ActivityManager) getSystemService( getContext());
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }*/
+
+
 }

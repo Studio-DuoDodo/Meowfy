@@ -12,6 +12,9 @@ import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.models.GeneralItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utilitis {
     public static void navigationToAAP(GeneralItem generalItem, Context context) {
         Bundle bundle = new Bundle();
