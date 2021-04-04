@@ -91,8 +91,10 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (SearchFragment.searched)
                     SearchFragment.recentlySearchList.add(generalItem);
                     Utilitis.navigationToAAP(generalItem, context);
+                    SearchFragment.searched=false;
                 }
             });
         }

@@ -73,7 +73,7 @@ public class CreateNotification {
                    // .setContentText(song.getAlbum().getArtistNames())
                     .setContentText(song.getArtists().toString())
                     .setLargeIcon(icon)
-                    .setOnlyAlertOnce(true)//show notification for only first time
+                    .setOnlyAlertOnce(true)
                     .setShowWhen(false)
                     .addAction(drw_previous, "Previous", pendingIntentPrevious)
                     .addAction(playbutton, "Play", pendingIntentPlay)
