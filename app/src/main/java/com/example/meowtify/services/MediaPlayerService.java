@@ -1,10 +1,12 @@
 package com.example.meowtify.services;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.view.View;
 
 import com.example.meowtify.models.Song;
 
@@ -60,7 +62,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         mediaPlayer.start();
         System.out.println("started playing");
     }
-
+View v;
     public void start(String url) {
         if (mediaPlayer.isPlaying()) mediaPlayer.stop();
         mediaPlayer.release();
@@ -107,8 +109,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     public void onCompletion(MediaPlayer _mediaPlayer) {
-        stopSelf();
-    }
+         }
 
     public class LocalBinder extends Binder {
         public MediaPlayerService getServerInstance() {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -25,11 +26,11 @@ import com.example.meowtify.R;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.services.AlbumService;
-import com.example.meowtify.services.notifications.CreateNotification;
 import com.example.meowtify.services.MediaPlayerService;
+import com.example.meowtify.services.SongService;
+import com.example.meowtify.services.notifications.CreateNotification;
 import com.example.meowtify.services.notifications.OnClearFromRecentService;
 import com.example.meowtify.services.notifications.Playable;
-import com.example.meowtify.services.SongService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,7 +45,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
  * Use the {@link ReproductorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReproductorFragment extends Fragment implements Playable {
+public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -180,6 +181,18 @@ public class ReproductorFragment extends Fragment implements Playable {
                 } else onTrackPlay();
             }
         });
+        backwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTrackPrevious();
+            }
+        });
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTrackNext();
+            }
+        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -192,7 +205,7 @@ public class ReproductorFragment extends Fragment implements Playable {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded&&tracks!=null) {
+                if (mBounded && tracks != null) {
                     System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
                     mediaPlayerService.changeProgress(progress);
 
@@ -258,10 +271,14 @@ public class ReproductorFragment extends Fragment implements Playable {
     @Override
     public void onTrackPrevious() {
 
-        position--;
-        CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
         //title.setText(tracks.get(position).getName());
-
+        if (position + 1 > 0) {
+            position--;
+            mediaPlayerService.changeSong(tracks.get(position));
+            CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+        } else {
+            Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -292,11 +309,17 @@ public class ReproductorFragment extends Fragment implements Playable {
 
     @Override
     public void onTrackNext() {
-        position++;
-        CreateNotification.createNotification(getContext(), tracks.get(position),
-                android.R.drawable.ic_media_pause, position, tracks.size() - 1);
-        //  title.setText(tracks.get(position).getTitle());
 
+
+        //  title.setText(tracks.get(position).getTitle());
+        if (position + 1 < tracks.size()) {
+            position++;
+            CreateNotification.createNotification(getContext(), tracks.get(position),
+                    android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+            mediaPlayerService.changeSong(tracks.get(position));
+        } else {
+            Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -307,6 +330,11 @@ public class ReproductorFragment extends Fragment implements Playable {
         }
 */
         //  getView().getContext().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        onTrackNext();
     }
 
     ;
