@@ -2,6 +2,7 @@ package com.example.meowtify.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.MenuItem;
@@ -11,17 +12,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
 import com.example.meowtify.fragments.MainFragment;
 import com.example.meowtify.fragments.OnFragmentChanged;
 import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.SongService;
@@ -137,6 +141,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
                 }
                 System.out.println("null");
                 return false;
+            }
+        });
+        relativeLayoutBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                  Utilitis.navigationToAAP(ReproductorFragment.songService.lastSearchedSong.toGeneralItem(),v.getContext());
             }
         });
 

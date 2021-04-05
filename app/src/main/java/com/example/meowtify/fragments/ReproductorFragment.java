@@ -59,10 +59,11 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     boolean mBounded;
     Intent mediaPlayerServiceIntent;
     MediaPlayerService mediaPlayerService;
-    SongService songService;
+   public static SongService songService;
     AlbumService albumService;
     NotificationManager notificationManager;
-    List<Song> tracks;
+    public  static  GeneralItem song;
+  public static   List<Song> tracks;
     int position = 0;
     boolean isPlaying = false;
     View v;

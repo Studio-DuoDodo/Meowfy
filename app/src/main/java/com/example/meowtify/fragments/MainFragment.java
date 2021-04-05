@@ -133,6 +133,7 @@ public class MainFragment extends Fragment {
         playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"7xsdr3YuARtJxqssk1m3Kq");
         playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"3ForlWAUJFtzxezcS47JmB");
         playlistService.getAPlayListByRef(this::IntroduceDevelopersPlaylist,"6dJMlk3nncKD4y0wzuyhWr");
+
  return v;
     }
 
