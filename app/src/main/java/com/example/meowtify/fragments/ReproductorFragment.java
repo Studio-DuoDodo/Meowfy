@@ -59,7 +59,12 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     MediaPlayerService mediaPlayerService;
     SongService songService;
     AlbumService albumService;
-    ServiceConnection mConnection = new ServiceConnection() {
+    NotificationManager notificationManager;
+    List<Song> tracks;
+    int position = 0;
+    boolean isPlaying = false;
+    View v;
+     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Toast.makeText(getContext(), "Service is disconnected", Toast.LENGTH_LONG).show();
@@ -75,11 +80,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             mediaPlayerService = mLocalBinder.getServerInstance();
         }
     };
-    NotificationManager notificationManager;
-    List<Song> tracks;
-    int position = 0;
-    boolean isPlaying = false;
-    View v;
+
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -272,7 +273,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     public void onTrackPrevious() {
 
         //title.setText(tracks.get(position).getName());
-        if (position + 1 > 0) {
+        if (position - 1 > 0) {
             position--;
             mediaPlayerService.changeSong(tracks.get(position));
             CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);

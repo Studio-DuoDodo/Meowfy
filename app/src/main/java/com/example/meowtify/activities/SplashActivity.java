@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private SharedPreferences.Editor editor;
     private SharedPreferences msharedPreferences;
-
+private ProgressBar loading;
     private RequestQueue queue;
     Fragment currentFragment;
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
@@ -45,12 +46,14 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
-        login = (Button) findViewById(R.id.buttonLogin);
-
+        login =  findViewById(R.id.buttonLogin);
+        loading= findViewById(R.id.loading);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loading.setVisibility(View.VISIBLE);
                 authenticateSpotify();
+
 
                 msharedPreferences = v.getContext().getSharedPreferences("SPOTIFY", 0);
                 queue = Volley.newRequestQueue(v.getContext());
@@ -78,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         Intent newintent = new Intent(SplashActivity.this, MainActivity.class);
-
+        loading.setVisibility(View.INVISIBLE);
         startActivity(newintent);
     }@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
