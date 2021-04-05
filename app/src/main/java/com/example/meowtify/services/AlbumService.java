@@ -163,8 +163,7 @@ public class AlbumService {
                     getSongsOfAnAlbum(callBack, p.getId(), "ES", 10, 0);
 
                 }, error -> {
-                    // TODO: Handle error
-                    System.out.println(error.getMessage());
+                     System.out.println(error.getMessage());
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

@@ -12,10 +12,7 @@ import com.example.meowtify.Utilitis;
 import com.example.meowtify.VolleyCallBack;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Artist;
-import com.example.meowtify.models.Image;
 import com.example.meowtify.models.Song;
-import com.example.meowtify.models.Type;
-import com.example.meowtify.models.genre;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,8 +30,13 @@ public class ArtistService {
     public Artist lastSearchedArtist;
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Album>  albumsLastArtist = new ArrayList<>();
+    private ArrayList<Song> topSongsLastArtist = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+
+    public ArrayList<Song> getTopSongsLastArtist() {
+        return topSongsLastArtist;
+    }
 
     public List<Artist> getRelatedArtist() {
         return relatedArtist;
@@ -158,7 +160,36 @@ public class ArtistService {
 
         return albumsLastArtist;
     }
+    public List<Song> getTopSongsOfAnArtist(final VolleyCallBack callBack, String id, String market ) {
+        String endpoint = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=" + market ;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    Gson gson = new Gson();
+                    JSONArray jsonArray = response.optJSONArray("tracks");
+                    for (int n = 0; n < jsonArray.length(); n++) {
+                        try {
+                            JSONObject object = jsonArray.getJSONObject(n);
 
+                            Song song = gson.fromJson(object.toString(), Song.class);
+                            System.out.println("TOP SONG" + song.toString());
+                            topSongsLastArtist.add(song);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    callBack.onSuccess();
+
+                }, error -> {
+                    System.out.println(error.getMessage());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+              return Utilitis.getHeaders( sharedPreferences.getString("token", ""));
+            }
+        };
+        queue.add(jsonObjectRequest);
+        return topSongsLastArtist;
+    }
 
     private JSONObject preparePutPayload(Song song) {
         JSONArray idarray = new JSONArray();
