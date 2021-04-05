@@ -13,7 +13,7 @@ import com.example.meowtify.models.Song;
 import java.io.IOException;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener {
-    MediaPlayer mediaPlayer;
+     static  MediaPlayer mediaPlayer;
     Song currentSong;
     IBinder mBinder = new LocalBinder();
 
@@ -43,9 +43,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         mediaPlayer.release();
     }
+ public static  boolean isPlaying(){
+        return mediaPlayer.isPlaying();
+ }
 
-
-    public void pause() {
+    public static void pause() {
         mediaPlayer.pause();
 
     }
@@ -95,7 +97,7 @@ View v;
         mediaPlayer.start();
     }
 
-    public void resume() {
+    public static void resume() {
         if (!mediaPlayer.isPlaying())
             mediaPlayer.start();
     }

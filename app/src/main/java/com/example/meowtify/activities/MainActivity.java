@@ -4,10 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,38 +26,44 @@ import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
-import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.services.ArtistService;
+import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.SongService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChanged {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
     private static final String REDIRECT_URI = "http://com.example.meowtify/callback";
-    public static boolean inReproductorForFirstTime=false;
     // private static final String REDIRECT_URI = " com.example.meowtify://callback";
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-playback-position,user-read-private,user-read-email,playlist-read-private,user-library-read,user-library-modify,user-top-read,playlist-read-collaborative,ugc-image-upload,user-follow-read,user-follow-modify,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,user-read-recently-played";
-   public static Fragment currentFragment;
+    public static boolean inReproductorForFirstTime = false;
+    public static Fragment currentFragment;
+    public static OnFragmentChanged onFragmentChanged;
     BottomNavigationView navigationMenu;
+    ImageView bottomSheetImage;
+    ReproductorFragment viewer = null;
     private SharedPreferences.Editor editor;
     private TextView userView;
     private TextView songView;
+
+    private TextView songTitle;
     private RelativeLayout relativeLayoutBottomSheet;
     private Button addBtn;
+    private ImageButton playButton;
+    private ImageButton favButton;
     private Song song;
     private SongService songService;
     private ArtistService artistService;
     private ArrayList<Song> recentlyPlayedTracks;
-    public static  OnFragmentChanged onFragmentChanged;
     private View.OnClickListener addListener = v -> {
         songService.addSongToLibrary(this.song);
         if (recentlyPlayedTracks.size() > 0) {
@@ -99,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             song = recentlyPlayedTracks.get(0);
         }
     }
-    ReproductorFragment viewer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,29 +119,32 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle b = getIntent().getExtras();
-        relativeLayoutBottomSheet= findViewById(R.id.bottomSheet);
-        onFragmentChanged=this;
+        relativeLayoutBottomSheet = findViewById(R.id.bottomSheet);
+        songTitle = findViewById(R.id.songTitle);
+        playButton = findViewById(R.id.playSong);
+        bottomSheetImage = findViewById(R.id.currentSongImage);
+        onFragmentChanged = this;
 
         if (savedInstanceState == null) {
-             currentFragment = new MainFragment();
-            changeFragment(currentFragment,"Home");
+            currentFragment = new MainFragment();
+            changeFragment(currentFragment, "Home");
         }
         apiStuff();
         navigationMenu = findViewById(R.id.bottomNavigation);
         navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                 switch (item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.home:
-                        changeFragment(new MainFragment(),"Home");
+                        changeFragment(new MainFragment(), "Home");
                         System.out.println("home");
                         return true;
                     case R.id.sheare:
-                        changeFragment(new SearchFragment(),"Share");
+                        changeFragment(new SearchFragment(), "Share");
                         System.out.println("share");
                         return true;
                     case R.id.library:
-                        changeFragment(new YourLibraryFragment(),"Library");
+                        changeFragment(new YourLibraryFragment(), "Library");
                         System.out.println("library");
                         return true;
                 }
@@ -147,10 +156,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                  Utilitis.navigationToAAP(ReproductorFragment.songService.lastSearchedSong.toGeneralItem(),v.getContext());
+                Utilitis.navigationToAAP(ReproductorFragment.songService.lastSearchedSong.toGeneralItem(), v.getContext());
+
             }
         });
+    playButton.setOnClickListener(new View.OnClickListener() {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onClick(View v) {
+        if (MediaPlayerService.isPlaying()){
+            MediaPlayerService.pause();
+            playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_play));
 
+        }else {
+        MediaPlayerService.resume();
+            playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
+
+
+        }}
+});
         /*songService = new SongService(getApplicationContext());
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
@@ -164,8 +188,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     }
 
 
-
-
     private Fragment getVisibleFragment() {
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
@@ -175,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         }
         return null;
     }
+
     private void apiStuff() {
         artistService = new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
@@ -188,15 +211,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         //    getArtists();
     }
 
-    private void changeFragment(Fragment currentFragment,String tag) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,tag).commit();
-        MainActivity.currentFragment =currentFragment;
-       if (tag!=null)
-        onFragmentChanged.OnFragmentChanged();
+    private void changeFragment(Fragment currentFragment, String tag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment, tag).commit();
+        MainActivity.currentFragment = currentFragment;
+        if (tag != null)
+            onFragmentChanged.OnFragmentChanged();
 
     }
-
-
 
 
     private void startMainActivity() {
@@ -228,16 +249,27 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void OnFragmentChanged() {
         System.out.println("reproductorforfirsttime" + inReproductorForFirstTime);
-        if (currentFragment.getTag().equals("Reproductor")||!inReproductorForFirstTime) {
+        if (currentFragment.getTag().equals("Reproductor") || !inReproductorForFirstTime) {
             relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
 
-        }else if (inReproductorForFirstTime){
+        } else if (inReproductorForFirstTime) {
+            Song s = ReproductorFragment.songService.lastSearchedSong;
+            songTitle.setText(s.getName());
+            Picasso.with(getApplicationContext()).load(s.getAlbum().getImages().get(0).url).into(bottomSheetImage);
 
             relativeLayoutBottomSheet.setVisibility(View.VISIBLE);
+            if (MediaPlayerService.isPlaying()){
+                playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
 
+            }else {
+                playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_play));
+
+
+            }
         }
 
     }

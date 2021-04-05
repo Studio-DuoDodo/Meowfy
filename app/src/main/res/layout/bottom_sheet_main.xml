@@ -9,13 +9,16 @@
     android:background="@color/primaryLigth1"
     app:behavior_peekHeight="64dp"
     android:layout_marginTop="530dp"
-    android:visibility="invisible">
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_launcher_background"
-    android:id="@+id/currentSongImage"
-    />
+    android:visibility="visible">
+
+    <ImageView
+        android:id="@+id/currentSongImage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="TODO"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher_background" />
 
 
     <TextView
@@ -26,6 +29,7 @@
         android:layout_toRightOf="@id/currentSongImage"
         android:padding="16dp"
         android:text="Song title"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
@@ -42,10 +46,10 @@
 
     <ImageButton
         android:id="@+id/favActualSong"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_toEndOf="@id/songTitle"
         android:layout_toRightOf="@id/songTitle"
         android:src="@drawable/ic_baseline_favorite_24" />
