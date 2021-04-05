@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.User;
 import com.example.meowtify.services.PlaylistService;
 import com.example.meowtify.R;
@@ -168,6 +169,6 @@ public class PlaylistFragment extends Fragment {
              adapterSongs.setItems(generalItemList);
 
      },playlists.get(0).getId());
-
+        MainActivity.inReproductorForFirstTime=true;
     }
 }

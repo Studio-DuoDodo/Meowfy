@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.meowtify.R;
+import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.services.AlbumService;
@@ -36,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
@@ -206,7 +208,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded && tracks != null) {
+                if (mBounded && tracks != null&&fromUser) {
                     System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
                     mediaPlayerService.changeProgress(progress);
 
@@ -232,8 +234,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         }
         if (mBounded)
             seekBar.setMax(30000);
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-
+        MainActivity.inReproductorForFirstTime=true;
 
         //seekBar.setProgress(0);
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
@@ -243,22 +244,26 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         albumService.getAlbumByRef(() -> {
             tracks = albumService.getLastAlbum().getSongs();
             onTrackPlay();
-          /*  service.scheduleWithFixedDelay(new Runnable() {
-                @Override
-                public void run() {
-                    do {
-                        seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
-                        System.out.println("progress changed to" + seekBar.getProgress());
 
-                    } while (seekBar.getProgress() != seekBar.getMax());
-                }
-            }, 1, 1, TimeUnit.MILLISECONDS);
-*/
         }, s.getAlbum().getId());
 
 
     }
+public void startSeekBar(){
+    ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 
+    service.scheduleWithFixedDelay(new Runnable() {
+        @Override
+        public void run() {
+
+            seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
+            System.out.println("progress changed to" + seekBar.getProgress());
+
+
+        }
+    }, 1, 1, TimeUnit.MILLISECONDS);
+
+}
     @Override
     public void onStop() {
         super.onStop();
@@ -271,11 +276,14 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
     @Override
     public void onTrackPrevious() {
+        startSeekBar();
 
         //title.setText(tracks.get(position).getName());
         if (position - 1 > 0) {
             position--;
             mediaPlayerService.changeSong(tracks.get(position));
+            startSeekBar();
+
             CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
@@ -284,7 +292,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
     @Override
     public void onTrackPlay() {
-
         CreateNotification.createNotification(getContext(), tracks.get(position),
                 android.R.drawable.ic_media_pause, position, tracks.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
@@ -292,6 +299,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             mediaPlayerService.resume();
         //title.setText(tracks.get(position).getTitle());
         isPlaying = true;
+        startSeekBar();
+
 
     }
 
@@ -318,6 +327,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             CreateNotification.createNotification(getContext(), tracks.get(position),
                     android.R.drawable.ic_media_pause, position, tracks.size() - 1);
             mediaPlayerService.changeSong(tracks.get(position));
+            startSeekBar();
+
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();
         }
