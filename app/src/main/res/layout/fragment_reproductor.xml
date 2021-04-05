@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="20dp"
+    android:layout_marginEnd="20dp"
     tools:context=".fragments.ReproductorFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -120,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:gravity="center_vertical"
@@ -130,7 +132,7 @@
 
                     <TextView
                         android:id="@+id/title"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
                         android:ellipsize="end"
@@ -152,9 +154,24 @@
                         android:singleLine="true"
                         android:text="subtitle"
                         android:textColor="@color/browser_actions_bg_grey"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
 
-                </LinearLayout>
+                        android:layout_below="@id/title"/>
+                    <ImageButton
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/favButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="TODO"
+                        android:scaleType="fitEnd"
+                        android:tintMode="src_in"
+                        android:layout_toRightOf="@id/title"
+                        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="fill_parent"
@@ -166,34 +183,32 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="54"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp">
+                    android:layout_weight="3333"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/favButton"
-                        android:layout_width="60dp"
-                        android:layout_height="48dp"
+                        android:id="@+id/shuffleButton"
+                        android:layout_width="43dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_weight="1"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginLeft="30dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="TODO"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitStart"
                         android:tintMode="src_in"
-                        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+                        app:srcCompat="@drawable/ic_shuffle_foreground" />
+
+
 
                     <ImageButton
                         android:id="@+id/prevButton"
-                        android:layout_width="150dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="32dp"
                         android:layout_marginLeft="32dp"
-                        android:layout_weight="7"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="TODO"
                         android:scaleType="fitCenter"
@@ -202,12 +217,11 @@
 
                     <ImageButton
                         android:id="@+id/playButton"
-                        android:layout_width="100dp"
+                        android:layout_width="50dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_weight="1"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="TODO"
                         android:scaleType="fitCenter"
@@ -218,12 +232,11 @@
 
                     <ImageButton
                         android:id="@+id/nextButton"
-                        android:layout_width="150dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="32dp"
                         android:layout_marginRight="32dp"
-                        android:layout_weight="7"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="TODO"
                         android:scaleType="fitCenter"
@@ -232,12 +245,11 @@
 
                     <ImageButton
                         android:id="@+id/repeatButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="32dp"
                         android:layout_marginRight="32dp"
-                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="TODO"
                         android:scaleType="fitCenter"
