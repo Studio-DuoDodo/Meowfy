@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.meowtify.R;
+import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.services.AlbumService;
@@ -233,7 +234,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         if (mBounded)
             seekBar.setMax(30000);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-
+        MainActivity.inReproductorForFirstTime=true;
 
         //seekBar.setProgress(0);
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);

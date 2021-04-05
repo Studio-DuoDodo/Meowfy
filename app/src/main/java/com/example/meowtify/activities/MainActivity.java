@@ -3,47 +3,72 @@ package com.example.meowtify.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.R;
-import com.example.meowtify.services.SongService;
 import com.example.meowtify.fragments.MainFragment;
+import com.example.meowtify.fragments.OnFragmentChanged;
+import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.services.ArtistService;
+import com.example.meowtify.services.SongService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnFragmentChanged {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
     private static final String REDIRECT_URI = "http://com.example.meowtify/callback";
+    public static boolean inReproductorForFirstTime=false;
     // private static final String REDIRECT_URI = " com.example.meowtify://callback";
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-playback-position,user-read-private,user-read-email,playlist-read-private,user-library-read,user-library-modify,user-top-read,playlist-read-collaborative,ugc-image-upload,user-follow-read,user-follow-modify,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,user-read-recently-played";
-    Fragment currentFragment;
+   public static Fragment currentFragment;
     BottomNavigationView navigationMenu;
     private SharedPreferences.Editor editor;
-      private TextView userView;
+    private TextView userView;
     private TextView songView;
+    private RelativeLayout relativeLayoutBottomSheet;
     private Button addBtn;
     private Song song;
     private SongService songService;
     private ArtistService artistService;
     private ArrayList<Song> recentlyPlayedTracks;
+    public static  OnFragmentChanged onFragmentChanged;
+    private View.OnClickListener addListener = v -> {
+        songService.addSongToLibrary(this.song);
+        if (recentlyPlayedTracks.size() > 0) {
+            recentlyPlayedTracks.remove(0);
+        }
+        updateSong();
+        //  getArtists();
+        //   songService.getFeaturedPlayList(() -> {
+        //     List<Playlist> p =  songService.getFeaturedPlayList(() -> {
 
+        //   });
+        // songService.getAPlayListByRef(() -> {
+        // },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
+        // });
+        //pl.getUserPlayLists(()->{},10,0);
+    };
 
     private void getTracks() {
         songService.getRecentlyPlayedTracks(() -> {
@@ -51,14 +76,16 @@ public class MainActivity extends AppCompatActivity {
             updateSong();
         });
     }
+
     private void getArtists() {
-        artistService.getArtistByid("0TnOYISbd1XYRBk9myaseg",() -> {
+        artistService.getArtistByid("0TnOYISbd1XYRBk9myaseg", () -> {
             ArrayList<Artist> artists = artistService.getArtists();
-            for (Artist s:artists) {
+            for (Artist s : artists) {
                 System.out.println(s.toString());
             }
         });
     }
+
     private void updateSong() {
         for (Song s : recentlyPlayedTracks) {
             System.out.println(s.toString());
@@ -68,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
             song = recentlyPlayedTracks.get(0);
         }
     }
+    ReproductorFragment viewer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
@@ -81,28 +108,30 @@ public class MainActivity extends AppCompatActivity {
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-Bundle b= getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
+        relativeLayoutBottomSheet= findViewById(R.id.bottomSheet);
+        onFragmentChanged=this;
 
         if (savedInstanceState == null) {
-            currentFragment = new MainFragment();
-            changeFragment(currentFragment);
+             currentFragment = new MainFragment();
+            changeFragment(currentFragment,"Home");
         }
-apiStuff();
+        apiStuff();
         navigationMenu = findViewById(R.id.bottomNavigation);
         navigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
+                 switch (item.getItemId()) {
                     case R.id.home:
-                        changeFragment(new MainFragment());
+                        changeFragment(new MainFragment(),"Home");
                         System.out.println("home");
                         return true;
                     case R.id.sheare:
-                        changeFragment(new SearchFragment());
-                        System.out.println("sheare");
+                        changeFragment(new SearchFragment(),"Share");
+                        System.out.println("share");
                         return true;
                     case R.id.library:
-                        changeFragment(new YourLibraryFragment());
+                        changeFragment(new YourLibraryFragment(),"Library");
                         System.out.println("library");
                         return true;
                 }
@@ -123,22 +152,40 @@ apiStuff();
 
     }
 
+
+
+
+    private Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
+        }
+        return null;
+    }
     private void apiStuff() {
-        artistService= new ArtistService(getApplicationContext());
+        artistService = new ArtistService(getApplicationContext());
         songService = new SongService(getApplicationContext());
-       // userView = (TextView) findViewById(R.id.user);
-     //   songView = (TextView) findViewById(R.id.song);
-      //  addBtn = (Button) findViewById(R.id.add);
+        // userView = (TextView) findViewById(R.id.user);
+        //   songView = (TextView) findViewById(R.id.song);
+        //  addBtn = (Button) findViewById(R.id.add);
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-    //    userView.setText(sharedPreferences.getString("userid", "No User"));
+        //    userView.setText(sharedPreferences.getString("userid", "No User"));
         //      getTracks();
-       // addBtn.setOnClickListener(addListener);
-    //    getArtists();
+        // addBtn.setOnClickListener(addListener);
+        //    getArtists();
     }
 
-    private void changeFragment(Fragment currentFragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+    private void changeFragment(Fragment currentFragment,String tag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,tag).commit();
+        MainActivity.currentFragment =currentFragment;
+       if (tag!=null)
+        onFragmentChanged.OnFragmentChanged();
+
     }
+
+
 
 
     private void startMainActivity() {
@@ -169,20 +216,18 @@ apiStuff();
             }
         }
     }
-    private View.OnClickListener addListener = v -> {
-        songService.addSongToLibrary(this.song);
-        if (recentlyPlayedTracks.size() > 0) {
-            recentlyPlayedTracks.remove(0);
-        }
-       updateSong();
-        //  getArtists();
-     //   songService.getFeaturedPlayList(() -> {
-       //     List<Playlist> p =  songService.getFeaturedPlayList(() -> {
 
-         //   });
-           // songService.getAPlayListByRef(() -> {
-           // },"https://api.spotify.com/v1/playlists/37i9dQZF1DXdPec7aLTmlC");
-       // });
-        //pl.getUserPlayLists(()->{},10,0);
-    };
+    @Override
+    public void OnFragmentChanged() {
+        System.out.println("reproductorforfirsttime" + inReproductorForFirstTime);
+        if (currentFragment.getTag().equals("Reproductor")||!inReproductorForFirstTime) {
+            relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
+
+        }else if (inReproductorForFirstTime){
+
+            relativeLayoutBottomSheet.setVisibility(View.VISIBLE);
+
+        }
+
+    }
 }
