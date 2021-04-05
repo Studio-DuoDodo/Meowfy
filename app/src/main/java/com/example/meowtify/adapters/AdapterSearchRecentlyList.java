@@ -68,7 +68,7 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
         public void bindData(GeneralItem generalItem, int position){
             title.setText(generalItem.getName());
             String subTitel = "";
-            if(generalItem.getType() != null && generalItem.getType() != Type.artist) {
+            if(generalItem.getType() != null) {
                 if (generalItem.getType() == Type.track) subTitel = "song";
                 else subTitel = generalItem.getType().toString();
             }
@@ -79,8 +79,6 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             deleteSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Todo: metodo para añadir albunes a favoritos
-
                     //Todo: metode per eliminar de la lista de recomenats
                     //si nomes s'ha de eliminar del recycler no de la llista de la api
                     items.remove(position);

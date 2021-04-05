@@ -1,15 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ArtistFragment">
+    tools:context=".fragments.ArtistFragment"
+    tools:background="@color/primary">
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="artist"
-        android:textColor="@color/white"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_artist2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            tools:src="@drawable/logo_meowfy"
+            tools:padding="80dp"
+            tools:background="@color/primaryLigth2"/>
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_artist2"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image_artist2"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            tools:text="TOTO"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subname_artist2"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/name_artist2"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            tools:text="13.508.050 MONTHLY LISTENERS"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shuffel_artist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/subname_artist2"
+            android:text="SHUFFLE PLAY"
+            android:layout_marginTop="15dp"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/follow_artist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/shuffel_artist"
+            android:text="follow"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/popularSongs"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/follow_artist"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:text="Popular"
+            android:layout_marginTop="30dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/songs"
+            android:layout_below="@id/popularSongs"
+            tools:listitem="@layout/item_search" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/albumsText"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/songs"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:text="Albums"
+            android:layout_marginTop="30dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/albums"
+            android:layout_below="@id/albumsText"
+            tools:listitem="@layout/item_search" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/RelatedText"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/albums"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:text="Artist"
+            android:layout_marginTop="30dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/related"
+            android:layout_below="@id/RelatedText"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_lista_main"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
+</ScrollView>

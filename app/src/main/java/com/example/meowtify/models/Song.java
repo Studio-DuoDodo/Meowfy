@@ -43,6 +43,13 @@ public int popularity;
         return item;
     }
 
+    public  GeneralItem  toGeneralItemArtist(){
+        GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), popularity+"/100", null);
+
+        System.out.println("GeneralItem generado: " + item.toString());
+        return item;
+    }
+
     public Song(String id, String name,Date release_date, int popularity) {
         this.name = name;
         this.id = id;

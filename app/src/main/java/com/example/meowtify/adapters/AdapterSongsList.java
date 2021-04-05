@@ -22,17 +22,17 @@ import java.util.List;
 public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.SearchListHolder> {
     List<GeneralItem> items;
     Context context;
-    SearchFragment searchFragment;
+    int width;
 
     public void setItems(List<GeneralItem> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
-    public AdapterSongsList(List<GeneralItem> items, Context context) {
+    public AdapterSongsList(List<GeneralItem> items, Context context, int width) {
         this.items = items;
         this.context = context;
-        this.searchFragment = searchFragment;
+        this.width = width;
     }
 
     @NonNull
@@ -68,7 +68,7 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
             title.setText(generalItem.getName());
             subTitel.setText(generalItem.getExtra1());
             Picasso.with(context).load(generalItem.getImage()).
-                    resize(130, 130).into(image);
+                    resize(width, width).into(image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

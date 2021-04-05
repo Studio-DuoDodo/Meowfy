@@ -67,7 +67,7 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
         public void bindData(GeneralItem generalItem){
             title.setText(generalItem.getName());
             String subtitel = "";
-            if(generalItem.getType() != null && generalItem.getType() != Type.artist) {
+            if(generalItem.getType() != null) {
                 if (generalItem.getType() == Type.track) subtitel = "song";
                 else subtitel = generalItem.getType().toString();
             }

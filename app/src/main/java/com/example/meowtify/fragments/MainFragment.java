@@ -83,11 +83,11 @@ public class MainFragment extends Fragment {
      adapters = new ArrayList<>();
 
         playlistService = new PlaylistService(v.getContext());
-          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
-          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
-          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
-          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
-          adapters.add( new AdapterMainList(defaultItem, v.getContext()));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext(),400));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext(), 400));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext(), 400));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext(), 400));
+          adapters.add( new AdapterMainList(defaultItem, v.getContext(), 400));
 
 
 
