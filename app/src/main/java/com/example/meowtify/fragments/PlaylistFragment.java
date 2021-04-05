@@ -87,6 +87,7 @@ public class PlaylistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist, container, false);
+
         playlistService = new PlaylistService(v.getContext());
         imagePlaylist = v.findViewById(R.id.image_playlist);
         namePlaylist = v.findViewById(R.id.name_playlist);
@@ -139,7 +140,7 @@ public class PlaylistFragment extends Fragment {
                 new GeneralItem("1wuW57ULEfM9pgCYIhROMs", "Beliver", Type.track, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist14", null)
         ));
 
-        adapterSongs = new AdapterSongsList(songsList, getContext());
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 

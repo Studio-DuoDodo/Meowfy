@@ -127,6 +127,18 @@ public class Album {
         return item;
     }
 
+    public GeneralItem toGeneralItemArtist() {
+        GeneralItem item = new GeneralItem();
+        item.setId(id);
+        item.setName(name);
+        item.setType(type);
+        if (images!=null)
+            item.setImage(images.get(0).getUrl());
+        else item.setImage("https://static.wikia.nocookie.net/memes-pedia/images/a/ac/Cj2.jpg/revision/latest?cb=20200708183438&path-prefix=es");
+        item.setExtra1(releaseDate);
+        return item;
+    }
+
     @Override
     public String toString() {
         return "Album{" +

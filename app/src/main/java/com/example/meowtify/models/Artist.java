@@ -31,6 +31,20 @@ public class Artist {
     @SerializedName("uri")
     private String uri;
 
+    public Artist(Followers followers, List<genre> genres, int popularity, int total, List<Image> images, String name, String href, String id, Type type, ExternalUrls externalUrls, String uri) {
+        this.followers = followers;
+        this.genres = genres;
+        this.popularity = popularity;
+        this.total = total;
+        this.images = images;
+        this.name = name;
+        this.href = href;
+        this.id = id;
+        this.type = type;
+        this.externalUrls = externalUrls;
+        this.uri = uri;
+    }
+
     public String getName(){
         return name;
     }

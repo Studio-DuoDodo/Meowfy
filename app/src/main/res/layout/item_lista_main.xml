@@ -22,7 +22,8 @@
         android:layout_below="@id/image_main"
         android:textStyle="bold"
         android:textColor="@color/white"
-        tools:text="nom llista"/>
+        tools:text="nom llista"
+        android:layout_marginTop="5dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,10 +3,12 @@ package com.example.meowtify.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,12 +30,13 @@ import java.util.List;
 
 public class    AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainListHolder> {
     List<GeneralItem> items;
-
+    int width;
     Context context;
 
-    public AdapterMainList(List<GeneralItem> items, Context context) {
+    public AdapterMainList(List<GeneralItem> items, Context context, int width) {
         this.items = items;
         this.context = context;
+        this.width = width;
     }
     public void setItems(List<GeneralItem> items) {
         this.items = items;
@@ -75,12 +78,17 @@ public class    AdapterMainList extends RecyclerView.Adapter<AdapterMainList.Mai
             title.setText(generalItem.getName());
 
             String subtitel = "";
-            if(generalItem.getType() != null && generalItem.getType() != Type.artist){
-                if(generalItem.getType() == Type.track) subtitel = "song";
-                else subtitel = generalItem.getType().toString();
-                if(generalItem.getExtra1() != null && generalItem.getType() != Type.playlist) subtitel += " · "+ generalItem.getExtra1();
+            if(generalItem.getType() != Type.artist){
+                if(generalItem.getType() != null){
+                    if(generalItem.getType() == Type.track) subtitel = "song";
+                    else subtitel = generalItem.getType().toString();
+                    if(generalItem.getExtra1() != null && generalItem.getType() != Type.playlist) subtitel += " · "+ generalItem.getExtra1();
+                }
             }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    RelativeLayout.LayoutParams layoutParams =
+                            (RelativeLayout.LayoutParams)title.getLayoutParams();
+                    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                    title.setLayoutParams(layoutParams);
             }
 
             if(subtitel.length() > 18){
@@ -88,7 +96,7 @@ public class    AdapterMainList extends RecyclerView.Adapter<AdapterMainList.Mai
             }
             subTitel.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
-                    resize(400, 400).into(image);
+                    resize(width, width).into(image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
