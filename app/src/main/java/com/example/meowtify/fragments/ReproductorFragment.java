@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -55,6 +56,9 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     ImageButton forwardButton;
     ImageButton backwardButton;
     ImageView songImage;
+    TextView titleSong;
+    TextView subtitleSong;
+
     SeekBar seekBar;
     boolean mBounded;
     Intent mediaPlayerServiceIntent;
@@ -176,6 +180,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         forwardButton = v.findViewById(R.id.nextButton);
         backwardButton = v.findViewById(R.id.prevButton);
         songImage = v.findViewById(R.id.currentSongImage);
+        titleSong = v.findViewById(R.id.title);
+        subtitleSong = v.findViewById(R.id.subtitle);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +244,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         MainActivity.inReproductorForFirstTime=true;
 
         //seekBar.setProgress(0);
+        titleSong.setText(s.getName());
+        subtitleSong.setText(s.getAlbum().getArtistNames());
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
         if (mBounded)
             mediaPlayerService.changeSong(s);
