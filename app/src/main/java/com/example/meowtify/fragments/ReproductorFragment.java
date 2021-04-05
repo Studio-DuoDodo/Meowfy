@@ -41,7 +41,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
-
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +61,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     ImageView songImage;
     TextView titleSong;
     TextView subtitleSong;
+    TextView currentDuration;
     SeekBar seekBar;
     boolean mBounded;
     Intent mediaPlayerServiceIntent;
@@ -181,6 +182,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         songImage = v.findViewById(R.id.currentSongImage);
         titleSong = v.findViewById(R.id.title);
         subtitleSong = v.findViewById(R.id.subtitle);
+        currentDuration = v.findViewById(R.id.currentDuration);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +223,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                     onTrackPlay();
                 }
 
+                currentDuration.setText(String.format("%02d:%02d",TimeUnit.MILLISECONDS.toMinutes(progress),
+                        TimeUnit.MILLISECONDS.toSeconds(progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(progress))));
             }
         });
 

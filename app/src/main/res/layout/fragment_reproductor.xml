@@ -96,7 +96,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="00:00"
+                        android:text="00:30"
                         android:textColor="#B3ffffff" />
                 </LinearLayout>
 
