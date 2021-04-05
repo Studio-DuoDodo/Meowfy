@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.AuthFailureError;
 import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.fragments.AlbumFragment;
 import com.example.meowtify.fragments.ArtistFragment;
@@ -17,7 +18,9 @@ import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.models.GeneralItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Utilitis {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -52,5 +55,11 @@ public class Utilitis {
                 .replace(R.id.fragment_container, fragment,fragmentTag).commit();
 
     MainActivity.onFragmentChanged.OnFragmentChanged();
+    }
+    public static Map<String, String> getHeaders(String token) throws AuthFailureError {
+        Map<String, String> headers = new HashMap<>();
+        String auth = "Bearer " + token;
+        headers.put("Authorization", auth);
+        return headers;
     }
 }

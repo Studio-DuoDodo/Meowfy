@@ -52,26 +52,25 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static SongService songService;
+    public static GeneralItem song;
+    public static List<Song> tracks;
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;
     ImageView songImage;
     TextView titleSong;
     TextView subtitleSong;
-
     SeekBar seekBar;
     boolean mBounded;
     Intent mediaPlayerServiceIntent;
     MediaPlayerService mediaPlayerService;
-   public static SongService songService;
     AlbumService albumService;
     NotificationManager notificationManager;
-    public  static  GeneralItem song;
-  public static   List<Song> tracks;
     int position = 0;
     boolean isPlaying = false;
     View v;
-     ServiceConnection mConnection = new ServiceConnection() {
+    ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Toast.makeText(getContext(), "Service is disconnected", Toast.LENGTH_LONG).show();
@@ -215,7 +214,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded && tracks != null&&fromUser) {
+                if (mBounded && tracks != null && fromUser) {
                     System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
                     mediaPlayerService.changeProgress(progress);
 
@@ -241,7 +240,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         }
         if (mBounded)
             seekBar.setMax(30000);
-        MainActivity.inReproductorForFirstTime=true;
+        MainActivity.inReproductorForFirstTime = true;
 
         //seekBar.setProgress(0);
         titleSong.setText(s.getName());
@@ -258,21 +257,23 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
 
     }
-public void startSeekBar(){
-    ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 
-    service.scheduleWithFixedDelay(new Runnable() {
-        @Override
-        public void run() {
+    public void startSeekBar() {
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 
-            seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
-            System.out.println("progress changed to" + seekBar.getProgress());
+        service.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+
+                seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
+                System.out.println("progress changed to" + seekBar.getProgress());
 
 
-        }
-    }, 1, 1, TimeUnit.MILLISECONDS);
+            }
+        }, 1, 1, TimeUnit.MILLISECONDS);
 
-}
+    }
+
     @Override
     public void onStop() {
         super.onStop();

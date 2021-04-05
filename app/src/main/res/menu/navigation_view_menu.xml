@@ -13,6 +13,6 @@
     <item
         android:id="@+id/library"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/library_foreground"
         android:title="@string/your_library"/>
 </menu>

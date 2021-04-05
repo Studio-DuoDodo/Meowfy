@@ -52,6 +52,7 @@
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@id/songTitle"
         android:layout_toRightOf="@id/songTitle"
+        android:backgroundTint="@color/primaryLigth1"
         android:src="@drawable/ic_baseline_favorite_24" />
     <ImageButton
         android:id="@+id/playSong"
@@ -59,6 +60,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="29dp"
         android:layout_marginLeft="29dp"
+        android:backgroundTint="@color/primaryLigth1"
         android:layout_toEndOf="@id/favActualSong"
         android:layout_toRightOf="@id/favActualSong"
         android:src="@android:drawable/ic_media_play" />
