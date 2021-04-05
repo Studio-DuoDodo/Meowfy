@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle b = getIntent().getExtras();
-        relativeLayoutBottomSheet = findViewById(R.id.bottomSheet);
+        relativeLayoutBottomSheet = findViewById(R.id.bottomSheetLayout);
         songTitle = findViewById(R.id.songTitle);
         playButton = findViewById(R.id.playSong);
         bottomSheetImage = findViewById(R.id.currentSongImage);
