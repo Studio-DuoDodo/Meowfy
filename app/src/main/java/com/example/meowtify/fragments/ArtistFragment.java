@@ -19,6 +19,7 @@ import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.Followers;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 import com.example.meowtify.services.ArtistService;
 import com.squareup.picasso.Picasso;
@@ -41,9 +42,10 @@ public class ArtistFragment extends Fragment {
     ImageView imageArtist;
     TextView nameArtist, subtitelArtist;
     Button buttonShuffel, buttonFolllow;
-    RecyclerView songs, albums, reletedArtist;
+    RecyclerView songs, albums, relatedArtist;
     Artist artist;
     AdapterSongsList adapterSongs;
+    AdapterSongsList adapterAlbum;
     AdapterMainList adapterArtist;
     ArtistService artistService;
     // TODO: Rename and change types of parameters
@@ -94,7 +96,7 @@ public class ArtistFragment extends Fragment {
         buttonFolllow = v.findViewById(R.id.follow_artist);
         songs = v.findViewById(R.id.songs);
         albums = v.findViewById(R.id.albums);
-        reletedArtist = v.findViewById(R.id.related);
+        relatedArtist = v.findViewById(R.id.related);
         artistService = new ArtistService(v.getContext());
         artist = new Artist(new Followers(), null, 10, 10, null, "FalkKonE", null, "7vlM4bn4gPubcmntK8UBp0", Type.artist, null, null);
         Picasso.with(v.getContext()).load("http://i.imgur.com/DvpvklR.png").into(imageArtist);
@@ -104,6 +106,7 @@ public class ArtistFragment extends Fragment {
             artistService.getArtistByid(generalItem.getId(), this::updateArtistByAPI);
             artistService.getRelatedArtists(this::updateRelatedArtistsByAPI, generalItem.getId());
             artistService.getArtistAlbums(this::updateArtistAlbumsByAPI, generalItem.getId(), "ES", 30, 0);
+            artistService.getTopSongsOfAnArtist(this::updateArtistTopTracksByAPI, generalItem.getId(), "ES");
         }
 
         nameArtist.setText(artist.getName());
@@ -160,8 +163,8 @@ public class ArtistFragment extends Fragment {
                 new GeneralItem("1wuW57ULEfM9pgCYIhROMs", "Beliver", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "2016", null)
         ));
 
-        adapterSongs = new AdapterSongsList(albumsList, getContext(), 200);
-        albums.setAdapter(adapterSongs);
+        adapterAlbum = new AdapterSongsList(albumsList, getContext(), 200);
+        albums.setAdapter(adapterAlbum);
         albums.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<GeneralItem> artistList = new ArrayList<GeneralItem>(Arrays.asList(
@@ -172,10 +175,20 @@ public class ArtistFragment extends Fragment {
         ));
 
         adapterArtist = new AdapterMainList(artistList, getContext(), 250);
-        reletedArtist.setAdapter(adapterArtist);
-        reletedArtist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        relatedArtist.setAdapter(adapterArtist);
+        relatedArtist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         return v;
+    }
+
+    private void updateArtistTopTracksByAPI() {
+        List<Song> a = artistService.getTopSongsLastArtist();
+        List<GeneralItem> generalItemList = new ArrayList<>();
+
+        for (Song s : a) {
+            generalItemList.add(s.toGeneralItem());
+        }
+        adapterSongs.setItems(generalItemList);
     }
 
     private void updateArtistAlbumsByAPI() {
@@ -185,7 +198,7 @@ public class ArtistFragment extends Fragment {
         for (Album album : a) {
             generalItemList.add(album.toGeneralItem());
         }
-        adapterSongs.setItems(generalItemList);
+        adapterAlbum.setItems(generalItemList);
     }
 
     private void updateRelatedArtistsByAPI() {
