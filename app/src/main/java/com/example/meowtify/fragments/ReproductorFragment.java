@@ -44,9 +44,6 @@ import static android.content.Context.BIND_AUTO_CREATE;
 
 
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
-    // TODO: Rename parameter arguments, choose names that match
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     public static SongService songService;
     public static GeneralItem song;
     public static List<Song> tracks;
