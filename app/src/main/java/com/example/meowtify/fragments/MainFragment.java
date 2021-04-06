@@ -1,5 +1,6 @@
 package com.example.meowtify.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainFragment extends Fragment {
     private SongService songService;
     private PlaylistService playlistService;
@@ -51,22 +47,6 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,17 +82,22 @@ public class MainFragment extends Fragment {
 
         int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
         System.out.println(date);
+        String s;
         if (8 > date) {
-            missatgePersonalitzat.setText("Too early");
+            s="Too early";
         } else if (12 > date) {
-            missatgePersonalitzat.setText("Good morning");
+            s="Good morning";
         } else if (15 > date) {
-            missatgePersonalitzat.setText("God noon");
+            s="Good noon";
         } else if (21 > date) {
-            missatgePersonalitzat.setText("Good afternoon");
+            s="Good afternoon";
         } else {
-            missatgePersonalitzat.setText("Good evening");
+            s="Good evening";
         }
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("SPOTIFY", 0);
+
+        missatgePersonalitzat.setText(s+ " "+  sharedPreferences.getString("userid", "No User"));
+
         songService = new SongService(v.getContext());
         lista1.setAdapter(adapters.get(0));
         lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

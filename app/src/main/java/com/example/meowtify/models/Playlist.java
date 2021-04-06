@@ -8,8 +8,7 @@ import java.util.List;
 
 public class Playlist {
     boolean colaborative = false;
-    //todo hacer que followers sea una clase con string href y  int total
-    @SerializedName("followers")
+     @SerializedName("followers")
     private Followers followers;    String description;
 
     String href;

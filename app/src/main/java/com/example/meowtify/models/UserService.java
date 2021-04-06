@@ -31,6 +31,7 @@ public class UserService {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(ENDPOINT, null, response -> {
             Gson gson = new Gson();
             user = gson.fromJson(response.toString(), User.class);
+
             callBack.onSuccess();
         }, error -> get(() -> {
 

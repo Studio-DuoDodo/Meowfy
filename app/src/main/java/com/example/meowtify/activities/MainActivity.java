@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         songService.addSongToLibrary(this.song);
         if (recentlyPlayedTracks.size() > 0) {
             recentlyPlayedTracks.remove(0);
+
         }
         updateSong();
         //  getArtists();
