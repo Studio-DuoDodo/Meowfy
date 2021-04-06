@@ -25,11 +25,14 @@
         android:id="@+id/songTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@id/currentSongImage"
-        android:padding="16dp"
+        android:layout_marginTop="14dp"
         android:text="Song title"
+        android:textSize="15dp"
         android:textColor="@color/white"
+        android:scrollHorizontally="true"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
@@ -38,11 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/songTitle"
         android:layout_marginLeft="14dp"
-        android:layout_marginTop="-22dp"
         android:layout_toRightOf="@id/currentSongImage"
-        android:padding="20dp"
         android:text="Subtitle"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"/>
 
     <ImageButton
         android:id="@+id/favActualSong"
@@ -50,8 +54,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_toEndOf="@id/songTitle"
-        android:layout_toRightOf="@id/songTitle"
+        android:layout_toLeftOf="@id/playSong"
         android:backgroundTint="@color/primaryLigth1"
         android:src="@drawable/ic_baseline_favorite_24" />
     <ImageButton
@@ -61,8 +64,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginLeft="29dp"
         android:backgroundTint="@color/primaryLigth1"
-        android:layout_toEndOf="@id/favActualSong"
-        android:layout_toRightOf="@id/favActualSong"
+        android:layout_alignParentRight="true"
         android:src="@android:drawable/ic_media_play" />
 
 </RelativeLayout>
