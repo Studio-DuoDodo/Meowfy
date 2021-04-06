@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
- 
+
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -228,6 +228,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             mediaPlayerService.changeSong(s);
         albumService = new AlbumService(v.getContext());
         albumService.getAlbumByRef(() -> {
+            if (albumService.getLastAlbum()!=null)
             tracks = albumService.getLastAlbum().getSongs();
             onTrackPlay();
 
@@ -297,7 +298,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                 android.R.drawable.ic_media_pause, position, tracks.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
         if (mBounded)
-            mediaPlayerService.resume();
+            MediaPlayerService.resume();
         //title.setText(tracks.get(position).getTitle());
         isPlaying = true;
         startSeekBar();
