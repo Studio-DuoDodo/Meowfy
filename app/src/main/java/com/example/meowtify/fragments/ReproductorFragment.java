@@ -41,13 +41,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
-import java.util.concurrent.TimeUnit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReproductorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+ 
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -109,31 +104,12 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             }
         }
     };
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     public ReproductorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReproductorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReproductorFragment newInstance(String param1, String param2) {
-        ReproductorFragment fragment = new ReproductorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     private void createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -158,10 +134,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -223,7 +196,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                     onTrackPlay();
                 }
 
-                currentDuration.setText(String.format("%02d:%02d",TimeUnit.MILLISECONDS.toMinutes(progress),
+                currentDuration.setText(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(progress),
                         TimeUnit.MILLISECONDS.toSeconds(progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(progress))));
             }
         });
@@ -249,6 +222,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         //seekBar.setProgress(0);
         titleSong.setText(s.getName());
         subtitleSong.setText(s.getAlbum().getArtistNames());
+        subtitleSong.setText(s.getAlbum().getArtistNames());
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
         if (mBounded)
             mediaPlayerService.changeSong(s);
@@ -270,7 +244,9 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             public void run() {
 
                 seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
-                System.out.println("progress changed to" + seekBar.getProgress());
+                if (mediaPlayerService.getCurrentPositionInMillisecons() == 30000) {
+                    onTrackEnd();
+                }
 
 
             }
@@ -288,16 +264,27 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         //   }
     }
 
+    public void ChangeSong(Song s) {
+     //   System.out.println(song.toString());
+        songService.getASongByRef(this::updateSongByAPI, s.getId());
+/*
+        titleSong.setText(s.getName());
+        subtitleSong.setText(s.getAlbum().getArtistNames());
+        Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
+
+        mediaPlayerService.changeSong(s);
+        startSeekBar();
+*/
+    }
+
     @Override
     public void onTrackPrevious() {
-        startSeekBar();
+        //   startSeekBar();
 
         //title.setText(tracks.get(position).getName());
         if (position - 1 > 0) {
             position--;
-            mediaPlayerService.changeSong(tracks.get(position));
-            startSeekBar();
-
+            ChangeSong(tracks.get(position));
             CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
@@ -340,12 +327,17 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             position++;
             CreateNotification.createNotification(getContext(), tracks.get(position),
                     android.R.drawable.ic_media_pause, position, tracks.size() - 1);
-            mediaPlayerService.changeSong(tracks.get(position));
-            startSeekBar();
+
+            ChangeSong(tracks.get(position));
 
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onTrackEnd() {
+        onTrackNext();
     }
 
     @Override

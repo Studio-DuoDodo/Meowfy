@@ -5,4 +5,5 @@ public interface Playable {
     void onTrackPlay();
     void onTrackPause();
     void onTrackNext();
+    void onTrackEnd();
 }

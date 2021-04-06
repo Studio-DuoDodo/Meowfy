@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.view.View;
 
 import com.example.meowtify.models.Song;
+import com.example.meowtify.services.notifications.Playable;
 
 import java.io.IOException;
 
@@ -111,6 +112,7 @@ View v;
     }
 
     public void onCompletion(MediaPlayer _mediaPlayer) {
+
          }
 
     public class LocalBinder extends Binder {

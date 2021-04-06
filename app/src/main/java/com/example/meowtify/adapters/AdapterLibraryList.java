@@ -70,6 +70,7 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
         }
 
         public void bindData(GeneralItem generalItem){
+            System.out.println("GeneralItem" + generalItem.toString());
             title.setText(generalItem.getName());
             if(generalItem.getExtra1() != null){
 
