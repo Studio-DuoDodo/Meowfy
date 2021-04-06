@@ -65,17 +65,8 @@ public class AlbumFragment extends Fragment {
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
-            //todo: get the album from the api with the id of generalItem.
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
         }
-
-        //todo: una vez ya se coja el album de la api descomentar estas lineas
-        /*Picasso.with(getContext()).load(album.getImages().get(0).url).
-                resize(500, 500).into(imagePlaylist);
-        nameAlbum.setText(album.getName());
-        String subtitel = "album by "+ album.getArtists() + " · " + album.getReleaseDate();
-        subtitelAlbum.setText(subtitel);*/
-
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
