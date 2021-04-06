@@ -1,5 +1,6 @@
 package com.example.meowtify.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,17 +103,22 @@ public class MainFragment extends Fragment {
 
         int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
         System.out.println(date);
+        String s;
         if (8 > date) {
-            missatgePersonalitzat.setText("Too early");
+            s="Too early";
         } else if (12 > date) {
-            missatgePersonalitzat.setText("Good morning");
+            s="Good morning";
         } else if (15 > date) {
-            missatgePersonalitzat.setText("God noon");
+            s="Good noon";
         } else if (21 > date) {
-            missatgePersonalitzat.setText("Good afternoon");
+            s="Good afternoon";
         } else {
-            missatgePersonalitzat.setText("Good evening");
+            s="Good evening";
         }
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("SPOTIFY", 0);
+
+        missatgePersonalitzat.setText(s+ " "+  sharedPreferences.getString("userid", "No User"));
+
         songService = new SongService(v.getContext());
         lista1.setAdapter(adapters.get(0));
         lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
