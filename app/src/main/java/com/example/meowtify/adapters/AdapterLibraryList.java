@@ -90,7 +90,10 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
                     }
                 });
             } else {
+                image.setImageResource(R.drawable.ic_baseline_add_24);
+                image.setPadding(80,80,80,80);
                 itemView.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
