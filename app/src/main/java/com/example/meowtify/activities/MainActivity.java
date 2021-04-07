@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -260,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         } else if (inReproductorForFirstTime) {
             Song s = ReproductorFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());
+            songTitle.setSelected(true);
             Picasso.with(getApplicationContext()).load(s.getAlbum().getImages().get(0).url).into(bottomSheetImage);
 
             relativeLayoutBottomSheet.setVisibility(View.VISIBLE);
