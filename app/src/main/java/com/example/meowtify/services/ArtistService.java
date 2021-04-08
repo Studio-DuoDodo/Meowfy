@@ -62,7 +62,6 @@ public class ArtistService {
 
     public Artist getArtistByid(String id, final VolleyCallBack callBack) {
         String endpoint = "https://api.spotify.com/v1/artists/" + id;
-        AtomicReference<Artist> artistAtomic = new AtomicReference<>();
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

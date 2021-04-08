@@ -96,7 +96,7 @@ public class MainFragment extends Fragment {
         }
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("SPOTIFY", 0);
 
-        missatgePersonalitzat.setText(s+ " "+  sharedPreferences.getString("userid", "No User"));
+        missatgePersonalitzat.setText(s+ " "+  sharedPreferences.getString("username", "Unknown user"));
 
         songService = new SongService(v.getContext());
         lista1.setAdapter(adapters.get(0));
