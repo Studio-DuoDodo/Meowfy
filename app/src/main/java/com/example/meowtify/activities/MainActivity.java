@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -56,7 +57,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     private TextView userView;
     private TextView songView;
 
+    private CoordinatorLayout fragmentCordinator;
     private TextView songTitle;
+    private TextView subtitel;
     private RelativeLayout relativeLayoutBottomSheet;
     private Button addBtn;
     private ImageButton playButton;
@@ -123,8 +126,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         Bundle b = getIntent().getExtras();
         relativeLayoutBottomSheet = findViewById(R.id.bottomSheetLayout);
         songTitle = findViewById(R.id.songTitle);
+        subtitel = findViewById(R.id.subtitle);
         playButton = findViewById(R.id.playSong);
         bottomSheetImage = findViewById(R.id.currentSongImage);
+        fragmentCordinator = findViewById(R.id.coordinatorLayout);
         onFragmentChanged = this;
 
         if (savedInstanceState == null) {
@@ -262,9 +267,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             Song s = ReproductorFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());
             songTitle.setSelected(true);
+            subtitel.setText(s.getArtists().get(0).getName());
             Picasso.with(getApplicationContext()).load(s.getAlbum().getImages().get(0).url).into(bottomSheetImage);
 
             relativeLayoutBottomSheet.setVisibility(View.VISIBLE);
+            fragmentCordinator.setPadding(0,0,0,120);
             if (MediaPlayerService.isPlaying()){
                 playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
 

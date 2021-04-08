@@ -27,13 +27,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@id/currentSongImage"
+        android:layout_toLeftOf="@id/favActualSong"
+        android:ellipsize="marquee"
         android:layout_marginTop="14dp"
         android:text="Song title"
         android:textSize="15dp"
         android:textColor="@color/white"
         android:scrollHorizontally="true"
         android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/subtitle"
