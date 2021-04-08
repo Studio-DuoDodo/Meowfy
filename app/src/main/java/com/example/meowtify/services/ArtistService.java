@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,16 @@ public class ArtistService {
     private ArrayList<Artist> artists = new ArrayList<>();
     private ArrayList<Album>  albumsLastArtist = new ArrayList<>();
     private ArrayList<Song> topSongsLastArtist = new ArrayList<>();
+    List<Artist> userFollowedArtists=new ArrayList<>();
+//todo pasar a lista de listas
+
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+
+    public List<Artist> getUserFollowedArtists() {
+        System.out.println("FOLLOWED ARTISTS" + userFollowedArtists.toString());
+        return userFollowedArtists;
+    }
 
     public ArrayList<Song> getTopSongsLastArtist() {
         return topSongsLastArtist;
@@ -96,6 +105,40 @@ public class ArtistService {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(n);
                                 relatedArtist.add(gson.fromJson(jsonObject.toString(), Artist.class));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    System.out.println("error" + error.getMessage());
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return Utilitis.getHeaders(sharedPreferences.getString("token", ""));
+            }
+        };
+        queue.add(jsonObjectRequest);
+
+        return relatedArtist;
+    }
+    public List<Artist> getUserFollowedArtists(final VolleyCallBack callBack, int limit) {
+        String endpoint = "https://api.spotify.com/v1/me/following?type=artist&limit=" + limit;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        JSONObject jsonObject= response.getJSONObject("artists");
+                        JSONArray jsonArray = jsonObject.getJSONArray("items");
+                        Gson gson = new Gson();
+                        for (int n = 0; n < jsonArray.length(); n++) {
+                            try {
+                                 jsonObject = jsonArray.getJSONObject(n);
+                                System.out.println("USER FOLLOWED ARTISTS");
+                                userFollowedArtists.add(gson.fromJson(jsonObject.toString(), Artist.class));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
