@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         if (currentFragment.getTag().equals("Reproductor") || !inReproductorForFirstTime) {
             relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
 
-        } else if (inReproductorForFirstTime) {
+        } else if (inReproductorForFirstTime && ReproductorFragment.songService != null) {
             Song s = ReproductorFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());
             songTitle.setSelected(true);

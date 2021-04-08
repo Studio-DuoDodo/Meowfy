@@ -68,7 +68,7 @@ public class ArtistFragment extends Fragment {
         albums = v.findViewById(R.id.albums);
         relatedArtist = v.findViewById(R.id.related);
         artistService = new ArtistService(v.getContext());
-        artist = new Artist(new Followers(), null, 10, 10, null, "FalkKonE", null, "7vlM4bn4gPubcmntK8UBp0", Type.artist, null, null);
+        artist = new Artist(new Followers(), null, 10, null, "FalkKonE", null, "7vlM4bn4gPubcmntK8UBp0", Type.artist, null, null);
         Picasso.with(v.getContext()).load("http://i.imgur.com/DvpvklR.png").into(imageArtist);
         Bundle b = getArguments();
         if (b != null) {
@@ -156,7 +156,7 @@ public class ArtistFragment extends Fragment {
         List<GeneralItem> generalItemList = new ArrayList<>();
 
         for (Song s : a) {
-            generalItemList.add(s.toGeneralItem());
+            generalItemList.add(s.toGeneralItemArtist());
         }
         adapterSongs.setItems(generalItemList);
     }
@@ -166,7 +166,7 @@ public class ArtistFragment extends Fragment {
         List<GeneralItem> generalItemList = new ArrayList<>();
 
         for (Album album : a) {
-            generalItemList.add(album.toGeneralItem());
+            generalItemList.add(album.toGeneralItemArtist());
         }
         adapterAlbum.setItems(generalItemList);
     }

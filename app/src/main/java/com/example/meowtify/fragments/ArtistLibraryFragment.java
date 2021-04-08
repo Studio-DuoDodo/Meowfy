@@ -51,14 +51,14 @@ artistService.getUserFollowedArtists(this::updateFollowedArtistsByAPI,30);
         listaRecomended = v.findViewById(R.id.recomended_library);
 
         List<GeneralItem> artist = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("7vlM4bn4gPubcmntK8UBp0", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 1", null),
-                new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 2", null),
-                new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 3", null)
+                new GeneralItem("7vlM4bn4gPubcmntK8UBp0", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 1", null),
+                new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 2", null),
+                new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 3", null)
         ));
         List<GeneralItem> recomendedArtist = new ArrayList<GeneralItem>(Arrays.asList(
-                new GeneralItem("5t7eQ2d1UmzfIr9oWQ538Y", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 1", null),
-                new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 2", null),
-                new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "songs 3", null)
+                new GeneralItem("5t7eQ2d1UmzfIr9oWQ538Y", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 1", null),
+                new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 2", null),
+                new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 3", null)
         ));
 
           adapter = new AdapterLibraryList(artist, getContext());

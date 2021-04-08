@@ -9,7 +9,6 @@ public class Artist {
     public Followers followers;
     public List<genre> genres;
      public int popularity;
-     public int total=0;
     public  List<Image> images;
 
 
@@ -31,11 +30,10 @@ public class Artist {
     @SerializedName("uri")
     private String uri;
 
-    public Artist(Followers followers, List<genre> genres, int popularity, int total, List<Image> images, String name, String href, String id, Type type, ExternalUrls externalUrls, String uri) {
+    public Artist(Followers followers, List<genre> genres, int popularity, List<Image> images, String name, String href, String id, Type type, ExternalUrls externalUrls, String uri) {
         this.followers = followers;
         this.genres = genres;
         this.popularity = popularity;
-        this.total = total;
         this.images = images;
         this.name = name;
         this.href = href;
@@ -116,14 +114,6 @@ public void addGenre(genre genre){
         this.type = type;
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
     public List<Image> getImages() {
         return images;
     }
@@ -151,9 +141,9 @@ public void addGenre(genre genre){
     public  GeneralItem  toGeneralItem(){
         GeneralItem item;
         if (images!=null && images.size()>0)
-         item= new GeneralItem(id, name, type, images.get(0).url, "songs "+total, null);
+         item= new GeneralItem(id, name, type, images.get(0).url, "followers "+followers.getTotal(), null);
         else{
-            item= new GeneralItem(id, name, type, "https://consequenceofsound.net/wp-content/uploads/2015/10/screen-shot-2015-10-17-at-6-57-13-pm.png", "songs "+total, null);
+            item= new GeneralItem(id, name, type, "https://consequenceofsound.net/wp-content/uploads/2015/10/screen-shot-2015-10-17-at-6-57-13-pm.png", "followers "+followers.getTotal(), null);
 
         }
 
