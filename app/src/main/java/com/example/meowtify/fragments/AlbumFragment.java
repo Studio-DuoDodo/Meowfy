@@ -67,15 +67,15 @@ public class AlbumFragment extends Fragment {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
-
-            //todo: obtener si el album esta en favoritos o no, i descomentar el if
-            //if(boolfavoritos) {
-                buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                buttonFavorite.setTag(R.string.albunes,"0");
-            /*}else {
-                buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                buttonFavorite.setTag(R.string.albunes,"1");
-            }*/
+            albumService.checkIfTheUserSavedAAlbum(() -> {
+                    if(albumService.isLastCheck()) {
+                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+                        buttonFavorite.setTag(R.string.albunes,"0");
+                    }else {
+                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+                        buttonFavorite.setTag(R.string.albunes, "1");
+                    }}
+                    ,generalItem.getId());
         }
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +91,12 @@ public class AlbumFragment extends Fragment {
                     buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
                     buttonFavorite.setTag(R.string.albunes,"0");
 
-                    //todo: add to the favorit list of albums
+                    albumService.saveAlbumToUserLibrary(album);
                 } else {
                     buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
                     buttonFavorite.setTag(R.string.albunes,"1");
 
-                    //todo: delete of the favorit list of albums
+                    albumService.unsaveAnAlbum(album);
                 }
 
             }
