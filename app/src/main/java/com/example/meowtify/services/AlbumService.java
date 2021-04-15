@@ -47,11 +47,6 @@ public class AlbumService {
         return userSavedAlbums;
     }
 
-    public List<Playlist> getDevelopersPlaylist() {
-        System.out.println("Developers playlist is " + developersPlaylist.toString());
-        return developersPlaylist;
-    }
-
     public List<Album> getNewReleases(final VolleyCallBack callBack, String country, int limit, int offset) {
         String endpoint = "https://api.spotify.com/v1/browse/new-releases?country=" + country + "&limit=" + limit + "&offset=" + offset;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -182,7 +177,7 @@ public class AlbumService {
         return lastAlbum;
     }
 
-    //todo give the bool and methos a better name
+    //todo give the bool and method a better name
     public boolean isLastCheck() {
         return lastCheck;
     }
@@ -226,16 +221,15 @@ public class AlbumService {
     }
 
 
-    public AtomicBoolean checkIfTheUserFollowsAPlaylist(final VolleyCallBack callBack, String playlistId) {
+    public AtomicBoolean checkIfTheUserSavedAAlbum(final VolleyCallBack callBack, String albumId) {
         AtomicBoolean user = new AtomicBoolean(false);
-        String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/followers/contains?ids=" + sharedPreferences.getString("userid", null);
+        String endpoint = "https://api.spotify.com/v1/me/albums/contains?ids=" + albumId ;
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
                 (Request.Method.GET, endpoint, null, response -> {
                     try {
                         for (int n = 0; n < response.length(); n++) {
                             user.set(response.getBoolean(n));
-                            System.out.println("User is in the playlist " + user);
-                            lastCheck = user.get();
+                             lastCheck = user.get();
                         }
 
                     } catch (JSONException e) {
@@ -244,8 +238,7 @@ public class AlbumService {
                     callBack.onSuccess();
 
                 }, error -> {
-                    // TODO: Handle error
-                    System.out.println("error on error " + error.toString() + error.getMessage() + error.getLocalizedMessage());
+                     System.out.println("error on error " + error.toString() + error.getMessage() + error.getLocalizedMessage());
 
                 }) {
             @Override
@@ -262,16 +255,17 @@ public class AlbumService {
         return user;
     }
 
-    public void followAPlaylist(Playlist playlist) {
-        JSONObject payload = preparePutPayload(playlist);
-        System.out.println("ID to follow" + " = " + playlist.getId());
-        JsonObjectRequest jsonObjectRequest = prepareFollowPlaylistRequest(payload, playlist.getId());
+    public void saveAlbumToUserLibrary(Album album) {
+        JSONObject payload = preparePutPayload(album);
+        System.out.println("Album to upload" + " = " + album.getId());
+        JsonObjectRequest jsonObjectRequest = prepareSaveAlbumRequest(payload, album.getId());
         queue.add(jsonObjectRequest);
     }
 
-    private JsonObjectRequest prepareFollowPlaylistRequest(JSONObject payload, String id) {
-        return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/playlists/" + id + "/followers", payload, response -> {
+    private JsonObjectRequest prepareSaveAlbumRequest(JSONObject payload, String id) {
+        return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/albums?ids=" + id , payload, response -> {
         }, error -> {
+            System.out.println(error.getMessage());
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -285,9 +279,10 @@ public class AlbumService {
         };
     }
 
-    private JsonObjectRequest prepareUnfollowPlaylistRequest(JSONObject payload, String id) {
-        return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/playlists/" + id + "/followers", payload, response -> {
+    private JsonObjectRequest prepareUnsaveAlbumRequest(JSONObject payload, String id) {
+        return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/me/albums?ids=" + id , payload, response -> {
         }, error -> {
+            System.out.println(error.getMessage());
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -301,8 +296,7 @@ public class AlbumService {
         };
     }
 
-    private JSONObject preparePutPayload(Playlist playlist) {
-
+    private JSONObject preparePutPayload(Album album) {
         JSONObject ids = new JSONObject();
         try {
             ids.put("public", true);
@@ -312,10 +306,10 @@ public class AlbumService {
         return ids;
     }
 
-    public void unfollowAPlaylist(Playlist playlist) {
+    public void unsaveAnAlbum(Album album) {
         JSONObject payload = new JSONObject();
-        System.out.println("ID to follow" + " = " + playlist.getId());
-        JsonObjectRequest jsonObjectRequest = prepareUnfollowPlaylistRequest(payload, playlist.getId());
+        System.out.println("ID to remove of saved albums" + " = " + album.getId());
+        JsonObjectRequest jsonObjectRequest = prepareUnsaveAlbumRequest(payload, album.getId());
         queue.add(jsonObjectRequest);
     }
 

@@ -27,8 +27,10 @@ import com.example.meowtify.fragments.OnFragmentChanged;
 import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
+import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.services.AlbumService;
 import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.SongService;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     private SharedPreferences.Editor editor;
     private TextView userView;
     private TextView songView;
-
+   String testAlbum="019Bh0y5hMxnvTqL1PXDFx";
     private CoordinatorLayout fragmentCordinator;
     private TextView songTitle;
     private TextView subtitel;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     private ImageButton favButton;
     private Song song;
     private SongService songService;
-    private ArtistService artistService;
+    private AlbumService albumService;
     private ArrayList<Song> recentlyPlayedTracks;
     private View.OnClickListener addListener = v -> {
         songService.addSongToLibrary(this.song);
@@ -93,14 +95,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         });
     }
 
-    private void getArtists() {
-        artistService.getArtistByid("0TnOYISbd1XYRBk9myaseg", () -> {
-            ArrayList<Artist> artists = artistService.getArtists();
-            for (Artist s : artists) {
-                System.out.println(s.toString());
-            }
-        });
-    }
 
     private void updateSong() {
         for (Song s : recentlyPlayedTracks) {
@@ -111,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             song = recentlyPlayedTracks.get(0);
         }
     }
-
+    static  Album a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AuthenticationRequest.Builder builder =
@@ -131,7 +125,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         bottomSheetImage = findViewById(R.id.currentSongImage);
         fragmentCordinator = findViewById(R.id.coordinatorLayout);
         onFragmentChanged = this;
+        albumService= new AlbumService(getApplicationContext());
 
+        albumService.getAlbumByRef(()->{
+              a = albumService.getLastAlbum();
+            albumService.saveAlbumToUserLibrary(a);
+        },"07bYtmE3bPsLB6ZbmmFi8d");
         if (savedInstanceState == null) {
             currentFragment = new MainFragment();
             changeFragment(currentFragment, "Home");
@@ -147,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
                         System.out.println("home");
                         return true;
                     case R.id.sheare:
+                        albumService.unsaveAnAlbum(a);
                         changeFragment(new SearchFragment(), "Share");
+
                         System.out.println("share");
                         return true;
                     case R.id.library:
@@ -206,8 +207,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     }
 
     private void apiStuff() {
-        artistService = new ArtistService(getApplicationContext());
-        songService = new SongService(getApplicationContext());
+         songService = new SongService(getApplicationContext());
         // userView = (TextView) findViewById(R.id.user);
         //   songView = (TextView) findViewById(R.id.song);
         //  addBtn = (Button) findViewById(R.id.add);
