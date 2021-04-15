@@ -50,6 +50,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;
+    ImageButton favoriteButton;
     ImageView songImage;
     TextView titleSong;
     TextView subtitleSong;
@@ -153,6 +154,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         titleSong = v.findViewById(R.id.title);
         subtitleSong = v.findViewById(R.id.subtitle);
         currentDuration = v.findViewById(R.id.currentDuration);
+        favoriteButton = v.findViewById(R.id.favButton);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +200,23 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             }
         });
 
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favoriteButton.getTag(R.string.albunes).equals("1")) {
+                    favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+                    favoriteButton.setTag(R.string.albunes,"0");
+
+                    //todo: add to the favorit list of albums
+                } else {
+                    favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+                    favoriteButton.setTag(R.string.albunes,"1");
+
+                    //todo: delete of the favorit list of albums
+                }
+            }
+        });
+
         this.v = v;
         return v;
     }
@@ -231,6 +250,14 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
         }, s.getAlbum().getId());
 
+        //todo: obtener si la cancion esta en favoritos o no, i descomentar el if
+        //if(boolfavoritos) {
+            favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+            favoriteButton.setTag(R.string.albunes,"0");
+        /*}else {
+            buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+            buttonFavorite.setTag(R.string.albunes,"1");
+        }*/
 
     }
 
