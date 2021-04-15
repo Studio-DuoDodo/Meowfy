@@ -38,6 +38,7 @@ public class AlbumFragment extends Fragment {
     AdapterSongsList adapterSongs;
     Album album;
     AlbumService albumService;
+    int tagFavorite;
 
     public AlbumFragment() {
         // Required empty public constructor
@@ -66,6 +67,15 @@ public class AlbumFragment extends Fragment {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
+
+            //todo: obtener si el album esta en favoritos o no, i descomentar el if
+            //if(boolfavoritos) {
+                buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+                buttonFavorite.setTag(R.string.albunes,"0");
+            /*}else {
+                buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+                buttonFavorite.setTag(R.string.albunes,"1");
+            }*/
         }
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,16 +86,19 @@ public class AlbumFragment extends Fragment {
         buttonFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (buttonFavorite.getDrawable() == getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24)) {
-                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
 
-                        //todo: add to the favorit list of albums
-                    } else {
-                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                        //todo: delete of the favorit list of albums
-                    }
+                if (buttonFavorite.getTag(R.string.albunes).equals("1")) {
+                    buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+                    buttonFavorite.setTag(R.string.albunes,"0");
+
+                    //todo: add to the favorit list of albums
+                } else {
+                    buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+                    buttonFavorite.setTag(R.string.albunes,"1");
+
+                    //todo: delete of the favorit list of albums
                 }
+
             }
         });
 
