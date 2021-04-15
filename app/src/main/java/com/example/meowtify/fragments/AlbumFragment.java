@@ -67,15 +67,7 @@ public class AlbumFragment extends Fragment {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
-            albumService.checkIfTheUserSavedAAlbum(() -> {
-                    if(albumService.isLastCheck()) {
-                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                        buttonFavorite.setTag(R.string.albunes,"0");
-                    }else {
-                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                        buttonFavorite.setTag(R.string.albunes, "1");
-                    }}
-                    ,generalItem.getId());
+
         }
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,17 +111,15 @@ public class AlbumFragment extends Fragment {
     private void updateAlbumByAPI() {
         Album currentAlbum = albumService.getLastAlbum();
         final boolean[] bool = new boolean[1];
-        //  albumService.checkIfTheUserFollowsAPlaylist(()->{
-            /*bool[0] = playlistService.isLastCheck();
-            System.out.println("the callback bool is" + bool);
-            Toast.makeText(getView().getContext(), "\"the callback bool is\" + bool", Toast.LENGTH_SHORT).show();
-            if (bool[0]){
-                buttonFolllow.setText("unfollow");
-            }else buttonFolllow.setText("follow");
-            List<GeneralItem> generalItemList = new ArrayList<>();
-            for (Song s : playlists.get(0).getSongs()) {
-                generalItemList.add(s.toGeneralItem());
-            } */
+        albumService.checkIfTheUserSavedAAlbum(() -> {
+                    if(albumService.isLastCheck()) {
+                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+                        buttonFavorite.setTag(R.string.albunes,"0");
+                    }else {
+                        buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
+                        buttonFavorite.setTag(R.string.albunes, "1");
+                    }}
+                ,currentAlbum.getId());
         nameAlbum.setText(currentAlbum.getName());
         System.out.println("last album has" + currentAlbum.toString());
         if (currentAlbum.getImages() != null)
@@ -137,7 +127,7 @@ public class AlbumFragment extends Fragment {
         String subtitel = "BY " + currentAlbum.getArtistNames() + " · " + currentAlbum.getTotalTracks() + " TRACKS";
 
         subtitelAlbum.setText(subtitel);
-
+        album=currentAlbum;
         adapterSongs.setItems(currentAlbum.getSongsConverted());
         //});
 
