@@ -102,7 +102,7 @@ public class Album {
     public List<GeneralItem> getSongsConverted() {
         List<GeneralItem> songs = new ArrayList<>();
         for (Song s : this.songs) {
-            songs.add(s.toGeneralItem(images.get(0).url, name));
+            songs.add(s.toGeneralItem(images.get(0).url, s.name));
         }
         return songs;
     }
