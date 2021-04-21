@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     int position = 0;
     boolean isPlaying = false;
     View v;
+    int posList;
+
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -142,9 +145,12 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         songService = new SongService(v.getContext());
         Bundle b = getArguments();
         if (b != null) {
-            GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
-            songService.getASongByRef(this::updateSongByAPI, generalItem.getId());
-            System.out.println(generalItem.toString());
+            tracks = (List<Song>) b.getSerializable("listSongs");
+            posList = b.getInt("posList");
+            songService.getASongByRef(this::updateSongByAPI, tracks.get(posList).getId());
+            System.out.println( tracks.get(posList).toString());
+
+            Switch(String b.)
         }
         playButton = v.findViewById(R.id.playButton);
         seekBar = v.findViewById(R.id.seekBar);
@@ -379,8 +385,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     public void onCompletion(MediaPlayer mp) {
         onTrackNext();
     }
-
-    ;
 
 
 }
