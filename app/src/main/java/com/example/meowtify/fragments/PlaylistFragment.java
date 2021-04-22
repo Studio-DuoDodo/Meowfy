@@ -111,7 +111,8 @@ public class PlaylistFragment extends Fragment {
                 new GeneralItem("1wuW57ULEfM9pgCYIhROMs", "Beliver", Type.track, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artist14", null)
         ));
 
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130);
+        //todo: modificar lo que se pasa como id
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.playlist, "juan");
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 

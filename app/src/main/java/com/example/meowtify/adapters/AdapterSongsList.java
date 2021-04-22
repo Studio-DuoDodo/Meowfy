@@ -15,6 +15,7 @@ import com.example.meowtify.Utilitis;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
+import com.google.gson.internal.$Gson$Types;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,16 +24,20 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
     List<GeneralItem> items;
     Context context;
     int width;
+    Type listType;
+    String idList;
 
     public void setItems(List<GeneralItem> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
-    public AdapterSongsList(List<GeneralItem> items, Context context, int width) {
+    public AdapterSongsList(List<GeneralItem> items, Context context, int width, Type listType, String idList) {
         this.items = items;
         this.context = context;
         this.width = width;
+        this.listType = listType;
+        this.idList = idList;
     }
 
     @NonNull
@@ -73,6 +78,12 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(listType != null){
+                        generalItem.setId(idList);
+                        generalItem.setExtra1(String.valueOf(items.indexOf(generalItem)));
+                        generalItem.setExtra2(listType.toString());
+                    }else generalItem.setExtra2(Type.track.toString());
+
                     Utilitis.navigationToAAP(generalItem, context);
                 }
             });

@@ -79,6 +79,8 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(generalItem.getType() == Type.track) generalItem.setExtra2("track");
+
                     Utilitis.navigationToAAP(generalItem, context);
 
                     if(!searchFragment.checkRecentlySearch(generalItem)){

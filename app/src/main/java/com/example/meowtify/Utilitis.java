@@ -16,6 +16,7 @@ import com.example.meowtify.fragments.OnFragmentChanged;
 import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.fragments.ReproductorFragment;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,14 @@ public class Utilitis {
                 fragmentTag="Album";
                 break;
             default:
+
+                if(Type.valueOf(generalItem.getExtra2()) != Type.track){
+                    bundle = new Bundle();
+                    bundle.putString("idList", generalItem.getId());
+                    bundle.putInt("posList",Integer.parseInt(generalItem.getExtra1()));
+                }
+                bundle.putSerializable("typeList", Type.valueOf(generalItem.getExtra2()));
+
                 fragment =  new ReproductorFragment();
                 fragmentTag="Reproductor";
 

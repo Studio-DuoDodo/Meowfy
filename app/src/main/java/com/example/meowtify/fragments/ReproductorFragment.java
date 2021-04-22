@@ -28,6 +28,7 @@ import com.example.meowtify.R;
 import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
 import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.SongService;
@@ -65,7 +66,10 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     int position = 0;
     boolean isPlaying = false;
     View v;
+
+    Type type;
     int posList;
+    String idList;
 
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -145,12 +149,16 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         songService = new SongService(v.getContext());
         Bundle b = getArguments();
         if (b != null) {
-            tracks = (List<Song>) b.getSerializable("listSongs");
-            posList = b.getInt("posList");
-            songService.getASongByRef(this::updateSongByAPI, tracks.get(posList).getId());
-            System.out.println( tracks.get(posList).toString());
+            type = (Type) b.getSerializable("typeList");
 
-            Switch(String b.)
+            if(type != Type.track){
+                idList =  b.getString("idList");
+                posList = b.getInt("posList");
+            }
+
+            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+posList);
+
+            songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
         }
         playButton = v.findViewById(R.id.playButton);
         seekBar = v.findViewById(R.id.seekBar);
