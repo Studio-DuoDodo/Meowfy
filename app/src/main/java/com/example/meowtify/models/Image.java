@@ -9,7 +9,7 @@ public class Image {
         this.height = height;
         this.width = width;
         this.url = url;
-    }
+    }   
 
     public Image() {
     }
