@@ -67,9 +67,9 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     boolean isPlaying = false;
     View v;
 
-    Type type;
-    int posList;
-    String idList;
+    public static Type type;
+    public static int posList;
+    public static String idList;
 
     ServiceConnection mConnection = new ServiceConnection() {
         @Override

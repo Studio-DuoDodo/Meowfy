@@ -29,7 +29,10 @@ import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Artist;
+import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
+import com.example.meowtify.models.Track;
+import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
 import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
@@ -70,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     private SongService songService;
     private AlbumService albumService;
     private ArrayList<Song> recentlyPlayedTracks;
+
+
+    //bottomSheetVariables
+    private Type songType;
+    private String idListSong;
+    private int posSong;
+
     private View.OnClickListener addListener = v -> {
         songService.addSongToLibrary(this.song);
         if (recentlyPlayedTracks.size() > 0) {
@@ -164,8 +174,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                Utilitis.navigationToAAP(ReproductorFragment.songService.lastSearchedSong.toGeneralItem(), v.getContext());
+                GeneralItem gi = ReproductorFragment.songService.lastSearchedSong.toGeneralItem();
 
+                gi.setId(idListSong);
+                gi.setExtra1(String.valueOf(posSong));
+                gi.setExtra2(songType.toString());
+
+                Utilitis.navigationToAAP(gi, v.getContext());
             }
         });
     playButton.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +279,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
 
         } else if (inReproductorForFirstTime && ReproductorFragment.songService != null) {
+            songType = ReproductorFragment.type;
+            idListSong = ReproductorFragment.idList;
+            posSong = ReproductorFragment.posList;
+
             Song s = ReproductorFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());
             songTitle.setSelected(true);

@@ -101,7 +101,7 @@ public class    AdapterMainList extends RecyclerView.Adapter<AdapterMainList.Mai
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(generalItem.getType() == Type.track) generalItem.setExtra2("track");
+                    if(generalItem.getType() == Type.track) generalItem.setExtra2(generalItem.getType().toString());
 
                     Utilitis.navigationToAAP(generalItem, context);
                 }
