@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +29,16 @@ import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
+import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
+import com.example.meowtify.services.PlaylistService;
 import com.example.meowtify.services.SongService;
 import com.example.meowtify.services.notifications.CreateNotification;
 import com.example.meowtify.services.notifications.OnClearFromRecentService;
 import com.example.meowtify.services.notifications.Playable;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,11 +50,13 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
     public static GeneralItem song;
-    public static List<Song> tracks;
+    public static List<Song> songs;
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;
     ImageButton favoriteButton;
+    ImageButton shuffelButton;
+    ImageButton repeatButton;
     ImageView songImage;
     TextView titleSong;
     TextView subtitleSong;
@@ -62,6 +66,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     Intent mediaPlayerServiceIntent;
     MediaPlayerService mediaPlayerService;
     AlbumService albumService;
+    ArtistService artistService;
+    PlaylistService playlistService;
     NotificationManager notificationManager;
     int position = 0;
     boolean isPlaying = false;
@@ -164,12 +170,28 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         seekBar = v.findViewById(R.id.seekBar);
         forwardButton = v.findViewById(R.id.nextButton);
         backwardButton = v.findViewById(R.id.prevButton);
+        shuffelButton = v.findViewById(R.id.shuffleButton);
+        repeatButton = v.findViewById(R.id.repeatButton);
         songImage = v.findViewById(R.id.currentSongImage);
         titleSong = v.findViewById(R.id.title);
         subtitleSong = v.findViewById(R.id.subtitle);
         currentDuration = v.findViewById(R.id.currentDuration);
         favoriteButton = v.findViewById(R.id.favButton);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
+
+        //todo switch per al setg de la lista
+        /*switch (type){
+            case album, track:
+                tracks = albumService.getAlbumByRef();
+                break;
+            case artist:
+                tracks = artistService.getTopSongsOfAnArtist();
+                break;
+            case playlist:
+                tracks = playlistService.
+                break;
+        }*/
+
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,6 +212,20 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                 onTrackNext();
             }
         });
+
+        shuffelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.shuffle(songs);
+            }
+        });
+        repeatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songs.add(posList+1, songs.get(posList));
+            }
+        });
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -202,7 +238,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded && tracks != null && fromUser) {
+                if (mBounded && songs != null && fromUser) {
                     System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
                     mediaPlayerService.changeProgress(progress);
 
@@ -259,7 +295,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         albumService = new AlbumService(v.getContext());
         albumService.getAlbumByRef(() -> {
             if (albumService.getLastAlbum()!=null)
-            tracks = albumService.getLastAlbum().getSongs();
+            songs = albumService.getLastAlbum().getSongs();
             onTrackPlay();
 
         }, s.getAlbum().getId());
@@ -323,8 +359,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         //title.setText(tracks.get(position).getName());
         if (position - 1 > 0) {
             position--;
-            ChangeSong(tracks.get(position));
-            CreateNotification.createNotification(getContext(), tracks.get(position), android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+            ChangeSong(songs.get(position));
+            CreateNotification.createNotification(getContext(), songs.get(position), android.R.drawable.ic_media_pause, position, songs.size() - 1);
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
         }
@@ -332,8 +368,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
     @Override
     public void onTrackPlay() {
-        CreateNotification.createNotification(getContext(), tracks.get(position),
-                android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+        CreateNotification.createNotification(getContext(), songs.get(position),
+                android.R.drawable.ic_media_pause, position, songs.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
         if (mBounded)
             MediaPlayerService.resume();
@@ -347,8 +383,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     @Override
     public void onTrackPause() {
 
-        CreateNotification.createNotification(getContext(), tracks.get(position),
-                android.R.drawable.ic_media_play, position, tracks.size() - 1);
+        CreateNotification.createNotification(getContext(), songs.get(position),
+                android.R.drawable.ic_media_play, position, songs.size() - 1);
         if (mBounded)
             mediaPlayerService.pause();
         playButton.setImageResource(android.R.drawable.ic_media_play);
@@ -362,12 +398,12 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
 
         //  title.setText(tracks.get(position).getTitle());
-        if (position + 1 < tracks.size()) {
+        if (position + 1 < songs.size()) {
             position++;
-            CreateNotification.createNotification(getContext(), tracks.get(position),
-                    android.R.drawable.ic_media_pause, position, tracks.size() - 1);
+            CreateNotification.createNotification(getContext(), songs.get(position),
+                    android.R.drawable.ic_media_pause, position, songs.size() - 1);
 
-            ChangeSong(tracks.get(position));
+            ChangeSong(songs.get(position));
 
         } else {
             Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();

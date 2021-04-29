@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 public class AlbumFragment extends Fragment {
@@ -67,12 +69,18 @@ public class AlbumFragment extends Fragment {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
 
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
-
         }
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: do funcion navigation to reproductor
+                GeneralItem generalItem = album.toGeneralItem();
+
+                generalItem.setId(album.getId());
+                generalItem.setType(Type.track);
+                generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
+                generalItem.setExtra2(Type.album.toString());
+
+                Utilitis.navigationToAAP(generalItem, getContext());
             }
         });
         buttonFavorite.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +110,7 @@ public class AlbumFragment extends Fragment {
         ));
 
         //todo: modificar lo que se pasa como id
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.album, "pepe");
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.album, null);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -130,6 +138,7 @@ public class AlbumFragment extends Fragment {
         subtitelAlbum.setText(subtitel);
         album=currentAlbum;
         adapterSongs.setItems(currentAlbum.getSongsConverted());
+        adapterSongs.setIdList(album.getId());
         //});
 
     }

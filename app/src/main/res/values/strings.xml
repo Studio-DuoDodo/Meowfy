@@ -9,4 +9,5 @@
     <string name="home">home</string>
     <string name="your_library">your library</string>
     <string name="textNewList">Give your playlist a name</string>
+    <string name="songs">songs</string>
 </resources>
