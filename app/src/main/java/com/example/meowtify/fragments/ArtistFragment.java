@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
+import com.example.meowtify.Utilitis;
 import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Album;
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 public class ArtistFragment extends Fragment {
@@ -86,7 +88,14 @@ public class ArtistFragment extends Fragment {
         buttonShuffel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: do funcion navigation
+                GeneralItem generalItem = artist.toGeneralItem();
+
+                generalItem.setId(artist.getId());
+                generalItem.setType(Type.track);
+                generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
+                generalItem.setExtra2(Type.artist.toString());
+
+                Utilitis.navigationToAAP(generalItem, getContext());
             }
         });
         buttonFolllow.setOnClickListener(new View.OnClickListener() {

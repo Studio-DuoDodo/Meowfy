@@ -32,6 +32,10 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
         notifyDataSetChanged();
     }
 
+    public void setIdList(String idList) {
+        this.idList = idList;
+    }
+
     public AdapterSongsList(List<GeneralItem> items, Context context, int width, Type listType, String idList) {
         this.items = items;
         this.context = context;
