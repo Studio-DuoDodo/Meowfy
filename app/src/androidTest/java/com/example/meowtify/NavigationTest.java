@@ -36,10 +36,10 @@ public class NavigationTest {
     }
 
     @Test
-    public void mainToReproductor() {
-        onView(withId(R.id.listaRecently))
+    public void mainToAlbum() {
+        onView(withId(R.id.listaJumpBack2))
                 .perform(click());
 
-        onView(withId(R.id.playButton)).check(matches(isEnabled()));
+        onView(withId(R.id.image_album)).check(matches(isEnabled()));
     }
 }
