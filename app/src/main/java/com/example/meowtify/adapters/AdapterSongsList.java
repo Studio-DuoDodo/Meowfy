@@ -93,4 +93,10 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
             });
         }
     }
+
+
+    public void setListType(Type listType) {
+        this.listType = listType;
+        notifyDataSetChanged();
+    }
 }
