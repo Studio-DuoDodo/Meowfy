@@ -183,21 +183,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
                 gi.setExtra1(String.valueOf(posSong));
                 gi.setExtra2(songType.toString());
 
+                System.out.println(gi.toString());
                 Utilitis.navigationToAAP(gi, v.getContext());
             }
         });
-    playButton.setOnClickListener(new View.OnClickListener() {
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onClick(View v) {
-        if (MediaPlayerService.isPlaying()){
-            MediaPlayerService.pause();
-            playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_play));
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if (MediaPlayerService.isPlaying()){
+                    MediaPlayerService.pause();
+                    playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_play));
 
-        }else {
-        MediaPlayerService.resume();
-            playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
-
+                }else {
+                MediaPlayerService.resume();
+                    playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
 
         }}
 });
@@ -282,9 +282,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
 
         } else if (inReproductorForFirstTime && ReproductorFragment.songService != null) {
-            songType = ReproductorFragment.type;
+            if(ReproductorFragment.type == Type.track) songType = Type.album;
+            else songType = ReproductorFragment.type;
             idListSong = ReproductorFragment.idList;
-            posSong = ReproductorFragment.posList;
+            posSong = ReproductorFragment.position;
+            System.out.println("type lista "+songType+"\n id lista "+idListSong+"\nposicion lista "+ReproductorFragment.position);
 
             Song s = ReproductorFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());

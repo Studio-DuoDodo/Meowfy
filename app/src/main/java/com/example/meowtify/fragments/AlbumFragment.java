@@ -67,7 +67,6 @@ public class AlbumFragment extends Fragment {
         Bundle b = getArguments();
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
-
             albumService.getAlbumByRef(this::updateAlbumByAPI, generalItem.getId());
         }
         buttonShuffel.setOnClickListener(new View.OnClickListener() {

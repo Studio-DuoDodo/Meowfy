@@ -70,12 +70,11 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     ArtistService artistService;
     PlaylistService playlistService;
     NotificationManager notificationManager;
-    int position = 0;
     boolean isPlaying = false;
     View v;
 
     public static Type type;
-    public static int posList;
+    public static int position = 0;
     public static String idList;
 
     ServiceConnection mConnection = new ServiceConnection() {
@@ -173,7 +172,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                         }
                         updateSongByAPI();
 
-                    },((GeneralItem)b.getSerializable("generalItem")).getId());
+                    },idList);
                     break;
                 case track:
                     //refactor this
@@ -190,9 +189,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
                         },songService.lastSearchedSong.getAlbum().getId());
                     },((GeneralItem)b.getSerializable("generalItem")).getId());
-
-
-break;
+                    break;
                 case artist:
                     //     songs = artistService.getTopSongsOfAnArtist();
                     break;
@@ -204,11 +201,9 @@ break;
                                 + songs.toString());
                         ChangeSong(songs.get(position));
                     },idList);
-
-
                     break;
             }
-            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+posList);
+            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+position);
 
           //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
               // songService.getASongByRef(this::updateSongByAPI, );
@@ -258,7 +253,7 @@ break;
         repeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songs.add(posList+1, songs.get(posList));
+                songs.add(position+1, songs.get(position));
             }
         });
 

@@ -44,9 +44,9 @@ public class Utilitis {
                 fragmentTag="Album";
                 break;
             default:
+                bundle = new Bundle();
 
                 if(Type.valueOf(generalItem.getExtra2()) != Type.track){
-                    bundle = new Bundle();
                     bundle.putString("idList", generalItem.getId());
                     bundle.putInt("posList",Integer.parseInt(generalItem.getExtra1()));
                 }
