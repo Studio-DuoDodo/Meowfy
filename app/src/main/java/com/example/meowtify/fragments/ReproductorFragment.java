@@ -45,8 +45,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
-    public static GeneralItem song;
-    public static List<Song> tracks;
+     public static List<Song> tracks;
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;

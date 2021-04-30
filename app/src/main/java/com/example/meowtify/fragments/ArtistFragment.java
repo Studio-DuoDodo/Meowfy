@@ -92,7 +92,8 @@ public class ArtistFragment extends Fragment {
                 //
                 //
                 if (artist!=null) {
-                    artistService.followAnArtist(artist);
+                    //todo
+               //     artistService.followAnArtist(artist);
 
                 }}
         });
@@ -103,7 +104,8 @@ public class ArtistFragment extends Fragment {
                 String text = buttonFolllow.getText().toString();
                 System.out.println(text);
                 if (!isFollowing) {
-                    artistService.followAnArtist(artist);
+            //todo
+                    //        artistService.followAnArtist(artist);
                     text = "unfollow";
                     isFollowing=true;
                 } else if (isFollowing) {
