@@ -235,7 +235,7 @@ public class ArtistService {
     }
 
 
-    /*
+
      public void unfollowAArtist(Artist artist) {
          JSONObject payload = new JSONObject();
          System.out.println("ID to follow" + " = " + artist.getId());
@@ -292,7 +292,7 @@ public class ArtistService {
      }
 
      private JsonObjectRequest prepareFollowPlaylistRequest(JSONObject payload, String id) {
-         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/following?type=artist&ids= + id + "/followers", payload, response -> {
+         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/following?type=artist&ids=" + id + "/followers", payload, response -> {
          }, error -> {
          }) {
              @Override
@@ -322,7 +322,6 @@ public class ArtistService {
              }
          };
      }
- */
     private JSONObject preparePutPayload(Playlist playlist) {
 
         JSONObject ids = new JSONObject();

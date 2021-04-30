@@ -44,7 +44,9 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChanged {
     private static final String CLIENT_ID = "8175f0284ba94a128cca4b9d788449a6";
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             recentlyPlayedTracks.remove(0);
 
         }
+
         updateSong();
         //  getArtists();
         //   songService.getFeaturedPlayList(() -> {

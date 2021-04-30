@@ -33,7 +33,7 @@ import java.util.Random;
 
 public class ArtistFragment extends Fragment {
 
-
+ boolean isFollowing=false;
     ImageView imageArtist;
     TextView nameArtist, subtitelArtist;
     Button buttonShuffel, buttonFolllow;
@@ -76,7 +76,8 @@ public class ArtistFragment extends Fragment {
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
             artistService.getArtistByid(generalItem.getId(), this::updateArtistByAPI);
-            artistService.getRelatedArtists(this::updateRelatedArtistsByAPI, generalItem.getId());
+            artistService.checkIfTheUserFollowsAArtist(this::updateFollowButtonByAPI,generalItem.getId());
+             artistService.getRelatedArtists(this::updateRelatedArtistsByAPI, generalItem.getId());
             artistService.getArtistAlbums(this::updateArtistAlbumsByAPI, generalItem.getId(), "ES", 30, 0);
             artistService.getTopSongsOfAnArtist(this::updateArtistTopTracksByAPI, generalItem.getId(), "ES");
         }
@@ -96,7 +97,11 @@ public class ArtistFragment extends Fragment {
                 generalItem.setExtra2(Type.artist.toString());
 
                 Utilitis.navigationToAAP(generalItem, getContext());
-            }
+                if (artist!=null) {
+                    //todo
+                    //     artistService.followAnArtist(artist);
+
+                }   }
         });
         buttonFolllow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +109,15 @@ public class ArtistFragment extends Fragment {
                 //todo: add to the follow playlist
                 String text = buttonFolllow.getText().toString();
                 System.out.println(text);
-                if (text.equals("follow")) {
-
+                if (!isFollowing) {
+                    //todo
+                    //        artistService.followAnArtist(artist);
                     text = "unfollow";
-                } else if (text.equals("unfollow")) {
-
+                    isFollowing=true;
+                } else if (isFollowing) {
+                    artistService.unfollowAArtist(artist);
                     text = "follow";
+                    isFollowing=false;
                 }
                 buttonFolllow.setText(text);
             }
@@ -131,8 +139,7 @@ public class ArtistFragment extends Fragment {
         ));
         if (songsList.size() > 10) songsList = songsList.subList(0, 10);
 
-        //todo: modificar lo que se pasa como id
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.artist, "pepe");
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -159,6 +166,9 @@ public class ArtistFragment extends Fragment {
         relatedArtist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         return v;
+    }
+    private void updateFollowButtonByAPI() {
+        isFollowing=artistService.isLastCheck();
     }
 
     private void updateArtistTopTracksByAPI() {

@@ -45,6 +45,7 @@ public class PlaylistFragment extends Fragment {
 
     public PlaylistFragment() {
         // Required empty public constructor
+
     }
 
 
