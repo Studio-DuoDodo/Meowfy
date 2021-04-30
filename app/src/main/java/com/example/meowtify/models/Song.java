@@ -31,6 +31,7 @@ public int popularity;
     private String id;
 
     public  GeneralItem  toGeneralItem(){
+        //todo aqui hay error en alguna lista
         GeneralItem item= new GeneralItem(id, name, type, album.getImages().get(0).getUrl(), artists.get(0).getName(), album.getName());
 
         System.out.println("GeneralItem generado: " + item.toString());
@@ -140,5 +141,9 @@ public  Song(){
                 ", type=" + type +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 }

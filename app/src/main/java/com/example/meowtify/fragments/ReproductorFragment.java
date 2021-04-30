@@ -38,6 +38,7 @@ import com.example.meowtify.services.notifications.OnClearFromRecentService;
 import com.example.meowtify.services.notifications.Playable;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -50,7 +51,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
     public static GeneralItem song;
-    public static List<Song> songs;
+    public static List<Song> songs= new ArrayList<>();
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;
@@ -159,12 +160,58 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
             if(type != Type.track){
                 idList =  b.getString("idList");
-                posList = b.getInt("posList");
+                position = b.getInt("posList");
             }
+            switch (type){
+                case album:
+                    albumService = new AlbumService(v.getContext());
+                    albumService.getAlbumByRef(() -> {
+                        if (albumService.getLastAlbum()!=null)
+                            songs = albumService.getLastAlbum().getSongs();
+                        for (int i = 0; i <songs.size() ; i++) {
+                            songs.get(i).setAlbum(albumService.getLastAlbum());
+                        }
+                        updateSongByAPI();
 
+                    },((GeneralItem)b.getSerializable("generalItem")).getId());
+                    break;
+                case track:
+                    //refactor this
+                    songService= new SongService(v.getContext());
+                    songService.getASongByRef(()->{
+                        albumService = new AlbumService(v.getContext());
+                        albumService.getAlbumByRef(() -> {
+                            if (albumService.getLastAlbum()!=null)
+                                songs = albumService.getLastAlbum().getSongs();
+                            for (int i = 0; i <songs.size() ; i++) {
+                                songs.get(i).setAlbum(albumService.getLastAlbum());
+                            }
+                            updateSongByAPI();
+
+                        },songService.lastSearchedSong.getAlbum().getId());
+                    },((GeneralItem)b.getSerializable("generalItem")).getId());
+
+
+break;
+                case artist:
+                    //     songs = artistService.getTopSongsOfAnArtist();
+                    break;
+                case playlist:
+                    playlistService= new PlaylistService(v.getContext());
+                    playlistService.getAPlayListByRef(()->{
+                        songs=   playlistService.getLastSearchedPlaylist().getSongs();
+                        System.out.println("songs is"
+                                + songs.toString());
+                        ChangeSong(songs.get(position));
+                    },idList);
+
+
+                    break;
+            }
             System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+posList);
 
-            songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
+          //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
+              // songService.getASongByRef(this::updateSongByAPI, );
         }
         playButton = v.findViewById(R.id.playButton);
         seekBar = v.findViewById(R.id.seekBar);
@@ -179,18 +226,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         favoriteButton = v.findViewById(R.id.favButton);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
 
-        //todo switch per al setg de la lista
-        /*switch (type){
-            case album, track:
-                tracks = albumService.getAlbumByRef();
-                break;
-            case artist:
-                tracks = artistService.getTopSongsOfAnArtist();
-                break;
-            case playlist:
-                tracks = playlistService.
-                break;
-        }*/
+
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +311,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         v.getContext().startService(mediaPlayerServiceIntent);
         v.getContext().bindService(mediaPlayerServiceIntent, mConnection, BIND_AUTO_CREATE);
 
-        Song s = songService.getLastSearchedSong();
+        Song s = songs.get(position);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
             v.getContext().registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
@@ -287,18 +323,15 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
         //seekBar.setProgress(0);
         titleSong.setText(s.getName());
+
         subtitleSong.setText(s.getAlbum().getArtistNames());
         subtitleSong.setText(s.getAlbum().getArtistNames());
         Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
         if (mBounded)
             mediaPlayerService.changeSong(s);
-        albumService = new AlbumService(v.getContext());
-        albumService.getAlbumByRef(() -> {
-            if (albumService.getLastAlbum()!=null)
-            songs = albumService.getLastAlbum().getSongs();
-            onTrackPlay();
+         onTrackPlay();
 
-        }, s.getAlbum().getId());
+
 
         //todo: obtener si la cancion esta en favoritos o no, i descomentar el if
         //if(boolfavoritos) {

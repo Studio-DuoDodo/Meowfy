@@ -74,6 +74,7 @@ public class PlaylistFragment extends Fragment {
          Bundle b = getArguments();
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
+            playlist.setId(generalItem.getId());
             playlistService.getAPlayListByRef(this::updatePlaylistByAPI, generalItem.getId());
         }
 
@@ -122,7 +123,7 @@ public class PlaylistFragment extends Fragment {
         ));
 
         //todo: modificar lo que se pasa como id
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.playlist, "juan");
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.playlist, playlist.getId());
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 

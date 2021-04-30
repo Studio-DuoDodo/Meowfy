@@ -139,7 +139,7 @@ public class ArtistFragment extends Fragment {
         ));
         if (songsList.size() > 10) songsList = songsList.subList(0, 10);
 
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130);
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130,null,null);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 

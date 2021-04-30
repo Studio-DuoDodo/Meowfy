@@ -51,7 +51,7 @@ public class Utilitis {
                     bundle.putInt("posList",Integer.parseInt(generalItem.getExtra1()));
                 }
                 bundle.putSerializable("typeList", Type.valueOf(generalItem.getExtra2()));
-
+                bundle.putSerializable("generalItem", generalItem);
                 fragment =  new ReproductorFragment();
                 fragmentTag="Reproductor";
 

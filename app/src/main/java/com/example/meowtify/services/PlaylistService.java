@@ -35,12 +35,17 @@ public class PlaylistService {
     String token2 = "BQBmx65FSMiYCKgQh-_0LHs-_GrOAiHlfcKc1x8oaoDxhUDP7FsLghn9N0MSJaSt8wLofLAePIO0zcZTL8z_pUIuieiWp47T8YYlQ8dRKAB7zFCNnhoDa86pyYLbBhEFXCd5QHeDH9GYm771YZe15TeAwQuPMUKrM2Ej2bRKYjyWvQ0vHnzt9vziMU8nB4cPjKDFpD3CnoRyHbTZVDIUz4fzif4Ul3a6XIVgDxXXCLBoy2dYtn5tmCXl-tTpntdmR-WNVHzdmYMeY-ujttt_XXOuh8TPiiSI71zuVKExgwyl";
     //
     boolean lastCheck;
+    Playlist lastSearchedPlaylist;
     List<Album> newReleases = new ArrayList<>();
     List<Playlist> developersPlaylist = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private ArrayList<Playlist> playlists = new ArrayList<>();
     private ArrayList<Playlist> featuredPlaylists = new ArrayList<>();
+
+    public Playlist getLastSearchedPlaylist() {
+        return lastSearchedPlaylist;
+    }
 
     public PlaylistService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -56,6 +61,7 @@ public class PlaylistService {
         System.out.println(playlists.toString() + "Vendetta");
         return featuredPlaylists;
     }
+
 
     public List<Playlist> getUserPlayLists(final VolleyCallBack callBack, int max, int offset) {
         List<Playlist> playlists = new ArrayList<>();
@@ -191,6 +197,7 @@ public class PlaylistService {
 
                         }
                         developersPlaylist.add(p);
+                        lastSearchedPlaylist=p;
 
                     } catch (JSONException e) {
                         e.printStackTrace();
