@@ -32,6 +32,7 @@ import java.util.Random;
 
 
 public class ArtistFragment extends Fragment {
+    String songListsIds ="";
 
  boolean isFollowing=false;
     ImageView imageArtist;
@@ -139,7 +140,7 @@ public class ArtistFragment extends Fragment {
         ));
         if (songsList.size() > 10) songsList = songsList.subList(0, 10);
 
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130,null,null);
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130,Type.artist,songListsIds);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -150,7 +151,7 @@ public class ArtistFragment extends Fragment {
                 new GeneralItem("1wuW57ULEfM9pgCYIhROMs", "Beliver", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "2016", null)
         ));
 
-        adapterAlbum = new AdapterSongsList(albumsList, getContext(), 200, null, null);
+        adapterAlbum = new AdapterSongsList(albumsList, getContext(), 200, null, songListsIds);
         albums.setAdapter(adapterAlbum);
         albums.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -177,8 +178,12 @@ public class ArtistFragment extends Fragment {
 
         for (Song s : a) {
             generalItemList.add(s.toGeneralItemArtist());
+            songListsIds+= s.getId() + " ";
+
+
         }
         adapterSongs.setItems(generalItemList);
+        adapterSongs.setIdList(songListsIds);
     }
 
     private void updateArtistAlbumsByAPI() {

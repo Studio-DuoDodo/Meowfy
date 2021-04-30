@@ -51,7 +51,10 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
     public static GeneralItem song;
-    public static List<Song> songs= new ArrayList<>();
+    public static List<Song> songs = new ArrayList<>();
+    public static Type type;
+    public static int posList;
+    public static String idList;
     ImageButton playButton;
     ImageButton forwardButton;
     ImageButton backwardButton;
@@ -73,11 +76,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     int position = 0;
     boolean isPlaying = false;
     View v;
-
-    public static Type type;
-    public static int posList;
-    public static String idList;
-
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -158,60 +156,78 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         if (b != null) {
             type = (Type) b.getSerializable("typeList");
 
-            if(type != Type.track){
-                idList =  b.getString("idList");
+            if (type != Type.track) {
+                idList = b.getString("idList");
                 position = b.getInt("posList");
             }
-            switch (type){
+            switch (type) {
                 case album:
                     albumService = new AlbumService(v.getContext());
                     albumService.getAlbumByRef(() -> {
-                        if (albumService.getLastAlbum()!=null)
+                        if (albumService.getLastAlbum() != null)
                             songs = albumService.getLastAlbum().getSongs();
-                        for (int i = 0; i <songs.size() ; i++) {
+                        for (int i = 0; i < songs.size(); i++) {
                             songs.get(i).setAlbum(albumService.getLastAlbum());
                         }
                         updateSongByAPI();
 
-                    },((GeneralItem)b.getSerializable("generalItem")).getId());
+                    }, ((GeneralItem) b.getSerializable("generalItem")).getId());
                     break;
                 case track:
                     //refactor this
-                    songService= new SongService(v.getContext());
-                    songService.getASongByRef(()->{
+                    songService = new SongService(v.getContext());
+                    songService.getASongByRef(() -> {
                         albumService = new AlbumService(v.getContext());
                         albumService.getAlbumByRef(() -> {
-                            if (albumService.getLastAlbum()!=null)
+                            if (albumService.getLastAlbum() != null)
                                 songs = albumService.getLastAlbum().getSongs();
-                            for (int i = 0; i <songs.size() ; i++) {
+                            for (int i = 0; i < songs.size(); i++) {
                                 songs.get(i).setAlbum(albumService.getLastAlbum());
                             }
                             updateSongByAPI();
 
-                        },songService.lastSearchedSong.getAlbum().getId());
-                    },((GeneralItem)b.getSerializable("generalItem")).getId());
+                        }, songService.lastSearchedSong.getAlbum().getId());
+                    }, ((GeneralItem) b.getSerializable("generalItem")).getId());
 
 
-break;
+                    break;
                 case artist:
+                    String[] idsSongs = idList.split(" ");
+                    for (int i = 0; i < idsSongs.length; i++) {
+                        if (!idsSongs[i].contains(" ") && !idsSongs[i].isEmpty()) {
+                            int finalI = i;
+                            songService.getASongByRef(()->{
+                                Song songTemp = songService.lastSearchedSong;
+                                songs.add(songTemp);
+                                if (finalI ==idsSongs.length-1){
+                                    ChangeSong(songTemp);
+                                }
+
+                            },idsSongs[i]);
+                    }
+
+
+                        System.out.println("Generated songs ids" + songs.toString());
+
+                    }
                     //     songs = artistService.getTopSongsOfAnArtist();
                     break;
                 case playlist:
-                    playlistService= new PlaylistService(v.getContext());
-                    playlistService.getAPlayListByRef(()->{
-                        songs=   playlistService.getLastSearchedPlaylist().getSongs();
+                    playlistService = new PlaylistService(v.getContext());
+                    playlistService.getAPlayListByRef(() -> {
+                        songs = playlistService.getLastSearchedPlaylist().getSongs();
                         System.out.println("songs is"
                                 + songs.toString());
                         ChangeSong(songs.get(position));
-                    },idList);
+                    }, idList);
 
 
                     break;
             }
-            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+posList);
+            System.out.println("type: " + type.toString() + "\nidList: " + idList + "\nposList: " + posList);
 
-          //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
-              // songService.getASongByRef(this::updateSongByAPI, );
+            //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
+            // songService.getASongByRef(this::updateSongByAPI, );
         }
         playButton = v.findViewById(R.id.playButton);
         seekBar = v.findViewById(R.id.seekBar);
@@ -225,7 +241,6 @@ break;
         currentDuration = v.findViewById(R.id.currentDuration);
         favoriteButton = v.findViewById(R.id.favButton);
         mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
-
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +273,7 @@ break;
         repeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songs.add(posList+1, songs.get(posList));
+                songs.add(posList + 1, songs.get(posList));
             }
         });
 
@@ -291,12 +306,12 @@ break;
             public void onClick(View v) {
                 if (favoriteButton.getTag(R.string.albunes).equals("1")) {
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                    favoriteButton.setTag(R.string.albunes,"0");
+                    favoriteButton.setTag(R.string.albunes, "0");
 
                     //todo: add to the favorit list of albums
                 } else {
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                    favoriteButton.setTag(R.string.albunes,"1");
+                    favoriteButton.setTag(R.string.albunes, "1");
 
                     //todo: delete of the favorit list of albums
                 }
@@ -312,6 +327,7 @@ break;
         v.getContext().bindService(mediaPlayerServiceIntent, mConnection, BIND_AUTO_CREATE);
 
         Song s = songs.get(position);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
             v.getContext().registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
@@ -323,20 +339,24 @@ break;
 
         //seekBar.setProgress(0);
         titleSong.setText(s.getName());
+        if (s.getAlbum() != null) {
+            subtitleSong.setText(s.getAlbum().getArtistNames());
+            subtitleSong.setText(s.getAlbum().getArtistNames());
+            Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
+            if (mBounded)
+                mediaPlayerService.changeSong(s);
+            onTrackPlay();
+        } else {
+            System.out.println("S es " + s.toString());
 
-        subtitleSong.setText(s.getAlbum().getArtistNames());
-        subtitleSong.setText(s.getAlbum().getArtistNames());
-        Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
-        if (mBounded)
-            mediaPlayerService.changeSong(s);
-         onTrackPlay();
 
+        }
 
 
         //todo: obtener si la cancion esta en favoritos o no, i descomentar el if
         //if(boolfavoritos) {
-            favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-            favoriteButton.setTag(R.string.albunes,"0");
+        favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
+        favoriteButton.setTag(R.string.albunes, "0");
         /*}else {
             buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
             buttonFavorite.setTag(R.string.albunes,"1");
@@ -373,7 +393,7 @@ break;
     }
 
     public void ChangeSong(Song s) {
-     //   System.out.println(song.toString());
+        //   System.out.println(song.toString());
         songService.getASongByRef(this::updateSongByAPI, s.getId());
 /*
         titleSong.setText(s.getName());
