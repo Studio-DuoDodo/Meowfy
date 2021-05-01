@@ -245,13 +245,13 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             @Override
             public void onClick(View v) {
                 if (favoriteButton.getTag(R.string.albunes).equals("1")) {
-                    songService.addSongToLibrary(songs.get(position));
+                    songService.addSongToLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
                     favoriteButton.setTag(R.string.albunes, "0");
 
                     //todo: add to the favorit list of albums
                 } else {
-                    songService.removeSongOfLibrary(songs.get(position));
+                    songService.removeSongOfLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
                     favoriteButton.setTag(R.string.albunes, "1");
 
@@ -300,7 +300,7 @@ songService.checkIfTheUserHasASongInFavorites(()->{
         favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
         favoriteButton.setTag(R.string.albunes,"1");
     }
-},songs.get(position).getId());
+},mainActivity.songs.get(mainActivity.position).getId());
 
 
     }
