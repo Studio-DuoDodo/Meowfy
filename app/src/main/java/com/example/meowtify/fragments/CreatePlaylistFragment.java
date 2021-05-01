@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.meowtify.R;
+import com.example.meowtify.services.PlaylistService;
 
 import java.util.Objects;
 
@@ -92,7 +93,8 @@ public class CreatePlaylistFragment extends Fragment {
                 else name = newName.getText().toString();
 
                 // TODO: metode per afegir a una playlist amb nom == name
-
+                PlaylistService playlistService = new PlaylistService(getContext());
+                playlistService.createAPlaylist(name,"Created with Meowfy", true);
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new YourLibraryFragment()).commit();
             }
         });

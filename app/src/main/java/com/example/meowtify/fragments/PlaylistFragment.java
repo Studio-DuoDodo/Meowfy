@@ -146,7 +146,9 @@ public class PlaylistFragment extends Fragment {
              }
              playlist = playlists.get(0);
              namePlaylist.setText(playlist.getName());
+           if (playlist.getImages().length!=0)
              Picasso.with(getView().getContext()).load(playlist.getImages()[0].url).into(imagePlaylist);
+      else Picasso.with(getView().getContext()).load("https://depor.com/resizer/y0QpdzhnMuUBnXCguq_9y_MOiFs=/1200x675/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/RGKQY6IKM5GQ3N55KHVWVKSQI4.png").into(imagePlaylist);
              String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
              subtitelPlaylist.setText(subtitel);
 
