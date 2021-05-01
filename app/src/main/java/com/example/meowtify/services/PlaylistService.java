@@ -312,9 +312,29 @@ public class PlaylistService {
         JsonObjectRequest jsonObjectRequest = prepareFollowPlaylistRequest(payload, playlist.getId());
         queue.add(jsonObjectRequest);
     }
+    public void createAPlaylist(String name,String description, boolean isPublic) {
+        JSONObject payload = preparePutPayloadUserPlaylist(name,description,isPublic);
+         JsonObjectRequest jsonObjectRequest = prepareCreatePlaylistRequest(payload);
+        queue.add(jsonObjectRequest);
+    }
 
     private JsonObjectRequest prepareFollowPlaylistRequest(JSONObject payload, String id) {
         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/playlists/" + id + "/followers", payload, response -> {
+        }, error -> {
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
+    private JsonObjectRequest prepareCreatePlaylistRequest(JSONObject payload) {
+        return new JsonObjectRequest(Request.Method.POST, "https://api.spotify.com/v1/users/"+sharedPreferences.getString("userid", null) + "/playlists", payload, response -> {
         }, error -> {
         }) {
             @Override
@@ -350,6 +370,17 @@ public class PlaylistService {
         JSONObject ids = new JSONObject();
         try {
             ids.put("public", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+    private JSONObject preparePutPayloadUserPlaylist(String name, String description, boolean isPublic) {
+        JSONObject ids = new JSONObject();
+        try {
+            ids.put("name", name);
+            ids.put("description", description);
+            ids.put("public", isPublic);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -200,7 +200,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                                 Song songTemp = songService.lastSearchedSong;
                                 songs.add(songTemp);
                                 if (finalI ==idsSongs.length-1){
-                                    ChangeSong(songTemp);
+                                  ChangeSong(songs.get(position));
                                 }
 
                             },idsSongs[i]);
@@ -337,6 +337,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
         //seekBar.setProgress(0);
         titleSong.setText(s.getName());
+        titleSong.setSelected(true);
         if (s.getAlbum() != null) {
             subtitleSong.setText(s.getAlbum().getArtistNames());
             subtitleSong.setText(s.getAlbum().getArtistNames());
@@ -420,14 +421,12 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
     @Override
     public void onTrackPlay() {
-        System.out.println("play");
 
         CreateNotification.createNotification(getContext(), songs.get(position),
                 android.R.drawable.ic_media_pause, position, songs.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
         if (mBounded)
             MediaPlayerService.resume();
-        //title.setText(tracks.get(position).getTitle());
         isPlaying = true;
         startSeekBar();
 
@@ -436,7 +435,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
     @Override
     public void onTrackPause() {
-        System.out.println("pause");
 
         CreateNotification.createNotification(getContext(), songs.get(position),
                 android.R.drawable.ic_media_play, position, songs.size() - 1);
@@ -473,6 +471,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     @Override
     public void onDestroy() {
         super.onDestroy();
+        songs.clear();
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.cancelAll();
         }

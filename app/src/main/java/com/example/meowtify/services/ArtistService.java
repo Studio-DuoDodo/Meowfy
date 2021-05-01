@@ -245,7 +245,7 @@ public class ArtistService {
 
      public AtomicBoolean checkIfTheUserFollowsAArtist(final VolleyCallBack callBack, String artistId) {
          AtomicBoolean user = new AtomicBoolean(false);
-         String endpoint = "https://api.spotify.com/v1/me/following/contains?type=artist&ids=/me/following/contains?type=artist&ids=https://api.spotify.com/v1/playlists/" + artistId + "/followers/contains?ids=" + sharedPreferences.getString("userid", null);
+         String endpoint = "https://api.spotify.com/v1/me/following/contains?type=artist&ids=" + artistId;
          JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                  (Request.Method.GET, endpoint, null, response -> {
                      try {
@@ -284,15 +284,15 @@ public class ArtistService {
      public boolean isLastCheck() {
          return lastCheck;
      }
-     public void followAPlaylist(Playlist playlist) {
-         JSONObject payload = preparePutPayload(playlist);
-         System.out.println("ID to follow" + " = " + playlist.getId());
-         JsonObjectRequest jsonObjectRequest = prepareFollowPlaylistRequest(payload, playlist.getId());
+     public void followAnArtist(Artist artist) {
+         JSONObject payload = preparePutPayload();
+         System.out.println("ID to follow" + " = " + artist.getId());
+         JsonObjectRequest jsonObjectRequest = prepareFollowArtistRequest(payload, artist.getId());
          queue.add(jsonObjectRequest);
      }
 
-     private JsonObjectRequest prepareFollowPlaylistRequest(JSONObject payload, String id) {
-         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/following?type=artist&ids=" + id + "/followers", payload, response -> {
+     private JsonObjectRequest prepareFollowArtistRequest(JSONObject payload, String id) {
+         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/following?type=artist&ids=" + id , payload, response -> {
          }, error -> {
          }) {
              @Override
@@ -308,7 +308,7 @@ public class ArtistService {
      }
 
      private JsonObjectRequest prepareUnfollowArtistRequest(JSONObject payload, String id) {
-         return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/playlists/" + id + "/followers", payload, response -> {
+         return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/me/following?type=artist&ids=" + id , payload, response -> {
          }, error -> {
          }) {
              @Override
@@ -322,7 +322,7 @@ public class ArtistService {
              }
          };
      }
-    private JSONObject preparePutPayload(Playlist playlist) {
+    private JSONObject preparePutPayload() {
 
         JSONObject ids = new JSONObject();
         try {

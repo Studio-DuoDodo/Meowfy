@@ -111,8 +111,8 @@ public class ArtistFragment extends Fragment {
                 String text = buttonFolllow.getText().toString();
                 System.out.println(text);
                 if (!isFollowing) {
-                    //todo
-                    //        artistService.followAnArtist(artist);
+
+                       artistService.followAnArtist(artist);
                     text = "unfollow";
                     isFollowing=true;
                 } else if (isFollowing) {
@@ -170,6 +170,15 @@ public class ArtistFragment extends Fragment {
     }
     private void updateFollowButtonByAPI() {
         isFollowing=artistService.isLastCheck();
+        System.out.println("The user is following the current artist "+ isFollowing);
+        String text = buttonFolllow.getText().toString();
+        System.out.println(text);
+        if (!isFollowing) {
+              text = "follow";
+        } else if (isFollowing) {
+            text = "unfollow";
+        }
+        buttonFolllow.setText(text);
     }
 
     private void updateArtistTopTracksByAPI() {
@@ -208,6 +217,7 @@ public class ArtistFragment extends Fragment {
 
     private void updateArtistByAPI() {
         Artist a = artistService.getLastSearchedArtist();
+        artist=a;
         Picasso.with(getContext()).load(a.images.get(0).url).into(imageArtist);
         nameArtist.setText(a.getName());
         subtitelArtist.setText(a.getFollowers().getTotal() + " FOLLOWERS");
