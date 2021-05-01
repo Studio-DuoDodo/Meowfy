@@ -1,15 +1,12 @@
 package com.example.meowtify.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.LibraryPagerAdapter;
@@ -19,9 +16,7 @@ public class YourLibraryFragment extends Fragment {
 
 
     public YourLibraryFragment() {
-        // Required empty public constructor
     }
-
 
 
     @Override

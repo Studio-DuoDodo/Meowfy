@@ -13,17 +13,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meowtify.R;
 import com.example.meowtify.Utilitis;
 import com.example.meowtify.activities.MainActivity;
-import com.example.meowtify.models.User;
-import com.example.meowtify.services.PlaylistService;
-import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Followers;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
+import com.example.meowtify.models.User;
+import com.example.meowtify.services.PlaylistService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,8 +49,6 @@ public class PlaylistFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,7 @@ public class PlaylistFragment extends Fragment {
         songs = v.findViewById(R.id.songs);
         playlist = new Playlist(false, new Followers(), null, null, null, null, null, new User("default"), true, null, null, null);
         Picasso.with(v.getContext()).load("http://i.imgur.com/DvpvklR.png").into(imagePlaylist);
-         Bundle b = getArguments();
+        Bundle b = getArguments();
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
             playlist.setId(generalItem.getId());
@@ -79,40 +77,33 @@ public class PlaylistFragment extends Fragment {
         }
 
         namePlaylist.setText(playlist.getName());
-         String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+        String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
         subtitelPlaylist.setText(subtitel);
 
-        buttonShuffel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GeneralItem generalItem = playlist.toGeneralItem();
+        buttonShuffel.setOnClickListener(view -> {
+            GeneralItem generalItem = playlist.toGeneralItem();
 
-                generalItem.setId(playlist.getId());
-                generalItem.setType(Type.track);
-                generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
-                generalItem.setExtra2(Type.playlist.toString());
+            generalItem.setId(playlist.getId());
+            generalItem.setType(Type.track);
+            generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
+            generalItem.setExtra2(Type.playlist.toString());
 
-                Utilitis.navigationToAAP(generalItem, getContext());
-            }
+            Utilitis.navigationToAAP(generalItem, getContext());
         });
-        buttonFolllow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: add to the follow playlist
-                PlaylistService playlistService = new PlaylistService(v.getContext());
-                System.out.println("ID to follow" + " = " + playlist.getId());
-               String text = buttonFolllow.getText().toString();
-                System.out.println(text);
-               if (text.equals("follow")){
-                   playlistService.followAPlaylist(playlist);
-                  text="unfollow";
-               }else if (text.equals("unfollow")){
-                   text="follow";
-                   playlistService.unfollowAPlaylist(playlist);
+        buttonFolllow.setOnClickListener(view -> {
+            PlaylistService playlistService = new PlaylistService(v.getContext());
+            System.out.println("ID to follow" + " = " + playlist.getId());
+            String text = buttonFolllow.getText().toString();
+            System.out.println(text);
+            if (text.equals("follow")) {
+                playlistService.followAPlaylist(playlist);
+                text = "unfollow";
+            } else if (text.equals("unfollow")) {
+                text = "follow";
+                playlistService.unfollowAPlaylist(playlist);
 
-               }
-                buttonFolllow.setText(text);
             }
+            buttonFolllow.setText(text);
         });
 
         List<GeneralItem> songsList = new ArrayList<GeneralItem>(Arrays.asList(
@@ -132,28 +123,27 @@ public class PlaylistFragment extends Fragment {
     public void updatePlaylistByAPI() {
         List<Playlist> playlists = playlistService.getDevelopersPlaylist();
         final boolean[] bool = new boolean[1];
-         playlistService.checkIfTheUserFollowsAPlaylist(()->{
-         bool[0] = playlistService.isLastCheck();
-         System.out.println("the callback bool is" + bool);
-         Toast.makeText(getView().getContext(), "\"the callback bool is\" + bool", Toast.LENGTH_SHORT).show();
-         if (bool[0]){
-             buttonFolllow.setText("unfollow");
-         }else buttonFolllow.setText("follow");
-             List<GeneralItem> generalItemList = new ArrayList<>();
-             for (Song s : playlists.get(0).getSongs()) {
-                 generalItemList.add(s.toGeneralItem());
-             }
-             playlist = playlists.get(0);
-             namePlaylist.setText(playlist.getName());
-           if (playlist.getImages().length!=0)
-             Picasso.with(getView().getContext()).load(playlist.getImages()[0].url).into(imagePlaylist);
-      else Picasso.with(getView().getContext()).load("https://depor.com/resizer/y0QpdzhnMuUBnXCguq_9y_MOiFs=/1200x675/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/RGKQY6IKM5GQ3N55KHVWVKSQI4.png").into(imagePlaylist);
-             String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
-             subtitelPlaylist.setText(subtitel);
-
-             adapterSongs.setItems(generalItemList);
-
-     },playlists.get(0).getId());
-        MainActivity.inReproductorForFirstTime=true;
+        playlistService.checkIfTheUserFollowsAPlaylist(() -> {
+            bool[0] = playlistService.isLastCheck();
+            System.out.println("the callback bool is" + bool);
+            Toast.makeText(getView().getContext(), "\"the callback bool is\" + bool", Toast.LENGTH_SHORT).show();
+            if (bool[0]) {
+                buttonFolllow.setText("unfollow");
+            } else buttonFolllow.setText("follow");
+            List<GeneralItem> generalItemList = new ArrayList<>();
+            for (Song s : playlists.get(0).getSongs()) {
+                generalItemList.add(s.toGeneralItem());
+            }
+            playlist = playlists.get(0);
+            namePlaylist.setText(playlist.getName());
+            if (playlist.getImages().length != 0)
+                Picasso.with(getView().getContext()).load(playlist.getImages()[0].url).into(imagePlaylist);
+            else
+                Picasso.with(getView().getContext()).load("https://depor.com/resizer/y0QpdzhnMuUBnXCguq_9y_MOiFs=/1200x675/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/RGKQY6IKM5GQ3N55KHVWVKSQI4.png").into(imagePlaylist);
+            String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+            subtitelPlaylist.setText(subtitel);
+            adapterSongs.setItems(generalItemList);
+        }, playlists.get(0).getId());
+        MainActivity.inReproductorForFirstTime = true;
     }
 }

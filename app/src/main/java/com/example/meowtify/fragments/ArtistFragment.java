@@ -32,9 +32,9 @@ import java.util.Random;
 
 
 public class ArtistFragment extends Fragment {
-    String songListsIds ="";
+    String songListsIds = "";
 
- boolean isFollowing=false;
+    boolean isFollowing = false;
     ImageView imageArtist;
     TextView nameArtist, subtitelArtist;
     Button buttonShuffel, buttonFolllow;
@@ -46,9 +46,7 @@ public class ArtistFragment extends Fragment {
     ArtistService artistService;
 
     public ArtistFragment() {
-        // Required empty public constructor
     }
-
 
 
     @Override
@@ -61,7 +59,6 @@ public class ArtistFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_artist, container, false);
 
-        //artistService = new PlaylistService(v.getContext());
         imageArtist = v.findViewById(R.id.image_artist2);
         nameArtist = v.findViewById(R.id.name_artist2);
         subtitelArtist = v.findViewById(R.id.subname_artist2);
@@ -77,8 +74,8 @@ public class ArtistFragment extends Fragment {
         if (b != null) {
             GeneralItem generalItem = (GeneralItem) b.getSerializable("generalItem");
             artistService.getArtistByid(generalItem.getId(), this::updateArtistByAPI);
-            artistService.checkIfTheUserFollowsAArtist(this::updateFollowButtonByAPI,generalItem.getId());
-             artistService.getRelatedArtists(this::updateRelatedArtistsByAPI, generalItem.getId());
+            artistService.checkIfTheUserFollowsAArtist(this::updateFollowButtonByAPI, generalItem.getId());
+            artistService.getRelatedArtists(this::updateRelatedArtistsByAPI, generalItem.getId());
             artistService.getArtistAlbums(this::updateArtistAlbumsByAPI, generalItem.getId(), "ES", 30, 0);
             artistService.getTopSongsOfAnArtist(this::updateArtistTopTracksByAPI, generalItem.getId(), "ES");
         }
@@ -87,41 +84,31 @@ public class ArtistFragment extends Fragment {
         String subtitel = artist.getFollowers().getTotal() + " FOLLOWERS";
         subtitelArtist.setText(subtitel);
 
-        buttonShuffel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GeneralItem generalItem = artist.toGeneralItem();
+        buttonShuffel.setOnClickListener(view -> {
+            GeneralItem generalItem = artist.toGeneralItem();
 
-                generalItem.setId(artist.getId());
-                generalItem.setType(Type.track);
-                generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
-                generalItem.setExtra2(Type.artist.toString());
+            generalItem.setId(artist.getId());
+            generalItem.setType(Type.track);
+            generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
+            generalItem.setExtra2(Type.artist.toString());
 
-                Utilitis.navigationToAAP(generalItem, getContext());
-                if (artist!=null) {
-                    //todo
-                    //     artistService.followAnArtist(artist);
-
-                }   }
+            Utilitis.navigationToAAP(generalItem, getContext());
         });
-        buttonFolllow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: add to the follow playlist
-                String text = buttonFolllow.getText().toString();
-                System.out.println(text);
-                if (!isFollowing) {
+        buttonFolllow.setOnClickListener(view -> {
+            //todo: add to the follow playlist
+            String text = buttonFolllow.getText().toString();
+            System.out.println(text);
+            if (!isFollowing) {
 
-                       artistService.followAnArtist(artist);
-                    text = "unfollow";
-                    isFollowing=true;
-                } else if (isFollowing) {
-                    artistService.unfollowAArtist(artist);
-                    text = "follow";
-                    isFollowing=false;
-                }
-                buttonFolllow.setText(text);
+                artistService.followAnArtist(artist);
+                text = "unfollow";
+                isFollowing = true;
+            } else if (isFollowing) {
+                artistService.unfollowAArtist(artist);
+                text = "follow";
+                isFollowing = false;
             }
+            buttonFolllow.setText(text);
         });
 
         List<GeneralItem> songsList = new ArrayList<GeneralItem>(Arrays.asList(
@@ -140,7 +127,7 @@ public class ArtistFragment extends Fragment {
         ));
         if (songsList.size() > 10) songsList = songsList.subList(0, 10);
 
-        adapterSongs = new AdapterSongsList(songsList, getContext(), 130,Type.artist,songListsIds);
+        adapterSongs = new AdapterSongsList(songsList, getContext(), 130, Type.artist, songListsIds);
         songs.setAdapter(adapterSongs);
         songs.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -168,13 +155,14 @@ public class ArtistFragment extends Fragment {
 
         return v;
     }
+
     private void updateFollowButtonByAPI() {
-        isFollowing=artistService.isLastCheck();
-        System.out.println("The user is following the current artist "+ isFollowing);
+        isFollowing = artistService.isLastCheck();
+        System.out.println("The user is following the current artist " + isFollowing);
         String text = buttonFolllow.getText().toString();
         System.out.println(text);
         if (!isFollowing) {
-              text = "follow";
+            text = "follow";
         } else if (isFollowing) {
             text = "unfollow";
         }
@@ -187,8 +175,7 @@ public class ArtistFragment extends Fragment {
 
         for (Song s : a) {
             generalItemList.add(s.toGeneralItemArtist());
-            songListsIds+= s.getId() + " ";
-
+            songListsIds += s.getId() + " ";
 
         }
         adapterSongs.setItems(generalItemList);
@@ -217,7 +204,7 @@ public class ArtistFragment extends Fragment {
 
     private void updateArtistByAPI() {
         Artist a = artistService.getLastSearchedArtist();
-        artist=a;
+        artist = a;
         Picasso.with(getContext()).load(a.images.get(0).url).into(imageArtist);
         nameArtist.setText(a.getName());
         subtitelArtist.setText(a.getFollowers().getTotal() + " FOLLOWERS");

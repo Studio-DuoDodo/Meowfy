@@ -19,9 +19,12 @@ public class LibraryPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return  new PlaylistLibraryFragment();
-            case 1: return  new ArtistLibraryFragment();
-            default: return  new AlbumLibraryFragment();
+            case 0:
+                return new PlaylistLibraryFragment();
+            case 1:
+                return new ArtistLibraryFragment();
+            default:
+                return new AlbumLibraryFragment();
         }
     }
 

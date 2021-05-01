@@ -49,7 +49,7 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
         return items.size();
     }
 
-    public class LibraryListAdd2Holder extends RecyclerView.ViewHolder{
+    public class LibraryListAdd2Holder extends RecyclerView.ViewHolder {
         TextView nameAlbum, nameArtist;
         ImageView image;
         ImageButton followButton;
@@ -63,7 +63,7 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
             followButton = itemView.findViewById(R.id.favorits_album1);
         }
 
-        public void bindData(GeneralItem generalItem, int position){
+        public void bindData(GeneralItem generalItem, int position) {
             nameAlbum.setText(generalItem.getName());
             nameArtist.setText(generalItem.getExtra1());
             Picasso.with(context).load(generalItem.getImage()).
@@ -73,19 +73,12 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
                 public void onClick(View view) {
                     //Todo: metodo para añadir albunes a favoritos
 
-                    //Todo: metode per eliminar de la lista de recomenats
-                    //si nomes s'ha de eliminar del recycler no de la llista de la api
                     items.remove(position);
                     notifyDataSetChanged();
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Utilitis.navigationToAAP(generalItem, context);
-                }
-            });
+            itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
         }
     }
 }

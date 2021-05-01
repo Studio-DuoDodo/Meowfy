@@ -24,15 +24,15 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
     Context context;
     SearchFragment searchFragment;
 
-    public void setItems(List<GeneralItem> items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-
     public AdapterSearchList(List<GeneralItem> items, Context context, SearchFragment searchFragment) {
         this.items = items;
         this.context = context;
         this.searchFragment = searchFragment;
+    }
+
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -52,7 +52,7 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
         return items.size();
     }
 
-    public class SearchListHolder extends RecyclerView.ViewHolder{
+    public class SearchListHolder extends RecyclerView.ViewHolder {
         TextView title, subTitel;
         ImageView image;
 
@@ -64,29 +64,27 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
             image = itemView.findViewById(R.id.image_search);
         }
 
-        public void bindData(GeneralItem generalItem){
+        public void bindData(GeneralItem generalItem) {
             title.setText(generalItem.getName());
             String subtitel = "";
-            if(generalItem.getType() != null) {
+            if (generalItem.getType() != null) {
                 if (generalItem.getType() == Type.track) subtitel = "song";
                 else subtitel = generalItem.getType().toString();
             }
-            if(generalItem.getExtra1() != null && generalItem.getType() != Type.artist) subtitel += " · " + generalItem.getExtra1();
-                subTitel.setText(subtitel);
+            if (generalItem.getExtra1() != null && generalItem.getType() != Type.artist)
+                subtitel += " · " + generalItem.getExtra1();
+            subTitel.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(130, 130).into(image);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(generalItem.getType() == Type.track) generalItem.setExtra2("track");
+            itemView.setOnClickListener(view -> {
+                if (generalItem.getType() == Type.track) generalItem.setExtra2("track");
 
-                    Utilitis.navigationToAAP(generalItem, context);
+                Utilitis.navigationToAAP(generalItem, context);
 
-                    if(!searchFragment.checkRecentlySearch(generalItem)){
-                        searchFragment.recentlySearchList.add(generalItem);
-                        searchFragment.adapterRecently.notifyDataSetChanged();
-                    }
+                if (!searchFragment.checkRecentlySearch(generalItem)) {
+                    searchFragment.recentlySearchList.add(generalItem);
+                    searchFragment.adapterRecently.notifyDataSetChanged();
                 }
             });
         }

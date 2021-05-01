@@ -42,15 +42,12 @@ public class MainFragment extends Fragment {
     private RecyclerView lista1, lista2, lista3, lista4, lista5;
 
     public MainFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -65,16 +62,12 @@ public class MainFragment extends Fragment {
         adapters.add(new AdapterMainList(defaultItem, v.getContext(), 400));
         adapters.add(new AdapterMainList(defaultItem, v.getContext(), 400));
         adapters.add(new AdapterMainList(defaultItem, v.getContext(), 400));
-
-
         missatgePersonalitzat = v.findViewById(R.id.missatgePersonalitzat);
         lista1 = v.findViewById(R.id.listaRecently);
         lista2 = v.findViewById(R.id.listaYourPlaylist);
         lista3 = v.findViewById(R.id.listaJumpBack);
         lista4 = v.findViewById(R.id.listaJumpBack2);
         lista5 = v.findViewById(R.id.listaRecomendedByDeveloper);
-
-
         int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
         System.out.println(date);
         String s;
@@ -177,5 +170,4 @@ public class MainFragment extends Fragment {
         System.out.println("The list " + adapters.get(3).toString());
     }
 
-//todo limpiar codigo
 }

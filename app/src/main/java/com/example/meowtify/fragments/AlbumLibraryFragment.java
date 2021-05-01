@@ -29,9 +29,9 @@ public class AlbumLibraryFragment extends Fragment {
 
     RecyclerView listaAlbum, listaRecomended;
     AlbumService albumService;
+    List<Album> savedAlbums;
 
     public AlbumLibraryFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -61,24 +61,24 @@ public class AlbumLibraryFragment extends Fragment {
         adapter = new AdapterLibraryList(album, getContext());
         listaAlbum.setAdapter(adapter);
         listaAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
-       SongService songService= new SongService(getContext());
-       songService.getRecentlyPlayedTracks(()->{
-           List<Song> songs= songService.getSongs();
-           List<Album> albums= new ArrayList<>();
-           for (Song s:songs) {
-           //    if ()
-                 albums.add(s.getAlbum());
+        SongService songService = new SongService(getContext());
+        songService.getRecentlyPlayedTracks(() -> {
+            List<Song> songs = songService.getSongs();
+            List<Album> albums = new ArrayList<>();
+            for (Song s : songs) {
+                //    if ()
+                albums.add(s.getAlbum());
 
 
-           }
-       });
+            }
+        });
         adapterAdd = new AdapterLibraryListAdd2(recomendedAlbum, getContext());
         listaRecomended.setAdapter(adapterAdd);
         listaRecomended.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }
-    List<Album> savedAlbums;
+
     private void updateAlbumByAPI() {
         List<Album> savedAlbums = albumService.getUserSavedAlbums();
         List<GeneralItem> g = new ArrayList<>();

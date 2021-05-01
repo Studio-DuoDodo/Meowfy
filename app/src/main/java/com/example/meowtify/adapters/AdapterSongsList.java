@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
 import com.example.meowtify.Utilitis;
-import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
-import com.google.gson.internal.$Gson$Types;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,20 +25,20 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
     Type listType;
     String idList;
 
+    public AdapterSongsList(List<GeneralItem> items, Context context, int width, Type listType, String idList) {
+        this.items = items;
+        this.context = context;
+        this.width = width;
+        this.listType = listType;
+        this.idList = idList;
+    }
+
     public void setItems(List<GeneralItem> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
     public void setIdList(String idList) {
-        this.idList = idList;
-    }
-
-    public AdapterSongsList(List<GeneralItem> items, Context context, int width, Type listType, String idList) {
-        this.items = items;
-        this.context = context;
-        this.width = width;
-        this.listType = listType;
         this.idList = idList;
     }
 
@@ -61,7 +59,12 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
         return items.size();
     }
 
-    public class SearchListHolder extends RecyclerView.ViewHolder{
+    public void setListType(Type listType) {
+        this.listType = listType;
+        notifyDataSetChanged();
+    }
+
+    public class SearchListHolder extends RecyclerView.ViewHolder {
         TextView title, subTitel;
         ImageView image;
 
@@ -73,30 +76,21 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
             image = itemView.findViewById(R.id.image_search);
         }
 
-        public void bindData(GeneralItem generalItem){
+        public void bindData(GeneralItem generalItem) {
             title.setText(generalItem.getName());
             subTitel.setText(generalItem.getExtra1());
             Picasso.with(context).load(generalItem.getImage()).
                     resize(width, width).into(image);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listType != null){
-                        generalItem.setId(idList);
-                        generalItem.setExtra1(String.valueOf(items.indexOf(generalItem)));
-                        generalItem.setExtra2(listType.toString());
-                    }else generalItem.setExtra2(Type.track.toString());
+            itemView.setOnClickListener(view -> {
+                if (listType != null) {
+                    generalItem.setId(idList);
+                    generalItem.setExtra1(String.valueOf(items.indexOf(generalItem)));
+                    generalItem.setExtra2(listType.toString());
+                } else generalItem.setExtra2(Type.track.toString());
 
-                    Utilitis.navigationToAAP(generalItem, context);
-                }
+                Utilitis.navigationToAAP(generalItem, context);
             });
         }
-    }
-
-
-    public void setListType(Type listType) {
-        this.listType = listType;
-        notifyDataSetChanged();
     }
 }

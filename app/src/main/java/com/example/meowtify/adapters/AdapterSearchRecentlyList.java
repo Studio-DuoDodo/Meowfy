@@ -24,14 +24,14 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
     List<GeneralItem> items;
     Context context;
 
-    public void setItems(List<GeneralItem> items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-
     public AdapterSearchRecentlyList(List<GeneralItem> items, Context context) {
         this.items = items;
         this.context = context;
+    }
+
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
         return items.size();
     }
 
-    public class SearchListAdd2Holder extends RecyclerView.ViewHolder{
+    public class SearchListAdd2Holder extends RecyclerView.ViewHolder {
         TextView title, subtitel;
         ImageView image;
         ImageButton deleteSearch;
@@ -65,14 +65,15 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             deleteSearch = itemView.findViewById(R.id.delete_search);
         }
 
-        public void bindData(GeneralItem generalItem, int position){
+        public void bindData(GeneralItem generalItem, int position) {
             title.setText(generalItem.getName());
             String subTitel = "";
-            if(generalItem.getType() != null) {
+            if (generalItem.getType() != null) {
                 if (generalItem.getType() == Type.track) subTitel = "song";
                 else subTitel = generalItem.getType().toString();
             }
-            if(generalItem.getExtra1() != null && generalItem.getType() != Type.artist) subTitel += " · " + generalItem.getExtra1();
+            if (generalItem.getExtra1() != null && generalItem.getType() != Type.artist)
+                subTitel += " · " + generalItem.getExtra1();
             subtitel.setText(subTitel);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(130, 130).into(image);
@@ -87,12 +88,12 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(generalItem.getType() == Type.track) generalItem.setExtra2("track");
+                    if (generalItem.getType() == Type.track) generalItem.setExtra2("track");
 
                     if (SearchFragment.searched)
-                    SearchFragment.recentlySearchList.add(generalItem);
+                        SearchFragment.recentlySearchList.add(generalItem);
                     Utilitis.navigationToAAP(generalItem, context);
-                    SearchFragment.searched=false;
+                    SearchFragment.searched = false;
                 }
             });
         }

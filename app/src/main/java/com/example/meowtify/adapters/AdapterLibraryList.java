@@ -9,17 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
 import com.example.meowtify.Utilitis;
-import com.example.meowtify.activities.MainActivity;
-import com.example.meowtify.fragments.AlbumFragment;
-import com.example.meowtify.fragments.ArtistFragment;
 import com.example.meowtify.fragments.CreatePlaylistFragment;
-import com.example.meowtify.fragments.PlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -30,14 +25,14 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
     List<GeneralItem> items;
     Context context;
 
-    public void setItems(List<GeneralItem> items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-
     public AdapterLibraryList(List<GeneralItem> items, Context context) {
         this.items = items;
         this.context = context;
+    }
+
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -57,7 +52,7 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
         return items.size();
     }
 
-    public class LibraryListHolder extends RecyclerView.ViewHolder{
+    public class LibraryListHolder extends RecyclerView.ViewHolder {
         TextView title, subTitel;
         ImageView image;
 
@@ -69,41 +64,32 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
             image = itemView.findViewById(R.id.image_library);
         }
 
-        public void bindData(GeneralItem generalItem){
+        public void bindData(GeneralItem generalItem) {
             System.out.println("GeneralItem" + generalItem.toString());
             title.setText(generalItem.getName());
-            if(generalItem.getExtra1() != null){
+            if (generalItem.getExtra1() != null) {
 
                 String subtitel = "";
-                if(generalItem.getType() == Type.playlist) subtitel = "by ";
+                if (generalItem.getType() == Type.playlist) subtitel = "by ";
                 subtitel += generalItem.getExtra1();
                 subTitel.setText(subtitel);
 
                 Picasso.with(context).load(generalItem.getImage()).
                         resize(220, 220).into(image);
-                image.setPadding(0,0,0,0);
+                image.setPadding(0, 0, 0, 0);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Utilitis.navigationToAAP(generalItem, context);
-                    }
-                });
+                itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
             } else {
                 image.setImageResource(R.drawable.ic_baseline_add_24);
-                image.setPadding(80,80,80,80);
-                itemView.setOnClickListener(new View.OnClickListener() {
+                image.setPadding(80, 80, 80, 80);
+                itemView.setOnClickListener(view -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("coutList", getItemCount());
+                    CreatePlaylistFragment fragment = new CreatePlaylistFragment();
+                    fragment.setArguments(bundle);
 
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("coutList", getItemCount());
-                        CreatePlaylistFragment fragment =  new CreatePlaylistFragment();
-                        fragment.setArguments(bundle);
-
-                        ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, fragment).commit();
-                    }
+                    ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragment).commit();
                 });
             }
         }

@@ -51,7 +51,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
         return items.size();
     }
 
-    public class LibraryListAdd1Holder extends RecyclerView.ViewHolder{
+    public class LibraryListAdd1Holder extends RecyclerView.ViewHolder {
         TextView nameArtist, numSongs;
         ImageView image;
         Button followButton;
@@ -65,12 +65,13 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
             followButton = itemView.findViewById(R.id.follow_artist);
         }
 
-        public void bindData(GeneralItem generalItem, int position){
+        public void bindData(GeneralItem generalItem, int position) {
             nameArtist.setText(generalItem.getName());
             String subtitel = generalItem.getExtra1();
             numSongs.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
-                resize(220, 220).into(image);;
+                    resize(220, 220).into(image);
+            ;
             followButton.setOnClickListener(view -> {
                 ArtistService artistService = new ArtistService(context);
                 Artist a = new Artist();
