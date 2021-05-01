@@ -133,6 +133,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/favButton"
                         android:text="rrrrr"
                         android:textColor="@color/white"
                         android:textSize="20sp"
@@ -146,6 +148,8 @@
                         android:id="@+id/subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/favButton"
                         android:ellipsize="end"
                         android:lines="1"
                         android:maxLines="1"
@@ -156,10 +160,10 @@
 
                         android:layout_below="@id/title"/>
                     <ImageButton
-                        android:layout_alignParentRight="true"
                         android:id="@+id/favButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="60dp"
                         android:layout_marginLeft="60dp"
@@ -167,7 +171,6 @@
                         android:contentDescription="TODO"
                         android:scaleType="fitEnd"
                         android:tintMode="src_in"
-                        android:layout_toRightOf="@id/title"
                         app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
                 </RelativeLayout>
 

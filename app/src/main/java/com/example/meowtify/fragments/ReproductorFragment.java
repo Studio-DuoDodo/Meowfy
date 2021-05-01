@@ -51,9 +51,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
     public static GeneralItem song;
-    public static List<Song> songs = new ArrayList<>();
     public static Type type;
-    public static int position;
     public static String idList;
     ImageButton playButton;
     ImageButton forwardButton;
@@ -66,72 +64,15 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     TextView subtitleSong;
     TextView currentDuration;
     SeekBar seekBar;
-    boolean mBounded;
-    Intent mediaPlayerServiceIntent;
-    MediaPlayerService mediaPlayerService;
     AlbumService albumService;
     ArtistService artistService;
     PlaylistService playlistService;
-    NotificationManager notificationManager;
     boolean isPlaying = false;
+    MainActivity mainActivity;
     View v;
-
-    ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Toast.makeText(getContext(), "Service is disconnected", Toast.LENGTH_LONG).show();
-            mBounded = false;
-            mediaPlayerService = null;
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Toast.makeText(getContext(), "Service is connected", Toast.LENGTH_LONG).show();
-            mBounded = true;
-            MediaPlayerService.LocalBinder mLocalBinder = (MediaPlayerService.LocalBinder) service;
-            mediaPlayerService = mLocalBinder.getServerInstance();
-        }
-    };
-
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getExtras().getString("actionname");
-            switch (action) {
-                case CreateNotification.ACTION_PREVIUOS:
-                    onTrackPrevious();
-                    break;
-                case CreateNotification.ACTION_PLAY:
-                    if (isPlaying) {
-                        onTrackPause();
-                    } else {
-                        onTrackPlay();
-                    }
-                    break;
-                case CreateNotification.ACTION_NEXT:
-                    onTrackNext();
-                    break;
-            }
-        }
-    };
-
 
     public ReproductorFragment() {
         // Required empty public constructor
-    }
-
-
-    private void createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CreateNotification.CHANNEL_ID,
-                    "Meowfy", NotificationManager.IMPORTANCE_LOW);
-
-            notificationManager = getActivity().getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
     }
 
     @Override
@@ -139,7 +80,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         super.onStart();
 
         Intent mIntent = new Intent(getContext(), MediaPlayerService.class);
-        getActivity().bindService(mIntent, mConnection, BIND_AUTO_CREATE);
+        getActivity().bindService(mIntent, mainActivity.mConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -153,22 +94,23 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reproductor, container, false);
         songService = new SongService(v.getContext());
+        mainActivity = (MainActivity) getActivity();
         Bundle b = getArguments();
         if (b != null) {
             type = (Type) b.getSerializable("typeList");
 
             if (type != Type.track) {
                 idList = b.getString("idList");
-                position = b.getInt("posList");
+                mainActivity.position = b.getInt("posList");
             }
             switch (type) {
                 case album:
                     albumService = new AlbumService(v.getContext());
                     albumService.getAlbumByRef(() -> {
                         if (albumService.getLastAlbum() != null)
-                            songs = albumService.getLastAlbum().getSongs();
-                        for (int i = 0; i < songs.size(); i++) {
-                            songs.get(i).setAlbum(albumService.getLastAlbum());
+                            mainActivity.songs = albumService.getLastAlbum().getSongs();
+                        for (int i = 0; i < mainActivity.songs.size(); i++) {
+                            mainActivity.songs.get(i).setAlbum(albumService.getLastAlbum());
                         }
                         updateSongByAPI();
 
@@ -181,9 +123,9 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                         albumService = new AlbumService(v.getContext());
                         albumService.getAlbumByRef(() -> {
                             if (albumService.getLastAlbum() != null)
-                                songs = albumService.getLastAlbum().getSongs();
-                            for (int i = 0; i < songs.size(); i++) {
-                                songs.get(i).setAlbum(albumService.getLastAlbum());
+                                mainActivity.songs = albumService.getLastAlbum().getSongs();
+                            for (int i = 0; i < mainActivity.songs.size(); i++) {
+                                mainActivity.songs.get(i).setAlbum(albumService.getLastAlbum());
                             }
                             updateSongByAPI();
 
@@ -198,16 +140,16 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                             int finalI = i;
                             songService.getASongByRef(()->{
                                 Song songTemp = songService.lastSearchedSong;
-                                songs.add(songTemp);
+                                mainActivity.songs.add(songTemp);
                                 if (finalI ==idsSongs.length-1){
-                                  ChangeSong(songs.get(position));
+                                  ChangeSong(mainActivity.songs.get(mainActivity.position));
                                 }
 
                             },idsSongs[i]);
                     }
 
 
-                        System.out.println("Generated songs ids" + songs.toString());
+                        System.out.println("Generated songs ids" + mainActivity.songs.toString());
 
                     }
                     //     songs = artistService.getTopSongsOfAnArtist();
@@ -215,14 +157,14 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                 case playlist:
                     playlistService = new PlaylistService(v.getContext());
                     playlistService.getAPlayListByRef(() -> {
-                        songs = playlistService.getLastSearchedPlaylist().getSongs();
+                        mainActivity.songs = playlistService.getLastSearchedPlaylist().getSongs();
                         System.out.println("songs is"
-                                + songs.toString());
-                        ChangeSong(songs.get(position));
+                                + mainActivity.songs.toString());
+                        ChangeSong(mainActivity.songs.get(mainActivity.position));
                     },idList);
                     break;
             }
-            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+position);
+            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+mainActivity.position);
 
             //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
             // songService.getASongByRef(this::updateSongByAPI, );
@@ -238,7 +180,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         subtitleSong = v.findViewById(R.id.subtitle);
         currentDuration = v.findViewById(R.id.currentDuration);
         favoriteButton = v.findViewById(R.id.favButton);
-        mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
+        mainActivity.mediaPlayerServiceIntent = new Intent(getContext(), MediaPlayerService.class);
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -265,13 +207,13 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         shuffelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.shuffle(songs);
+                Collections.shuffle(mainActivity.songs);
             }
         });
         repeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songs.add(position+1, songs.get(position));
+                mainActivity.songs.add(mainActivity.position+1, mainActivity.songs.get(mainActivity.position));
             }
         });
 
@@ -287,9 +229,9 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (mBounded && songs != null && fromUser) {
-                    System.out.println("Current progress" + progress + "of " + mediaPlayerService.getCurrentPositionInMillisecons());
-                    mediaPlayerService.changeProgress(progress);
+                if (mainActivity.mBounded && mainActivity.songs != null && fromUser) {
+                    System.out.println("Current progress" + progress + "of " + mainActivity.mediaPlayerService.getCurrentPositionInMillisecons());
+                    mainActivity.mediaPlayerService.changeProgress(progress);
 
                     onTrackPlay();
                 }
@@ -321,18 +263,16 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         return v;
     }
 
-    private void updateSongByAPI() {
-        v.getContext().startService(mediaPlayerServiceIntent);
-        v.getContext().bindService(mediaPlayerServiceIntent, mConnection, BIND_AUTO_CREATE);
+    public void updateSongByAPI() {
+        v.getContext().startService(mainActivity.mediaPlayerServiceIntent);
+        v.getContext().bindService(mainActivity.mediaPlayerServiceIntent, mainActivity.mConnection, BIND_AUTO_CREATE);
 
-        Song s = songs.get(position);
+        Song s = mainActivity.songs.get(mainActivity.position);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel();
-            v.getContext().registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
             v.getContext().startService(new Intent(getContext(), OnClearFromRecentService.class));
         }
-        if (mBounded)
+        if (mainActivity.mBounded)
             seekBar.setMax(30000);
         MainActivity.inReproductorForFirstTime = true;
 
@@ -343,8 +283,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             subtitleSong.setText(s.getAlbum().getArtistNames());
             subtitleSong.setText(s.getAlbum().getArtistNames());
             Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
-            if (mBounded)
-                mediaPlayerService.changeSong(s);
+            if (mainActivity.mBounded)
+                mainActivity.mediaPlayerService.changeSong(s);
             onTrackPlay();
         } else {
             System.out.println("S es " + s.toString());
@@ -372,8 +312,8 @@ songService.checkIfTheUserHasASongInFavorites(()->{
             @Override
             public void run() {
 
-                seekBar.setProgress(mediaPlayerService.getCurrentPositionInMillisecons());
-                if (mediaPlayerService.getCurrentPositionInMillisecons() == 30000) {
+                seekBar.setProgress(mainActivity.mediaPlayerService.getCurrentPositionInMillisecons());
+                if (mainActivity.mediaPlayerService.getCurrentPositionInMillisecons() == 30000) {
                     onTrackEnd();
                 }
 
@@ -394,74 +334,53 @@ songService.checkIfTheUserHasASongInFavorites(()->{
     }
 
     public void ChangeSong(Song s) {
-        //   System.out.println(song.toString());
         songService.getASongByRef(this::updateSongByAPI, s.getId());
-/*
-        titleSong.setText(s.getName());
-        subtitleSong.setText(s.getAlbum().getArtistNames());
-        Picasso.with(getContext()).load(s.getAlbum().getImages().get(0).url).into(songImage);
-
-        mediaPlayerService.changeSong(s);
-        startSeekBar();
-*/
     }
 
     @Override
     public void onTrackPrevious() {
-        //   startSeekBar();
-
-        //title.setText(tracks.get(position).getName());
-
-        if (position - 1 > 0) {
-            position--;
-            ChangeSong(songs.get(position));
-            CreateNotification.createNotification(getContext(), songs.get(position), android.R.drawable.ic_media_pause, position, songs.size() - 1);
+        if (mainActivity.position - 1 > 0) {
+            mainActivity.position--;
+            ChangeSong(mainActivity.songs.get(mainActivity.position));
+            CreateNotification.createNotification(getContext(), mainActivity.songs.get(mainActivity.position), android.R.drawable.ic_media_pause, mainActivity.position, mainActivity.songs.size() - 1);
         } else {
-            Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
+            Toast.makeText(mainActivity.mediaPlayerService, "No more Songs", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onTrackPlay() {
-
-        CreateNotification.createNotification(getContext(), songs.get(position),
-                android.R.drawable.ic_media_pause, position, songs.size() - 1);
+        CreateNotification.createNotification(getContext(), mainActivity.songs.get(mainActivity.position),
+                android.R.drawable.ic_media_pause, mainActivity.position, mainActivity.songs.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
-        if (mBounded)
+        if (mainActivity.mBounded)
             MediaPlayerService.resume();
         isPlaying = true;
         startSeekBar();
-
-
     }
 
     @Override
     public void onTrackPause() {
-
-        CreateNotification.createNotification(getContext(), songs.get(position),
-                android.R.drawable.ic_media_play, position, songs.size() - 1);
-        if (mBounded)
-            mediaPlayerService.pause();
+        CreateNotification.createNotification(getContext(), mainActivity.songs.get(mainActivity.position),
+                android.R.drawable.ic_media_play, mainActivity.position, mainActivity.songs.size() - 1);
+        if (mainActivity.mBounded)
+            mainActivity.mediaPlayerService.pause();
         playButton.setImageResource(android.R.drawable.ic_media_play);
         //   title.setText(tracks.get(position).getTitle());
         isPlaying = false;
-
     }
 
     @Override
     public void onTrackNext() {
+        if (mainActivity.position + 1 < mainActivity.songs.size()) {
+            mainActivity.position++;
+            CreateNotification.createNotification(getContext(), mainActivity.songs.get(mainActivity.position),
+                    android.R.drawable.ic_media_pause, mainActivity.position, mainActivity.songs.size() - 1);
 
-
-        //  title.setText(tracks.get(position).getTitle());
-        if (position + 1 < songs.size()) {
-            position++;
-            CreateNotification.createNotification(getContext(), songs.get(position),
-                    android.R.drawable.ic_media_pause, position, songs.size() - 1);
-
-            ChangeSong(songs.get(position));
+            ChangeSong(mainActivity.songs.get(mainActivity.position));
 
         } else {
-            Toast.makeText(mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity.mediaPlayerService, "No more Songs", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -473,7 +392,6 @@ songService.checkIfTheUserHasASongInFavorites(()->{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        songs.clear();
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.cancelAll();
         }

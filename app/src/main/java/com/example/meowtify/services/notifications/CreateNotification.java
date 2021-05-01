@@ -80,6 +80,71 @@ public class CreateNotification {
             }
 
             //create notification
+            if(drw_next == 0 && drw_previous == 0){
+                notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setSmallIcon( R.drawable.logo_meowfy)
+                        .setContentTitle(song.getName())
+                        .setContentText(song.getArtists().get(0).getName())
+                        .setLargeIcon(icon)
+                        .setOnlyAlertOnce(true)
+                        .setShowWhen(false)
+                        .addAction(playbutton, "Play", pendingIntentPlay)
+                        .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                                .setShowActionsInCompactView(0, 1, 2)
+                                .setMediaSession(mediaSessionCompat.getSessionToken()))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .build();
+            }else{
+                if(drw_next != 0 && drw_previous != 0){
+                    notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                            .setSmallIcon( R.drawable.logo_meowfy)
+                            .setContentTitle(song.getName())
+                            .setContentText(song.getArtists().get(0).getName())
+                            .setLargeIcon(icon)
+                            .setOnlyAlertOnce(true)
+                            .setShowWhen(false)
+                            .addAction(drw_previous, "Previous", pendingIntentPrevious)
+                            .addAction(playbutton, "Play", pendingIntentPlay)
+                            .addAction(drw_next, "Next", pendingIntentNext)
+                            .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                                    .setShowActionsInCompactView(0, 1, 2)
+                                    .setMediaSession(mediaSessionCompat.getSessionToken()))
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .build();
+                }else{
+                    if(drw_next != 0){
+                        notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                .setSmallIcon( R.drawable.logo_meowfy)
+                                .setContentTitle(song.getName())
+                                .setContentText(song.getArtists().get(0).getName())
+                                .setLargeIcon(icon)
+                                .setOnlyAlertOnce(true)
+                                .setShowWhen(false)
+                                .addAction(playbutton, "Play", pendingIntentPlay)
+                                .addAction(drw_next, "Next", pendingIntentNext)
+                                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                                        .setShowActionsInCompactView(0, 1, 2)
+                                        .setMediaSession(mediaSessionCompat.getSessionToken()))
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+                    }else{
+                        notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                .setSmallIcon( R.drawable.logo_meowfy)
+                                .setContentTitle(song.getName())
+                                .setContentText(song.getArtists().get(0).getName())
+                                .setLargeIcon(icon)
+                                .setOnlyAlertOnce(true)
+                                .setShowWhen(false)
+                                .addAction(drw_previous, "Previous", pendingIntentPrevious)
+                                .addAction(playbutton, "Play", pendingIntentPlay)
+                                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                                        .setShowActionsInCompactView(0, 1, 2)
+                                        .setMediaSession(mediaSessionCompat.getSessionToken()))
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+                    }
+                }
+            }
             notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon( R.drawable.logo_meowfy)
                     .setContentTitle(song.getName())
