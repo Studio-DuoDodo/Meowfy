@@ -14,18 +14,15 @@ import com.example.meowtify.adapters.AdapterLibraryList;
 import com.example.meowtify.adapters.AdapterLibraryListAdd2;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
+import com.example.meowtify.services.SongService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlbumLibraryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AlbumLibraryFragment extends Fragment {
     AdapterLibraryListAdd2 adapterAdd;
     AdapterLibraryList adapter;
@@ -64,14 +61,24 @@ public class AlbumLibraryFragment extends Fragment {
         adapter = new AdapterLibraryList(album, getContext());
         listaAlbum.setAdapter(adapter);
         listaAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
+       SongService songService= new SongService(getContext());
+       songService.getRecentlyPlayedTracks(()->{
+           List<Song> songs= songService.getSongs();
+           List<Album> albums= new ArrayList<>();
+           for (Song s:songs) {
+           //    if ()
+                 albums.add(s.getAlbum());
 
+
+           }
+       });
         adapterAdd = new AdapterLibraryListAdd2(recomendedAlbum, getContext());
         listaRecomended.setAdapter(adapterAdd);
         listaRecomended.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }
-
+    List<Album> savedAlbums;
     private void updateAlbumByAPI() {
         List<Album> savedAlbums = albumService.getUserSavedAlbums();
         List<GeneralItem> g = new ArrayList<>();
