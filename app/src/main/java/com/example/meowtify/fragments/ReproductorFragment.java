@@ -76,9 +76,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     boolean isPlaying = false;
     View v;
 
-    public static Type type;
-    public static int position = 0;
-    public static String idList;
+     public static int position = 0;
 
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -204,7 +202,7 @@ break;
                                 Song songTemp = songService.lastSearchedSong;
                                 songs.add(songTemp);
                                 if (finalI ==idsSongs.length-1){
-                                    ChangeSong(songTemp);
+                                  ChangeSong(songs.get(position));
                                 }
 
                             },idsSongs[i]);
@@ -475,6 +473,7 @@ break;
     @Override
     public void onDestroy() {
         super.onDestroy();
+        songs.clear();
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.cancelAll();
         }

@@ -170,6 +170,7 @@ public class ArtistFragment extends Fragment {
     }
     private void updateFollowButtonByAPI() {
         isFollowing=artistService.isLastCheck();
+        System.out.println("The user is following the current artist "+ isFollowing);
     }
 
     private void updateArtistTopTracksByAPI() {
