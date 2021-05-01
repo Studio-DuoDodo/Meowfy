@@ -53,7 +53,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     public static GeneralItem song;
     public static List<Song> songs = new ArrayList<>();
     public static Type type;
-    public static int posList;
+    public static int position;
     public static String idList;
     ImageButton playButton;
     ImageButton forwardButton;
@@ -76,8 +76,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     boolean isPlaying = false;
     View v;
 
-     public static int position = 0;
-
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -98,6 +96,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             String action = intent.getExtras().getString("actionname");
             switch (action) {
                 case CreateNotification.ACTION_PREVIUOS:
@@ -190,9 +189,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
                         },songService.lastSearchedSong.getAlbum().getId());
                     },((GeneralItem)b.getSerializable("generalItem")).getId());
+                    break;
 
-
-break;
                 case artist:
                     String[] idsSongs = idList.split(" ");
                     for (int i = 0; i < idsSongs.length; i++) {
@@ -222,11 +220,9 @@ break;
                                 + songs.toString());
                         ChangeSong(songs.get(position));
                     },idList);
-
-
                     break;
             }
-            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+posList);
+            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+position);
 
             //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
             // songService.getASongByRef(this::updateSongByAPI, );
@@ -275,7 +271,7 @@ break;
         repeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songs.add(posList+1, songs.get(posList));
+                songs.add(position+1, songs.get(position));
             }
         });
 
@@ -412,6 +408,7 @@ break;
         //   startSeekBar();
 
         //title.setText(tracks.get(position).getName());
+
         if (position - 1 > 0) {
             position--;
             ChangeSong(songs.get(position));
@@ -423,6 +420,8 @@ break;
 
     @Override
     public void onTrackPlay() {
+        System.out.println("play");
+
         CreateNotification.createNotification(getContext(), songs.get(position),
                 android.R.drawable.ic_media_pause, position, songs.size() - 1);
         playButton.setImageResource(android.R.drawable.ic_media_pause);
@@ -437,6 +436,7 @@ break;
 
     @Override
     public void onTrackPause() {
+        System.out.println("pause");
 
         CreateNotification.createNotification(getContext(), songs.get(position),
                 android.R.drawable.ic_media_play, position, songs.size() - 1);

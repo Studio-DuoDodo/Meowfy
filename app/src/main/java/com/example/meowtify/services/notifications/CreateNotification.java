@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 
@@ -14,6 +15,11 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.meowtify.R;
 import com.example.meowtify.models.Song;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class CreateNotification {
 
@@ -32,9 +38,16 @@ public class CreateNotification {
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat( context, "tag");
 
-            //Bitmap icon; = BitmapFactory.decodeResource(context.getResources(), song.getAlbum().getImages().get(0).url);
-            Bitmap icon  = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_meowfy);
-       //     Picasso.with(context).load(song.getAlbum().getImages().get(0).url).into(icon);
+            Bitmap icon = null;
+            try {
+                HttpURLConnection connection = (HttpURLConnection) new URL(song.getAlbum().getImages().get(0).url).openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                icon = BitmapFactory.decodeStream(connection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             PendingIntent pendingIntentPrevious;
             int drw_previous;
             if (pos == 0){
@@ -68,10 +81,9 @@ public class CreateNotification {
 
             //create notification
             notification = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon( android.R.drawable.stat_notify_error)
+                    .setSmallIcon( R.drawable.logo_meowfy)
                     .setContentTitle(song.getName())
-                   // .setContentText(song.getAlbum().getArtistNames())
-                    .setContentText(song.getArtists().toString())
+                    .setContentText(song.getArtists().get(0).getName())
                     .setLargeIcon(icon)
                     .setOnlyAlertOnce(true)
                     .setShowWhen(false)
