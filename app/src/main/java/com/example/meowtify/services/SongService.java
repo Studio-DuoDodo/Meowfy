@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.meowtify.VolleyCallBack;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SongService {
     //
@@ -112,6 +114,27 @@ public class SongService {
         JsonObjectRequest jsonObjectRequest = prepareSongLibraryRequest(payload);
         queue.add(jsonObjectRequest);
     }
+    public void removeSongOfLibrary(Song song) {
+        JSONObject payload = preparePutPayload(song);
+        JsonObjectRequest jsonObjectRequest = prepareUnFavoriteATrackRequest(payload,song.getId());
+        queue.add(jsonObjectRequest);
+    }
+    private JsonObjectRequest prepareUnFavoriteATrackRequest(JSONObject payload, String id) {
+        return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/me/tracks?ids=" + id , payload, response -> {
+        }, error -> {
+            System.out.println(error.getMessage());
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
 
     private JsonObjectRequest prepareSongLibraryRequest(JSONObject payload) {
         return new JsonObjectRequest(Request.Method.PUT, "https://api.spotify.com/v1/me/tracks", payload, response -> {
@@ -139,5 +162,45 @@ public class SongService {
             e.printStackTrace();
         }
         return ids;
+    }
+    boolean lastCheck;
+
+    public boolean isLastCheck() {
+        return lastCheck;
+    }
+
+    public AtomicBoolean checkIfTheUserHasASongInFavorites(final VolleyCallBack callBack, String songId) {
+        AtomicBoolean user = new AtomicBoolean(false);
+        String endpoint = "https://api.spotify.com/v1/me/tracks/contains?ids=" + songId;
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        for (int n = 0; n < response.length(); n++) {
+                            user.set(response.getBoolean(n));
+                            System.out.println("User has saved this song " + user);
+                            lastCheck = user.get();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    callBack.onSuccess();
+
+                }, error -> {
+                     System.out.println("error on error " + error.toString() + error.getMessage() + error.getLocalizedMessage());
+
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+
+        };
+        queue.add(jsonArrayRequest);
+        return user;
     }
 }
