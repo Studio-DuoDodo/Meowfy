@@ -29,6 +29,7 @@
             android:exported="false"
             android:label="@string/app_name">
         </service>
+        <receiver android:name=".services.notifications.NotificationActionService"/>
     </application>
 
 </manifest>
