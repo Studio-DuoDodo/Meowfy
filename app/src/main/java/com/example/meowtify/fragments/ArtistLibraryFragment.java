@@ -1,39 +1,42 @@
 package com.example.meowtify.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.meowtify.R;
 import com.example.meowtify.adapters.AdapterLibraryList;
 import com.example.meowtify.adapters.AdapterLibraryListAdd1;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 import com.example.meowtify.services.ArtistService;
+import com.example.meowtify.services.SongService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class ArtistLibraryFragment extends Fragment {
 
-
+    AdapterLibraryListAdd1 adapterRecomended;
 
     RecyclerView listaArtist, listaRecomended;
-ArtistService artistService;
+    ArtistService artistService;
     AdapterLibraryList adapter;
+    List<Artist> followedArtists;
+    List<String> followedArtistsIds = new ArrayList<>();
+
     public ArtistLibraryFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,15 @@ ArtistService artistService;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_artist_library, container, false);
-artistService= new ArtistService(v.getContext());
-artistService.getUserFollowedArtists(this::updateFollowedArtistsByAPI,30);
+        artistService = new ArtistService(v.getContext());
+        SongService songService = new SongService(v.getContext());
+
+        artistService.getUserFollowedArtists(this::updateFollowedArtistsByAPI, 30);
+        songService.getRecentlyPlayedTracks(() -> {
+            List<Song> songs = songService.getSongs();
+            Random random = new Random();
+            artistService.getRelatedArtists(this::updateRecomendedArtistsByAPI, songs.get((random.nextInt(songs.size()))).getArtists().get(0).getId());
+        });
         listaArtist = v.findViewById(R.id.artistas_library);
         listaRecomended = v.findViewById(R.id.recomended_library);
 
@@ -61,24 +71,37 @@ artistService.getUserFollowedArtists(this::updateFollowedArtistsByAPI,30);
                 new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 3", null)
         ));
 
-          adapter = new AdapterLibraryList(artist, getContext());
+        adapter = new AdapterLibraryList(artist, getContext());
         listaArtist.setAdapter(adapter);
         listaArtist.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AdapterLibraryListAdd1 adapterAdd = new AdapterLibraryListAdd1(recomendedArtist, getContext());
-        listaRecomended.setAdapter(adapterAdd);
+        adapterRecomended = new AdapterLibraryListAdd1(recomendedArtist, getContext());
+        listaRecomended.setAdapter(adapterRecomended);
         listaRecomended.setLayoutManager(new LinearLayoutManager(getContext()));
-        
+
         return v;
     }
 
     private void updateFollowedArtistsByAPI() {
-    List<Artist> a =artistService.getUserFollowedArtists();
-   List<GeneralItem> generalItemList= new ArrayList<>();
-        for (Artist artist:a) {
+        followedArtists = artistService.getUserFollowedArtists();
+        List<GeneralItem> generalItemList = new ArrayList<>();
+        for (Artist artist : followedArtists) {
             generalItemList.add(artist.toGeneralItem());
+            followedArtistsIds.add(artist.getId());
         }
-    adapter.setItems(generalItemList);
+        adapter.setItems(generalItemList);
+
+    }
+
+    private void updateRecomendedArtistsByAPI() {
+        List<Artist> a = artistService.getRelatedArtist();
+        List<GeneralItem> generalItemList = new ArrayList<>();
+        for (Artist artist : a) {
+            System.out.println("contiene artist f" + followedArtistsIds.contains(artist.getId()));
+            if (!followedArtistsIds.contains(artist.getId()))
+                generalItemList.add(artist.toGeneralItem());
+        }
+        adapterRecomended.setItems(generalItemList);
 
     }
 }

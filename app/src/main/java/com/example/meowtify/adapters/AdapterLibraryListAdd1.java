@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
 import com.example.meowtify.Utilitis;
+import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.GeneralItem;
+import com.example.meowtify.services.ArtistService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,6 +27,11 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
     public AdapterLibraryListAdd1(List<GeneralItem> items, Context context) {
         this.items = items;
         this.context = context;
+    }
+
+    public void setItems(List<GeneralItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -64,24 +71,16 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
             numSongs.setText(subtitel);
             Picasso.with(context).load(generalItem.getImage()).
                 resize(220, 220).into(image);;
-            followButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Todo: metodo para añadir artista a seguidos
-
-                    //Todo: metode per eliminar de la lista de recomenats
-                    //si nomes s'ha de eliminar del recycler no de la llista de la api
-                    items.remove(position);
-                    notifyDataSetChanged();
-                }
+            followButton.setOnClickListener(view -> {
+                ArtistService artistService = new ArtistService(context);
+                Artist a = new Artist();
+                a.setId(generalItem.getId());
+                artistService.followAnArtist(a);
+                items.remove(position);
+                notifyDataSetChanged();
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Utilitis.navigationToAAP(generalItem, context);
-                }
-            });
+            itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
         }
     }
 }
