@@ -65,7 +65,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     TextView currentDuration;
     SeekBar seekBar;
     AlbumService albumService;
-    ArtistService artistService;
     PlaylistService playlistService;
     boolean isPlaying = false;
     MainActivity mainActivity;
@@ -117,7 +116,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                     },((GeneralItem)b.getSerializable("generalItem")).getId());
                     break;
                 case track:
-                    //refactor this
                     songService = new SongService(v.getContext());
                     songService.getASongByRef(() -> {
                         albumService = new AlbumService(v.getContext());
@@ -152,7 +150,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                         System.out.println("Generated songs ids" + mainActivity.songs.toString());
 
                     }
-                    //     songs = artistService.getTopSongsOfAnArtist();
                     break;
                 case playlist:
                     playlistService = new PlaylistService(v.getContext());
@@ -164,10 +161,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                     },idList);
                     break;
             }
-            System.out.println("type: "+type.toString()+"\nidList: "+idList+"\nposList: "+mainActivity.position);
-
-            //  songService.getASongByRef(this::updateSongByAPI, "5aXrEHnW1oDPISMqIPJZVz");
-            // songService.getASongByRef(this::updateSongByAPI, );
         }
         playButton = v.findViewById(R.id.playButton);
         seekBar = v.findViewById(R.id.seekBar);
@@ -248,8 +241,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
                     songService.addSongToLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
                     favoriteButton.setTag(R.string.albunes, "0");
-
-                    //todo: add to the favorit list of albums
                 } else {
                     songService.removeSongOfLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
@@ -276,7 +267,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
             seekBar.setMax(30000);
         MainActivity.inReproductorForFirstTime = true;
 
-        //seekBar.setProgress(0);
         titleSong.setText(s.getName());
         titleSong.setSelected(true);
         if (s.getAlbum() != null) {
@@ -326,11 +316,6 @@ songService.checkIfTheUserHasASongInFavorites(()->{
     @Override
     public void onStop() {
         super.onStop();
-        //  if (mBounded) {
-        //       getContext().unbindService(mConnection);
-        //    mBounded = false;
-
-        //   }
     }
 
     public void ChangeSong(Song s) {
@@ -366,7 +351,6 @@ songService.checkIfTheUserHasASongInFavorites(()->{
         if (mainActivity.mBounded)
             mainActivity.mediaPlayerService.pause();
         playButton.setImageResource(android.R.drawable.ic_media_play);
-        //   title.setText(tracks.get(position).getTitle());
         isPlaying = false;
     }
 
@@ -392,11 +376,6 @@ songService.checkIfTheUserHasASongInFavorites(()->{
     @Override
     public void onDestroy() {
         super.onDestroy();
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.cancelAll();
-        }
-*/
-        //  getView().getContext().unregisterReceiver(broadcastReceiver);
     }
 
     @Override

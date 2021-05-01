@@ -263,24 +263,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             public void onClick(View v) {
                 if (MediaPlayerService.isPlaying()){
                     onTrackPause();
-                    /*MediaPlayerService.pause();
-                    playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_play));*/
                 }else {
                     onTrackPlay();
-                    /*MediaPlayerService.resume();
-                    playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));*/
                 }}
         });
-        /*songService = new SongService(getApplicationContext());
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        userView.setText(sharedPreferences.getString("userid", "No User"));
-
-        getTracks();
-
-        addBtn.setOnClickListener(addListener);*/
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
@@ -302,14 +288,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
 
     private void apiStuff() {
          songService = new SongService(getApplicationContext());
-        // userView = (TextView) findViewById(R.id.user);
-        //   songView = (TextView) findViewById(R.id.song);
-        //  addBtn = (Button) findViewById(R.id.add);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        //    userView.setText(sharedPreferences.getString("userid", "No User"));
-        //      getTracks();
-        // addBtn.setOnClickListener(addListener);
-        //    getArtists();
     }
 
     private void changeFragment(Fragment currentFragment, String tag) {
@@ -329,14 +307,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             switch (response.getType()) {
-                // Response was successful and contains auth token
                 case TOKEN:
-                    // Handle successful response
                     break;
 
                 // Auth flow returned an error
