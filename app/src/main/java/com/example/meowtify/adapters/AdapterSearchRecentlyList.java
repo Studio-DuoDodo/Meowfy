@@ -79,8 +79,6 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
             deleteSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Todo: metode per eliminar de la lista de recomenats
-                    //si nomes s'ha de eliminar del recycler no de la llista de la api
                     items.remove(position);
                     notifyDataSetChanged();
                 }

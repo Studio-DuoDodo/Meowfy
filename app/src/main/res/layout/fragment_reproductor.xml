@@ -8,13 +8,11 @@
     android:layout_marginEnd="20dp"
     tools:context=".fragments.ReproductorFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="reproductor"
         android:textColor="@color/white" />
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bg"
