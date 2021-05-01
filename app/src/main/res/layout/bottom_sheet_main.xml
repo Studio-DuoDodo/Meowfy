@@ -29,6 +29,7 @@
         android:layout_toRightOf="@id/currentSongImage"
         android:layout_toLeftOf="@id/favActualSong"
         android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
         android:layout_marginTop="14dp"
         android:text="Song title"
         android:textSize="15dp"
