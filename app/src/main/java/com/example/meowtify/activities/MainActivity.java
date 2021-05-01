@@ -1,5 +1,9 @@
 package com.example.meowtify.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -36,6 +40,7 @@ import com.example.meowtify.services.AlbumService;
 import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.SongService;
+import com.example.meowtify.services.notifications.CreateNotification;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -117,6 +122,42 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             song = recentlyPlayedTracks.get(0);
         }
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getExtras().getString("actionname");
+            switch (action) {
+                case CreateNotification.ACTION_PREVIUOS:
+                    onTrackPrevious();
+                    break;
+                case CreateNotification.ACTION_PLAY:
+                    if (isPlaying) {
+                        onTrackPause();
+                    } else {
+                        onTrackPlay();
+                    }
+                    break;
+                case CreateNotification.ACTION_NEXT:
+                    onTrackNext();
+                    break;
+            }
+        }
+    };
+
+    private void createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CreateNotification.CHANNEL_ID,
+                    "Meowfy", NotificationManager.IMPORTANCE_LOW);
+
+            notificationManager = getActivity().getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+
     static  Album a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,9 +238,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
                 }else {
                 MediaPlayerService.resume();
                     playButton.setImageDrawable(getDrawable(android.R.drawable.ic_media_pause));
-
-        }}
-});
+                }}
+        });
         /*songService = new SongService(getApplicationContext());
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);

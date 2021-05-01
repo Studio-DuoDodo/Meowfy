@@ -93,45 +93,8 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         }
     };
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getExtras().getString("actionname");
-            switch (action) {
-                case CreateNotification.ACTION_PREVIUOS:
-                    onTrackPrevious();
-                    break;
-                case CreateNotification.ACTION_PLAY:
-                    if (isPlaying) {
-                        onTrackPause();
-                    } else {
-                        onTrackPlay();
-                    }
-                    break;
-                case CreateNotification.ACTION_NEXT:
-                    onTrackNext();
-                    break;
-            }
-        }
-    };
-
-
     public ReproductorFragment() {
         // Required empty public constructor
-    }
-
-
-    private void createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CreateNotification.CHANNEL_ID,
-                    "Meowfy", NotificationManager.IMPORTANCE_LOW);
-
-            notificationManager = getActivity().getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
     }
 
     @Override
@@ -350,7 +313,6 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 
 
         }
-
 
         //todo: obtener si la cancion esta en favoritos o no, i descomentar el if
         //if(boolfavoritos) {

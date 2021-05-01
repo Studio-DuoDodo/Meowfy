@@ -30,8 +30,7 @@
         android:textColor="@color/primaryLigth2"
         android:layout_marginTop="5dp"
         android:layout_below="@id/text_recomended"/>
-
-    <!-- TODO: Update recycler artist to albums -->
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recomended_library"
         android:layout_width="match_parent"
