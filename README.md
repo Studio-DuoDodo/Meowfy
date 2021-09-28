@@ -1,7 +1,7 @@
 # Meowtify
 ![Title](https://i.ibb.co/s6DsRg4/meowfy-logo.png)
 # Memory
-![Project details](https://docs.google.com/document/d/1QLeZ72FSm3Me8wdsNnDUiCs-zI8wmHfE1xOFdD3DUV8/edit?usp=sharing)
+https://docs.google.com/document/d/1QLeZ72FSm3Me8wdsNnDUiCs-zI8wmHfE1xOFdD3DUV8/edit?usp=sharing
 # Screenshots
 ![Screenshots](https://i.ibb.co/ZNjqVGT/unnamed-1.png)
 ![Screenshots](https://i.ibb.co/TtHyR5r/home.png)
