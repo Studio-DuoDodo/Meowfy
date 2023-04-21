@@ -55,6 +55,7 @@ public class ArtistLibraryFragment extends Fragment {
         songService.getRecentlyPlayedTracks(() -> {
             List<Song> songs = songService.getSongs();
             Random random = new Random();
+            if (songs.size()!=0)
             artistService.getRelatedArtists(this::updateRecomendedArtistsByAPI, songs.get((random.nextInt(songs.size()))).getArtists().get(0).getId());
         });
         listaArtist = v.findViewById(R.id.artistas_library);
