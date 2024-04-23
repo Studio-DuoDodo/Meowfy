@@ -64,7 +64,7 @@ public class PlaylistFragment extends Fragment {
         imagePlaylist = v.findViewById(R.id.image_playlist);
         namePlaylist = v.findViewById(R.id.name_playlist);
         subtitelPlaylist = v.findViewById(R.id.subname_playlist);
-        buttonShuffel = v.findViewById(R.id.shuffel_playlist);
+        buttonShuffel = v.findViewById(R.id.shuffle_playlist);
         buttonFolllow = v.findViewById(R.id.follow_playlist);
         songs = v.findViewById(R.id.songs);
         playlist = new Playlist(false, new Followers(), null, null, null, null, null, new User("default"), true, null, null, null);

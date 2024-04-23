@@ -49,20 +49,20 @@
             tools:text="BY SGRANELLV · 1 FOLLOWER"/>
 
         <Button
+            android:id="@+id/shuffle_playlist"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/shuffel_playlist"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/subname_playlist"
-            android:text="SHUFFEL PLAY"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+            android:text="SHUFFLE PLAY" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/follow_playlist"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/shuffel_playlist"
+            android:layout_below="@id/shuffle_playlist"
             android:text="follow"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
