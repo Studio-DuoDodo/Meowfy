@@ -18,18 +18,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titol_main"
+        android:id="@+id/title_main"
         android:layout_below="@id/image_main"
         android:textStyle="bold"
         android:textColor="@color/white"
-        tools:text="nom llista"
+        tools:text="nom llist"
         android:layout_marginTop="5dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/subtitol_main"
-        android:layout_below="@id/titol_main"
-        android:textColor="@color/primaryLigth2"
-        tools:text="nom llista"/>
+        android:id="@+id/subtitle_main"
+        android:layout_below="@id/title_main"
+        android:textColor="@color/primaryLight2"
+        tools:text="nom llist"/>
 
 </RelativeLayout>

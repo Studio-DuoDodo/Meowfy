@@ -2,18 +2,18 @@
     <!-- Base application theme. -->
     <style name="Theme.MeowtifyLight" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/secundary</item>
-        <item name="colorPrimaryVariant">@color/secundary</item>
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="colorPrimaryVariant">@color/secondary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/primary</item>
-        <item name="colorSecondaryVariant">@color/primaryLigth1</item>
-        <item name="colorOnSecondary">@color/primaryLigth2</item>
+        <item name="colorSecondaryVariant">@color/primaryLight1</item>
+        <item name="colorOnSecondary">@color/primaryLight2</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="Theme.MeowtifyLight.Laucher">
-        <item name="android:windowBackground">@drawable/laucher_screen</item>
+    <style name="Theme.MeowtifyLight.Launcher">
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
     </style>
 </resources>

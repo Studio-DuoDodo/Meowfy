@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/secundary"
+        android:background="@color/secondary"
         android:textStyle="bold"
         android:textSize="25sp"
         android:paddingHorizontal="50dp"

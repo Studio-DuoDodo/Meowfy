@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.GeneralItem;
@@ -31,7 +31,7 @@ import java.util.Random;
 public class AlbumFragment extends Fragment {
 
     ImageView imagePlaylist;
-    TextView nameAlbum, subtitelAlbum;
+    TextView nameAlbum, subtitleAlbum;
     Button buttonShuffel;
     ImageButton buttonFavorite;
     RecyclerView songs;
@@ -56,8 +56,8 @@ public class AlbumFragment extends Fragment {
         albumService = new AlbumService(v.getContext());
         imagePlaylist = v.findViewById(R.id.image_album);
         nameAlbum = v.findViewById(R.id.name_album2);
-        subtitelAlbum = v.findViewById(R.id.subname_album);
-        buttonShuffel = v.findViewById(R.id.shuffel_album);
+        subtitleAlbum = v.findViewById(R.id.subname_album);
+        buttonShuffel = v.findViewById(R.id.shuffle_album);
         buttonFavorite = v.findViewById(R.id.favorits_album2);
         songs = v.findViewById(R.id.songs);
 
@@ -74,18 +74,18 @@ public class AlbumFragment extends Fragment {
             generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
             generalItem.setExtra2(Type.album.toString());
 
-            Utilitis.navigationToAAP(generalItem, getContext());
+            Utilities.navigationToAAP(generalItem, getContext());
         });
         buttonFavorite.setOnClickListener(view -> {
 
-            if (buttonFavorite.getTag(R.string.albunes).equals("1")) {
+            if (buttonFavorite.getTag(R.string.albums).equals("1")) {
                 buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                buttonFavorite.setTag(R.string.albunes, "0");
+                buttonFavorite.setTag(R.string.albums, "0");
 
                 albumService.saveAlbumToUserLibrary(album);
             } else {
                 buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                buttonFavorite.setTag(R.string.albunes, "1");
+                buttonFavorite.setTag(R.string.albums, "1");
 
                 albumService.unsaveAnAlbum(album);
             }
@@ -112,10 +112,10 @@ public class AlbumFragment extends Fragment {
         albumService.checkIfTheUserSavedAAlbum(() -> {
                     if (albumService.isLastCheck()) {
                         buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                        buttonFavorite.setTag(R.string.albunes, "0");
+                        buttonFavorite.setTag(R.string.albums, "0");
                     } else {
                         buttonFavorite.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                        buttonFavorite.setTag(R.string.albunes, "1");
+                        buttonFavorite.setTag(R.string.albums, "1");
                     }
                 }
                 , currentAlbum.getId());
@@ -123,9 +123,9 @@ public class AlbumFragment extends Fragment {
         System.out.println("last album has" + currentAlbum.toString());
         if (currentAlbum.getImages() != null)
             Picasso.with(getContext()).load(currentAlbum.getImages().get(0).url).into(imagePlaylist);
-        String subtitel = "BY " + currentAlbum.getArtistNames() + " · " + currentAlbum.getTotalTracks() + " TRACKS";
+        String subtitle = "BY " + currentAlbum.getArtistNames() + " · " + currentAlbum.getTotalTracks() + " TRACKS";
 
-        subtitelAlbum.setText(subtitel);
+        subtitleAlbum.setText(subtitle);
         album = currentAlbum;
         adapterSongs.setItems(currentAlbum.getSongsConverted());
         adapterSongs.setIdList(album.getId());

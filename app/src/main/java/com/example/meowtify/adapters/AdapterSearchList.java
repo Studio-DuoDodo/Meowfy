@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
@@ -53,34 +53,34 @@ public class AdapterSearchList extends RecyclerView.Adapter<AdapterSearchList.Se
     }
 
     public class SearchListHolder extends RecyclerView.ViewHolder {
-        TextView title, subTitel;
+        TextView title, subTitle;
         ImageView image;
 
         public SearchListHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titel_search);
-            subTitel = itemView.findViewById(R.id.subtitel_search);
+            title = itemView.findViewById(R.id.title_search);
+            subTitle = itemView.findViewById(R.id.subtitle_search);
             image = itemView.findViewById(R.id.image_search);
         }
 
         public void bindData(GeneralItem generalItem) {
             title.setText(generalItem.getName());
-            String subtitel = "";
+            String subtitle = "";
             if (generalItem.getType() != null) {
-                if (generalItem.getType() == Type.track) subtitel = "song";
-                else subtitel = generalItem.getType().toString();
+                if (generalItem.getType() == Type.track) subtitle = "song";
+                else subtitle = generalItem.getType().toString();
             }
             if (generalItem.getExtra1() != null && generalItem.getType() != Type.artist)
-                subtitel += " · " + generalItem.getExtra1();
-            subTitel.setText(subtitel);
+                subtitle += " · " + generalItem.getExtra1();
+            subTitle.setText(subtitle);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(130, 130).into(image);
 
             itemView.setOnClickListener(view -> {
                 if (generalItem.getType() == Type.track) generalItem.setExtra2("track");
 
-                Utilitis.navigationToAAP(generalItem, context);
+                Utilities.navigationToAAP(generalItem, context);
 
                 if (!searchFragment.checkRecentlySearch(generalItem)) {
                     searchFragment.recentlySearchList.add(generalItem);

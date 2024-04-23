@@ -10,16 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_search"
-        android:src="@drawable/laucher_screen"
+        android:src="@drawable/launcher_screen"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         tools:padding="15dp"
-        tools:background="@color/primaryLigth1"/>
+        tools:background="@color/primaryLight1"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titel_search"
+        android:id="@+id/title_search"
         android:layout_toRightOf="@id/image_search"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
@@ -30,15 +30,15 @@
         android:textSize="15sp"/>
 
     <TextView
-        android:id="@+id/subtitel_search"
+        android:id="@+id/subtitle_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titel_search"
+        android:layout_below="@id/title_search"
         android:layout_toEndOf="@+id/image_search"
         android:layout_toRightOf="@+id/image_search"
-        android:textColor="@color/primaryLigth2"
+        android:textColor="@color/primaryLight2"
         android:layout_marginLeft="10dp"
-        tools:text="subtitel"
+        tools:text="subtitle"
         android:layout_marginStart="10dp"/>
 
 </RelativeLayout>

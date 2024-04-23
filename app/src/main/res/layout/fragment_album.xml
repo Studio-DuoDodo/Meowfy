@@ -17,7 +17,7 @@
             android:layout_marginTop="50dp"
             tools:src="@drawable/logo_meowfy"
             tools:padding="80dp"
-            tools:background="@color/primaryLigth2"/>
+            tools:background="@color/primaryLight2"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,17 +49,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/shuffel_album"
+            android:id="@+id/shuffle_album"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/subname_album"
-            android:text="SHUFFLE PLAY"
+            android:text="@string/shuffle_play"
             android:layout_marginTop="15dp"
             style="@style/Widget.AppCompat.Button.Borderless" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/favorits_album2"
-            android:layout_toRightOf="@id/shuffel_album"
+            android:layout_toRightOf="@id/shuffle_album"
             android:layout_below="@id/subname_album"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/songs"
-            android:layout_below="@id/shuffel_album"
+            android:layout_below="@id/shuffle_album"
             tools:listitem="@layout/item_search"/>
 
     </RelativeLayout>

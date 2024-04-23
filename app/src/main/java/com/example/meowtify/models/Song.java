@@ -31,7 +31,7 @@ public int popularity;
     private String id;
 
     public  GeneralItem  toGeneralItem(){
-        //todo aqui hay error en alguna lista
+        //todo aqui hay error en alguna list
         GeneralItem item= new GeneralItem(id, name, type, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", artists.get(0).getName(), album.getName());
 
         if(album.getImages().size() > 0) item.setImage(album.getImages().get(0).getUrl());

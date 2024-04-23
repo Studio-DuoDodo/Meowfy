@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Followers;
@@ -35,7 +35,7 @@ public class PlaylistFragment extends Fragment {
 
 
     ImageView imagePlaylist;
-    TextView namePlaylist, subtitelPlaylist;
+    TextView namePlaylist, subtitlePlaylist;
     Button buttonShuffel, buttonFolllow;
     RecyclerView songs;
     Playlist playlist;
@@ -63,7 +63,7 @@ public class PlaylistFragment extends Fragment {
         playlistService = new PlaylistService(v.getContext());
         imagePlaylist = v.findViewById(R.id.image_playlist);
         namePlaylist = v.findViewById(R.id.name_playlist);
-        subtitelPlaylist = v.findViewById(R.id.subname_playlist);
+        subtitlePlaylist = v.findViewById(R.id.subname_playlist);
         buttonShuffel = v.findViewById(R.id.shuffle_playlist);
         buttonFolllow = v.findViewById(R.id.follow_playlist);
         songs = v.findViewById(R.id.songs);
@@ -77,8 +77,8 @@ public class PlaylistFragment extends Fragment {
         }
 
         namePlaylist.setText(playlist.getName());
-        String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
-        subtitelPlaylist.setText(subtitel);
+        String subtitle = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+        subtitlePlaylist.setText(subtitle);
 
         buttonShuffel.setOnClickListener(view -> {
             GeneralItem generalItem = playlist.toGeneralItem();
@@ -88,7 +88,7 @@ public class PlaylistFragment extends Fragment {
             generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
             generalItem.setExtra2(Type.playlist.toString());
 
-            Utilitis.navigationToAAP(generalItem, getContext());
+            Utilities.navigationToAAP(generalItem, getContext());
         });
         buttonFolllow.setOnClickListener(view -> {
             PlaylistService playlistService = new PlaylistService(v.getContext());
@@ -140,10 +140,10 @@ public class PlaylistFragment extends Fragment {
                 Picasso.with(getView().getContext()).load(playlist.getImages()[0].url).into(imagePlaylist);
             else
                 Picasso.with(getView().getContext()).load("https://depor.com/resizer/y0QpdzhnMuUBnXCguq_9y_MOiFs=/1200x675/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/RGKQY6IKM5GQ3N55KHVWVKSQI4.png").into(imagePlaylist);
-            String subtitel = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
-            subtitelPlaylist.setText(subtitel);
+            String subtitle = "BY " + playlist.getOwner().getDisplayName() + " · " + playlist.getFollowers().getTotal() + " FOLLOWERS";
+            subtitlePlaylist.setText(subtitle);
             adapterSongs.setItems(generalItemList);
         }, playlists.get(0).getId());
-        MainActivity.inReproductorForFirstTime = true;
+        MainActivity.inPlayerForFirstTime = true;
     }
 }

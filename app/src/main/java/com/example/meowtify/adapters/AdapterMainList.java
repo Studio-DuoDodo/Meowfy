@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -38,7 +38,7 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
     @NonNull
     @Override
     public MainListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista_main, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_main, parent, false);
         return new MainListHolder(v);
     }
 
@@ -53,14 +53,14 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
     }
 
     public class MainListHolder extends RecyclerView.ViewHolder {
-        TextView title, subTitel;
+        TextView title, subTitle;
         ImageView image;
 
         public MainListHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titol_main);
-            subTitel = itemView.findViewById(R.id.subtitol_main);
+            title = itemView.findViewById(R.id.title_main);
+            subTitle = itemView.findViewById(R.id.subtitle_main);
             image = itemView.findViewById(R.id.image_main);
 
         }
@@ -71,13 +71,13 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
             }
             title.setText(generalItem.getName());
 
-            String subtitel = "";
+            String subtitle = "";
             if (generalItem.getType() != Type.artist) {
                 if (generalItem.getType() != null) {
-                    if (generalItem.getType() == Type.track) subtitel = "song";
-                    else subtitel = generalItem.getType().toString();
+                    if (generalItem.getType() == Type.track) subtitle = "song";
+                    else subtitle = generalItem.getType().toString();
                     if (generalItem.getExtra1() != null && generalItem.getType() != Type.playlist)
-                        subtitel += " · " + generalItem.getExtra1();
+                        subtitle += " · " + generalItem.getExtra1();
                 }
             } else {
                 RelativeLayout.LayoutParams layoutParams =
@@ -86,10 +86,10 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
                 title.setLayoutParams(layoutParams);
             }
 
-            if (subtitel.length() > 18) {
-                subtitel = subtitel.substring(0, 17) + "...";
+            if (subtitle.length() > 18) {
+                subtitle = subtitle.substring(0, 17) + "...";
             }
-            subTitel.setText(subtitel);
+            subTitle.setText(subtitle);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(width, width).into(image);
 
@@ -97,7 +97,7 @@ public class AdapterMainList extends RecyclerView.Adapter<AdapterMainList.MainLi
                 if (generalItem.getType() == Type.track)
                     generalItem.setExtra2(generalItem.getType().toString());
 
-                Utilitis.navigationToAAP(generalItem, context);
+                Utilities.navigationToAAP(generalItem, context);
             });
         }
     }

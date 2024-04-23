@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.services.ArtistService;
@@ -37,7 +37,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
     @NonNull
     @Override
     public LibraryListAdd1Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary_recomended1, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_your_library_recommended1, parent, false);
         return new LibraryListAdd1Holder(v);
     }
 
@@ -67,8 +67,8 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
 
         public void bindData(GeneralItem generalItem, int position) {
             nameArtist.setText(generalItem.getName());
-            String subtitel = generalItem.getExtra1();
-            numSongs.setText(subtitel);
+            String subtitle = generalItem.getExtra1();
+            numSongs.setText(subtitle);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(220, 220).into(image);
             ;
@@ -81,7 +81,7 @@ public class AdapterLibraryListAdd1 extends RecyclerView.Adapter<AdapterLibraryL
                 notifyDataSetChanged();
             });
 
-            itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
+            itemView.setOnClickListener(view -> Utilities.navigationToAAP(generalItem, context));
         }
     }
 }

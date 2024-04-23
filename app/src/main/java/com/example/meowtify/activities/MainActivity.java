@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,19 +29,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.fragments.MainFragment;
 import com.example.meowtify.fragments.OnFragmentChanged;
-import com.example.meowtify.fragments.ReproductorFragment;
+import com.example.meowtify.fragments.PlayerFragment;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.fragments.YourLibraryFragment;
 import com.example.meowtify.models.Album;
-import com.example.meowtify.models.Artist;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
  import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
-import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.SongService;
 import com.example.meowtify.services.notifications.CreateNotification;
@@ -55,7 +52,6 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentChanged, Playable {
@@ -64,21 +60,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     // private static final String REDIRECT_URI = " com.example.meowtify://callback";
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-playback-position,user-read-private,user-read-email,playlist-read-private,user-library-read,user-library-modify,user-top-read,playlist-read-collaborative,ugc-image-upload,user-follow-read,user-follow-modify,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,user-read-recently-played";
-    public static boolean inReproductorForFirstTime = false;
+    public static boolean inPlayerForFirstTime = false;
     public static Fragment currentFragment;
     public static OnFragmentChanged onFragmentChanged;
     public List<Song> songs = new ArrayList<>();
     public int position;
     BottomNavigationView navigationMenu;
     ImageView bottomSheetImage;
-    ReproductorFragment viewer = null;
+    PlayerFragment viewer = null;
     private SharedPreferences.Editor editor;
     private TextView userView;
     private TextView songView;
    String testAlbum="019Bh0y5hMxnvTqL1PXDFx";
     private CoordinatorLayout fragmentCordinator;
     private TextView songTitle;
-    private TextView subtitel;
+    private TextView subtitle;
     private RelativeLayout relativeLayoutBottomSheet;
     private Button addBtn;
     private ImageButton playButton;
@@ -157,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             switch (action) {
                 case CreateNotification.ACTION_PREVIUOS:
                     onTrackPrevious();
-                    System.out.println("previus");
+                    System.out.println("previous");
                     break;
                 case CreateNotification.ACTION_PLAY:
                     if (MediaPlayerService.isPlaying()) {
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
         Bundle b = getIntent().getExtras();
         relativeLayoutBottomSheet = findViewById(R.id.bottomSheetLayout);
         songTitle = findViewById(R.id.songTitle);
-        subtitel = findViewById(R.id.subtitle);
+        subtitle = findViewById(R.id.subtitle);
         playButton = findViewById(R.id.playSong);
         bottomSheetImage = findViewById(R.id.currentSongImage);
         fragmentCordinator = findViewById(R.id.coordinatorLayout);
@@ -228,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
                         changeFragment(new MainFragment(), "Home");
                         System.out.println("home");
                         return true;
-                    case R.id.sheare:
+                    case R.id.share:
                         albumService.unsaveAnAlbum(a);
                         changeFragment(new SearchFragment(), "Share");
 
@@ -247,14 +243,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                GeneralItem gi = ReproductorFragment.songService.lastSearchedSong.toGeneralItem();
+                GeneralItem gi = PlayerFragment.songService.lastSearchedSong.toGeneralItem();
 
                 gi.setId(idListSong);
                 gi.setExtra1(String.valueOf(position));
                 gi.setExtra2(songType.toString());
 
                 System.out.println(gi.toString());
-                Utilitis.navigationToAAP(gi, v.getContext());
+                Utilities.navigationToAAP(gi, v.getContext());
             }
         });
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -328,20 +324,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void OnFragmentChanged() {
-        System.out.println("reproductorforfirsttime" + inReproductorForFirstTime);
-        if (currentFragment.getTag().equals("Reproductor") || !inReproductorForFirstTime) {
+        System.out.println("playerforfirsttime" + inPlayerForFirstTime);
+        if (currentFragment.getTag().equals("Player") || !inPlayerForFirstTime) {
             relativeLayoutBottomSheet.setVisibility(View.INVISIBLE);
 
-        } else if (inReproductorForFirstTime && ReproductorFragment.songService != null) {
-            if(ReproductorFragment.type == Type.track) songType = Type.album;
-            else songType = ReproductorFragment.type;
-            idListSong = ReproductorFragment.idList;
-            System.out.println("type lista "+songType+"\n id lista "+idListSong+"\nposicion lista "+ position);
+        } else if (inPlayerForFirstTime && PlayerFragment.songService != null) {
+            if(PlayerFragment.type == Type.track) songType = Type.album;
+            else songType = PlayerFragment.type;
+            idListSong = PlayerFragment.idList;
+            System.out.println("type list "+songType+"\n id list "+idListSong+"\nposicion list "+ position);
 
-            Song s = ReproductorFragment.songService.lastSearchedSong;
+            Song s = PlayerFragment.songService.lastSearchedSong;
             songTitle.setText(s.getName());
             songTitle.setSelected(true);
-            subtitel.setText(s.getArtists().get(0).getName());
+            subtitle.setText(s.getArtists().get(0).getName());
             Picasso.with(getApplicationContext()).load(s.getAlbum().getImages().get(0).url).into(bottomSheetImage);
 
             relativeLayoutBottomSheet.setVisibility(View.VISIBLE);
@@ -371,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
 
     @Override
     public void onTrackPlay() {
-        if(inReproductorForFirstTime){
+        if(inPlayerForFirstTime){
             CreateNotification.createNotification(getApplicationContext(), songs.get(position),
                     android.R.drawable.ic_media_pause, position, songs.size() - 1);
             MediaPlayerService.resume();
@@ -381,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
 
     @Override
     public void onTrackPause() {
-        if(inReproductorForFirstTime){
+        if(inPlayerForFirstTime){
             CreateNotification.createNotification(getApplicationContext(), songs.get(position),
                     android.R.drawable.ic_media_play, position, songs.size() - 1);
             MediaPlayerService.pause();
@@ -424,15 +420,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentChanged
 
         songTitle.setText(song.getName());
         songTitle.setSelected(true);
-        subtitel.setText(song.getArtists().get(0).getName());
+        subtitle.setText(song.getArtists().get(0).getName());
         Picasso.with(getApplicationContext()).load(song.getAlbum().getImages().get(0).url).into(bottomSheetImage);
     }
 
     public void ChangeSong(Song s) {
-        if(!currentFragment.getTag().equals("Reproductor")){
+        if(!currentFragment.getTag().equals("Player")){
             songService.getASongByRef(this::updateSongByAPI, s.getId());
         }else{
-            ReproductorFragment reproductor = ((ReproductorFragment) getSupportFragmentManager().findFragmentByTag("Reproductor"));
+            PlayerFragment reproductor = ((PlayerFragment) getSupportFragmentManager().findFragmentByTag("Player"));
 
             reproductor.ChangeSong(s);
         }

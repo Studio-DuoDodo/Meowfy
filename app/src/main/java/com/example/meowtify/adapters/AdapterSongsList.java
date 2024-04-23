@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 import com.squareup.picasso.Picasso;
@@ -65,20 +65,20 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
     }
 
     public class SearchListHolder extends RecyclerView.ViewHolder {
-        TextView title, subTitel;
+        TextView title, subTitle;
         ImageView image;
 
         public SearchListHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titel_search);
-            subTitel = itemView.findViewById(R.id.subtitel_search);
+            title = itemView.findViewById(R.id.title_search);
+            subTitle = itemView.findViewById(R.id.subtitle_search);
             image = itemView.findViewById(R.id.image_search);
         }
 
         public void bindData(GeneralItem generalItem) {
             title.setText(generalItem.getName());
-            subTitel.setText(generalItem.getExtra1());
+            subTitle.setText(generalItem.getExtra1());
             Picasso.with(context).load(generalItem.getImage()).
                     resize(width, width).into(image);
 
@@ -89,7 +89,7 @@ public class AdapterSongsList extends RecyclerView.Adapter<AdapterSongsList.Sear
                     generalItem.setExtra2(listType.toString());
                 } else generalItem.setExtra2(Type.track.toString());
 
-                Utilitis.navigationToAAP(generalItem, context);
+                Utilities.navigationToAAP(generalItem, context);
             });
         }
     }

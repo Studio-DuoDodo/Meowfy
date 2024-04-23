@@ -6,7 +6,7 @@
     android:orientation="vertical"
      app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="true"
-    android:background="@color/primaryLigth1"
+    android:background="@color/primaryLight1"
     app:behavior_peekHeight="64dp"
     android:layout_marginTop="530dp"
     android:visibility="visible">
@@ -59,7 +59,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@id/playSong"
-        android:backgroundTint="@color/primaryLigth1"
+        android:backgroundTint="@color/primaryLight1"
         android:src="@drawable/ic_baseline_favorite_24" />
     <ImageButton
         android:id="@+id/playSong"
@@ -67,7 +67,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="29dp"
         android:layout_marginLeft="29dp"
-        android:backgroundTint="@color/primaryLigth1"
+        android:backgroundTint="@color/primaryLight1"
         android:layout_alignParentRight="true"
         android:src="@android:drawable/ic_media_play" />
 

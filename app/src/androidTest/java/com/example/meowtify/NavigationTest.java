@@ -51,7 +51,7 @@ public class NavigationTest {
     public void home_to_search() {
         loginRegisterTest.loginWithSavedData();
         ViewInteraction toSearch = onView(
-                allOf(withId(R.id.sheare), withContentDescription("search"),
+                allOf(withId(R.id.share), withContentDescription("search"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.bottomNavigation),
@@ -97,7 +97,7 @@ public class NavigationTest {
     public void open_playlist_from_featured_playlist_of_home() {
         loginRegisterTest.loginWithSavedData();
         ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.listaJumpBack),
+                allOf(withId(R.id.listJumpBack),
                         childAtPosition(
                                 withClassName(is("android.widget.RelativeLayout")),
                                 6)));

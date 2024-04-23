@@ -36,7 +36,7 @@ public class UseCaseTest {
     public void play_last_played_song() {
         loginRegisterTest.loginWithSavedData();
         ViewInteraction recyclerViewRecentlyPlayed = onView(
-                allOf(withId(R.id.listaRecently),
+                allOf(withId(R.id.listRecently),
                         childAtPosition(
                                 withClassName(is("android.widget.RelativeLayout")),
                                 2)));
@@ -71,7 +71,7 @@ public class UseCaseTest {
                         isDisplayed()));
         searchText.perform(replaceText("Rick Astley"), closeSoftKeyboard());
         ViewInteraction resultList = onView(
-                allOf(withId(R.id.lista_search),
+                allOf(withId(R.id.list_search),
                         childAtPosition(
                                 withClassName(is("android.widget.RelativeLayout")),
                                 2)));

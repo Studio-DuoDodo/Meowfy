@@ -26,9 +26,9 @@ import java.util.Random;
 
 public class ArtistLibraryFragment extends Fragment {
 
-    AdapterLibraryListAdd1 adapterRecomended;
+    AdapterLibraryListAdd1 adapterRecommended;
 
-    RecyclerView listaArtist, listaRecomended;
+    RecyclerView listArtist, listRecommended;
     ArtistService artistService;
     AdapterLibraryList adapter;
     List<Artist> followedArtists;
@@ -56,29 +56,29 @@ public class ArtistLibraryFragment extends Fragment {
             List<Song> songs = songService.getSongs();
             Random random = new Random();
             if (songs.size() != 0)
-                artistService.getRelatedArtists(this::updateRecomendedArtistsByAPI, songs.get((random.nextInt(songs.size()))).getArtists().get(0).getId());
+                artistService.getRelatedArtists(this::updateRecommendedArtistsByAPI, songs.get((random.nextInt(songs.size()))).getArtists().get(0).getId());
         });
-        listaArtist = v.findViewById(R.id.artistas_library);
-        listaRecomended = v.findViewById(R.id.recomended_library);
+        listArtist = v.findViewById(R.id.artists_library);
+        listRecommended = v.findViewById(R.id.recommended_library);
 
         List<GeneralItem> artist = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("7vlM4bn4gPubcmntK8UBp0", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 1", null),
                 new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 2", null),
                 new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 3", null)
         ));
-        List<GeneralItem> recomendedArtist = new ArrayList<GeneralItem>(Arrays.asList(
+        List<GeneralItem> recommendedArtist = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("5t7eQ2d1UmzfIr9oWQ538Y", "artist12", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 1", null),
                 new GeneralItem("06F1MiFx0dHLHEPQBIrcr9", "artist22", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 2", null),
                 new GeneralItem("0blbVefuxOGltDBa00dspv", "artist32", Type.artist, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "followers 3", null)
         ));
 
         adapter = new AdapterLibraryList(artist, getContext());
-        listaArtist.setAdapter(adapter);
-        listaArtist.setLayoutManager(new LinearLayoutManager(getContext()));
+        listArtist.setAdapter(adapter);
+        listArtist.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapterRecomended = new AdapterLibraryListAdd1(recomendedArtist, getContext());
-        listaRecomended.setAdapter(adapterRecomended);
-        listaRecomended.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapterRecommended = new AdapterLibraryListAdd1(recommendedArtist, getContext());
+        listRecommended.setAdapter(adapterRecommended);
+        listRecommended.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }
@@ -94,7 +94,7 @@ public class ArtistLibraryFragment extends Fragment {
 
     }
 
-    private void updateRecomendedArtistsByAPI() {
+    private void updateRecommendedArtistsByAPI() {
         List<Artist> a = artistService.getRelatedArtist();
         List<GeneralItem> generalItemList = new ArrayList<>();
         for (Artist artist : a) {
@@ -102,7 +102,7 @@ public class ArtistLibraryFragment extends Fragment {
             if (!followedArtistsIds.contains(artist.getId()))
                 generalItemList.add(artist.toGeneralItem());
         }
-        adapterRecomended.setItems(generalItemList);
+        adapterRecommended.setItems(generalItemList);
 
     }
 }

@@ -9,11 +9,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.VolleyCallBack;
 import com.example.meowtify.models.Album;
 import com.example.meowtify.models.Artist;
-import com.example.meowtify.models.Playlist;
 import com.example.meowtify.models.Song;
 import com.google.gson.Gson;
 
@@ -34,7 +33,7 @@ public class ArtistService {
     private ArrayList<Album>  albumsLastArtist = new ArrayList<>();
     private ArrayList<Song> topSongsLastArtist = new ArrayList<>();
     List<Artist> userFollowedArtists=new ArrayList<>();
-//todo pasar a lista de listas
+//todo pasar a list de lists
 
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
@@ -87,7 +86,7 @@ public class ArtistService {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return Utilitis.getHeaders(sharedPreferences.getString("token", ""));
+                return Utilities.getHeaders(sharedPreferences.getString("token", ""));
             }
         };
         queue.add(jsonObjectRequest);
@@ -120,7 +119,7 @@ public class ArtistService {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return Utilitis.getHeaders(sharedPreferences.getString("token", ""));
+                return Utilities.getHeaders(sharedPreferences.getString("token", ""));
             }
         };
         queue.add(jsonObjectRequest);
@@ -154,7 +153,7 @@ public class ArtistService {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return Utilitis.getHeaders(sharedPreferences.getString("token", ""));
+                return Utilities.getHeaders(sharedPreferences.getString("token", ""));
             }
         };
         queue.add(jsonObjectRequest);
@@ -196,7 +195,7 @@ public class ArtistService {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-            return Utilitis.getHeaders(sharedPreferences.getString("token", ""));
+            return Utilities.getHeaders(sharedPreferences.getString("token", ""));
              }
         };
         queue.add(jsonObjectRequest);
@@ -227,7 +226,7 @@ public class ArtistService {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-              return Utilitis.getHeaders( sharedPreferences.getString("token", ""));
+              return Utilities.getHeaders( sharedPreferences.getString("token", ""));
             }
         };
         queue.add(jsonObjectRequest);

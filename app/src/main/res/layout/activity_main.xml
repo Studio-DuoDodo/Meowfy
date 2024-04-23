@@ -50,8 +50,8 @@
         style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryLigth1"
-        app:itemRippleColor="@color/secundary"
+        android:background="@color/primaryLight1"
+        app:itemRippleColor="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_view_menu" />

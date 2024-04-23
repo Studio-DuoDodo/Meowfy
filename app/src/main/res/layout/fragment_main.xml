@@ -29,13 +29,13 @@
         android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaRecently"
+        android:id="@+id/listRecently"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_below="@id/recentlyPlayed"
-        tools:listitem="@layout/item_lista_main"/>
+        tools:listitem="@layout/item_list_main"/>
 
     <TextView
         android:id="@+id/yourPlaylist"
@@ -44,12 +44,12 @@
         android:text="Your playlist"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_below="@id/listaRecently"
+        android:layout_below="@id/listRecently"
         android:textSize="25sp"
         android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaYourPlaylist"
+        android:id="@+id/listYourPlaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -63,11 +63,11 @@
         android:text="Featured Playlists"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_below="@id/listaYourPlaylist"
+        android:layout_below="@id/listYourPlaylist"
         android:textSize="25sp"
         android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaJumpBack"
+        android:id="@+id/listJumpBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -81,11 +81,11 @@
         android:text="New releases"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_below="@id/listaJumpBack"
+        android:layout_below="@id/listJumpBack"
         android:textSize="25sp"
         android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaJumpBack2"
+        android:id="@+id/listJumpBack2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -93,22 +93,22 @@
         android:layout_below="@id/jumpBack2"/>
 
     <TextView
-        android:id="@+id/jumpRecomendedByDeveloper"
+        android:id="@+id/jumpRecommendedByDeveloper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recomended by the developer"
+        android:text="Recommended by the developer"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_below="@id/listaJumpBack2"
+        android:layout_below="@id/listJumpBack2"
         android:textSize="25sp"
         android:layout_marginTop="15dp"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaRecomendedByDeveloper"
+        android:id="@+id/listRecommendedByDeveloper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/jumpRecomendedByDeveloper"/>
+        android:layout_below="@id/jumpRecommendedByDeveloper"/>
 
 
 </RelativeLayout>

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.fragments.SearchFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
@@ -52,29 +52,29 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
     }
 
     public class SearchListAdd2Holder extends RecyclerView.ViewHolder {
-        TextView title, subtitel;
+        TextView title, subtitle;
         ImageView image;
         ImageButton deleteSearch;
 
         public SearchListAdd2Holder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titel_search);
-            subtitel = itemView.findViewById(R.id.subtitel_search);
+            title = itemView.findViewById(R.id.title_search);
+            subtitle = itemView.findViewById(R.id.subtitle_search);
             image = itemView.findViewById(R.id.image_search);
             deleteSearch = itemView.findViewById(R.id.delete_search);
         }
 
         public void bindData(GeneralItem generalItem, int position) {
             title.setText(generalItem.getName());
-            String subTitel = "";
+            String subTitle = "";
             if (generalItem.getType() != null) {
-                if (generalItem.getType() == Type.track) subTitel = "song";
-                else subTitel = generalItem.getType().toString();
+                if (generalItem.getType() == Type.track) subTitle = "song";
+                else subTitle = generalItem.getType().toString();
             }
             if (generalItem.getExtra1() != null && generalItem.getType() != Type.artist)
-                subTitel += " · " + generalItem.getExtra1();
-            subtitel.setText(subTitel);
+                subTitle += " · " + generalItem.getExtra1();
+            subtitle.setText(subTitle);
             Picasso.with(context).load(generalItem.getImage()).
                     resize(130, 130).into(image);
             deleteSearch.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class AdapterSearchRecentlyList extends RecyclerView.Adapter<AdapterSearc
 
                     if (SearchFragment.searched)
                         SearchFragment.recentlySearchList.add(generalItem);
-                    Utilitis.navigationToAAP(generalItem, context);
+                    Utilities.navigationToAAP(generalItem, context);
                     SearchFragment.searched = false;
                 }
             });

@@ -6,36 +6,36 @@
     tools:context=".fragments.AlbumLibraryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artistas_library"
+        android:id="@+id/artists_library"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_yourlibrary"/>
+        tools:listitem="@layout/item_your_library"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_recomended"
-        android:text="Recommended albums"
+        android:id="@+id/text_recommended"
+        android:text="@string/recommended_albums"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/artistas_library"/>
+        android:layout_below="@id/artists_library"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/subtext_recomended"
-        android:text="Based on the songs you like"
+        android:id="@+id/subtext_recommended"
+        android:text="@string/based_on_the_songs_you_like"
         android:textStyle="bold"
-        android:textColor="@color/primaryLigth2"
+        android:textColor="@color/primaryLight2"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/text_recomended"/>
+        android:layout_below="@id/text_recommended"/>
     
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recomended_library"
+        android:id="@+id/recommended_library"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_yourlibrary_recomended1"
-        android:layout_below="@id/subtext_recomended"
+        tools:listitem="@layout/item_your_library_recommended1"
+        android:layout_below="@id/subtext_recommended"
         android:layout_marginTop="20dp" />
 </RelativeLayout>

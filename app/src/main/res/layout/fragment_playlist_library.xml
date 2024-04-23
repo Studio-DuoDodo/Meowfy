@@ -6,8 +6,8 @@
     tools:context=".fragments.PlaylistLibraryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lista_library"
+        android:id="@+id/list_library"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_yourlibrary"/>
+        tools:listitem="@layout/item_your_library"/>
 </FrameLayout>

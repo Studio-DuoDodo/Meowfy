@@ -27,7 +27,7 @@ public class AlbumLibraryFragment extends Fragment {
     AdapterLibraryListAdd2 adapterAdd;
     AdapterLibraryList adapter;
 
-    RecyclerView listaAlbum, listaRecomended;
+    RecyclerView listAlbum, listRecommended;
     AlbumService albumService;
     List<Album> savedAlbums;
 
@@ -44,23 +44,23 @@ public class AlbumLibraryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_artist_library, container, false);
         albumService = new AlbumService(v.getContext());
-        listaAlbum = v.findViewById(R.id.artistas_library);
-        listaRecomended = v.findViewById(R.id.recomended_library);
+        listAlbum = v.findViewById(R.id.artists_library);
+        listRecommended = v.findViewById(R.id.recommended_library);
 
         List<GeneralItem> album = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("7pA5KQnWxXWSHJv8g1wWQK", "album12", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista1", null),
                 new GeneralItem("4sTehljxd3DNsjHWx3a64L", "album22", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista2", null),
                 new GeneralItem("5uu6yCShtYnAp4qvrmQs72", "album32", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista3", null)
         ));
-        List<GeneralItem> recomendedAlbum = new ArrayList<GeneralItem>(Arrays.asList(
+        List<GeneralItem> recommendedAlbum = new ArrayList<GeneralItem>(Arrays.asList(
                 new GeneralItem("51PpTmf21xMgbjdcirTTDa", "album12", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista1", null),
                 new GeneralItem("4sTehljxd3DNsjHWx3a64L", "album22", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista2", null),
                 new GeneralItem("5uu6yCShtYnAp4qvrmQs72", "album32", Type.album, "https://i.scdn.co/image/0f057142f11c251f81a22ca639b7261530b280b2", "artista3", null)
         ));
         albumService.getUserSavedAlbums(this::updateAlbumByAPI, "ES", 10, 0);
         adapter = new AdapterLibraryList(album, getContext());
-        listaAlbum.setAdapter(adapter);
-        listaAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
+        listAlbum.setAdapter(adapter);
+        listAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
         SongService songService = new SongService(getContext());
         songService.getRecentlyPlayedTracks(() -> {
             List<Song> songs = songService.getSongs();
@@ -72,9 +72,9 @@ public class AlbumLibraryFragment extends Fragment {
 
             }
         });
-        adapterAdd = new AdapterLibraryListAdd2(recomendedAlbum, getContext());
-        listaRecomended.setAdapter(adapterAdd);
-        listaRecomended.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapterAdd = new AdapterLibraryListAdd2(recommendedAlbum, getContext());
+        listRecommended.setAdapter(adapterAdd);
+        listRecommended.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }

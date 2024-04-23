@@ -12,18 +12,15 @@ import com.android.volley.AuthFailureError;
 import com.example.meowtify.activities.MainActivity;
 import com.example.meowtify.fragments.AlbumFragment;
 import com.example.meowtify.fragments.ArtistFragment;
-import com.example.meowtify.fragments.OnFragmentChanged;
 import com.example.meowtify.fragments.PlaylistFragment;
-import com.example.meowtify.fragments.ReproductorFragment;
+import com.example.meowtify.fragments.PlayerFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class Utilitis {
+public class Utilities {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void navigationToAAP(GeneralItem generalItem, Context context) {
         Bundle bundle = new Bundle();
@@ -52,8 +49,8 @@ public class Utilitis {
                 }
                 bundle.putSerializable("typeList", Type.valueOf(generalItem.getExtra2()));
                 bundle.putSerializable("generalItem", generalItem);
-                fragment =  new ReproductorFragment();
-                fragmentTag="Reproductor";
+                fragment =  new PlayerFragment();
+                fragmentTag="Player";
 
         }
 

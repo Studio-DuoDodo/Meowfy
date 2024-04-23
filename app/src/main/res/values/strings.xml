@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Meowfy</string>
-    <string name="sheare">search</string>
+    <string name="search">search</string>
     <string name="playlist">Playlist</string>
-    <string name="artistas">Artistas</string>
-    <string name="albunes">Albunes</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albunes</string>
     <string name="home">home</string>
     <string name="your_library">your library</string>
     <string name="textNewList">Give your playlist a name</string>
     <string name="songs">songs</string>
+    <string name="shuffle_play">SHUFFLE PLAY</string>
+    <string name="based_on_the_songs_you_like">Based on the songs you like</string>
+    <string name="recommended_albums">Recommended albums</string>
 </resources>

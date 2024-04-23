@@ -1,17 +1,9 @@
 package com.example.meowtify.fragments;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +21,6 @@ import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Song;
 import com.example.meowtify.models.Type;
 import com.example.meowtify.services.AlbumService;
-import com.example.meowtify.services.ArtistService;
 import com.example.meowtify.services.MediaPlayerService;
 import com.example.meowtify.services.PlaylistService;
 import com.example.meowtify.services.SongService;
@@ -38,9 +29,7 @@ import com.example.meowtify.services.notifications.OnClearFromRecentService;
 import com.example.meowtify.services.notifications.Playable;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 import static android.content.Context.BIND_AUTO_CREATE;
 
 
-public class ReproductorFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
+public class PlayerFragment extends Fragment implements Playable, MediaPlayer.OnCompletionListener {
     public static SongService songService;
     public static GeneralItem song;
     public static Type type;
@@ -70,7 +59,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
     MainActivity mainActivity;
     View v;
 
-    public ReproductorFragment() {
+    public PlayerFragment() {
         // Required empty public constructor
     }
 
@@ -237,14 +226,14 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (favoriteButton.getTag(R.string.albunes).equals("1")) {
+                if (favoriteButton.getTag(R.string.albums).equals("1")) {
                     songService.addSongToLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-                    favoriteButton.setTag(R.string.albunes, "0");
+                    favoriteButton.setTag(R.string.albums, "0");
                 } else {
                     songService.removeSongOfLibrary(mainActivity.songs.get(mainActivity.position));
                     favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-                    favoriteButton.setTag(R.string.albunes, "1");
+                    favoriteButton.setTag(R.string.albums, "1");
 
                  }
             }
@@ -265,7 +254,7 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
         }
         if (mainActivity.mBounded)
             seekBar.setMax(30000);
-        MainActivity.inReproductorForFirstTime = true;
+        MainActivity.inPlayerForFirstTime = true;
 
         titleSong.setText(s.getName());
         titleSong.setSelected(true);
@@ -285,10 +274,10 @@ public class ReproductorFragment extends Fragment implements Playable, MediaPlay
 songService.checkIfTheUserHasASongInFavorites(()->{
     if(songService.isLastCheck()) {
         favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_24));
-        favoriteButton.setTag(R.string.albunes, "0");
+        favoriteButton.setTag(R.string.albums, "0");
     }else {
         favoriteButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_favorite_border_24));
-        favoriteButton.setTag(R.string.albunes,"1");
+        favoriteButton.setTag(R.string.albums,"1");
     }
 },mainActivity.songs.get(mainActivity.position).getId());
 

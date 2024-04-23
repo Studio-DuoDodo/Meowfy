@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.models.GeneralItem;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +30,7 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
     @NonNull
     @Override
     public LibraryListAdd2Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary_recomended2, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary_recommended2, parent, false);
         return new LibraryListAdd2Holder(v);
     }
 
@@ -60,7 +60,7 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
             nameAlbum = itemView.findViewById(R.id.name_album1);
             nameArtist = itemView.findViewById(R.id.name_autor);
             image = itemView.findViewById(R.id.image_library);
-            followButton = itemView.findViewById(R.id.favorits_album1);
+            followButton = itemView.findViewById(R.id.favorites_album1);
         }
 
         public void bindData(GeneralItem generalItem, int position) {
@@ -71,14 +71,14 @@ public class AdapterLibraryListAdd2 extends RecyclerView.Adapter<AdapterLibraryL
             followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Todo: metodo para añadir albunes a favoritos
+                    //Todo: metodo para añadir albums a favoritos
 
                     items.remove(position);
                     notifyDataSetChanged();
                 }
             });
 
-            itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
+            itemView.setOnClickListener(view -> Utilities.navigationToAAP(generalItem, context));
         }
     }
 }

@@ -6,10 +6,10 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home"/>
     <item
-        android:id="@+id/sheare"
+        android:id="@+id/share"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_search_24"
-        android:title="@string/sheare"/>
+        android:title="@string/search"/>
     <item
         android:id="@+id/library"
         android:enabled="true"

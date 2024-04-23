@@ -54,9 +54,9 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         searchLayout = v.findViewById(R.id.search_edit);
-        search = v.findViewById(R.id.lista_search);
-        recentlySearch = v.findViewById(R.id.lista_recenly_search);
-        recentlyText = v.findViewById(R.id.textRecycel);
+        search = v.findViewById(R.id.list_search);
+        recentlySearch = v.findViewById(R.id.recently_search_list);
+        recentlyText = v.findViewById(R.id.textRecycler);
 
         search.setVisibility(View.INVISIBLE);
 

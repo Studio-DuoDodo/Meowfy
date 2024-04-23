@@ -24,7 +24,7 @@ import java.util.List;
 public class PlaylistLibraryFragment extends Fragment {
 
 
-    RecyclerView listaPlaylist;
+    RecyclerView listPlaylist;
     PlaylistService playlistService;
     AdapterLibraryList adapter;
 
@@ -42,7 +42,7 @@ public class PlaylistLibraryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist_library, container, false);
 
-        listaPlaylist = v.findViewById(R.id.lista_library);
+        listPlaylist = v.findViewById(R.id.list_library);
         playlistService = new PlaylistService(v.getContext());
         playlistService.getUserPlayLists(this::IntroduceMyPlaylists, 50, 0);
 
@@ -54,8 +54,8 @@ public class PlaylistLibraryFragment extends Fragment {
         ));
 
         adapter = new AdapterLibraryList(items, getContext());
-        listaPlaylist.setAdapter(adapter);
-        listaPlaylist.setLayoutManager(new LinearLayoutManager(getContext()));
+        listPlaylist.setAdapter(adapter);
+        listPlaylist.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }

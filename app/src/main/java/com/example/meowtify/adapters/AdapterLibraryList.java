@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.fragments.CreatePlaylistFragment;
 import com.example.meowtify.models.GeneralItem;
 import com.example.meowtify.models.Type;
@@ -38,7 +38,7 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
     @NonNull
     @Override
     public LibraryListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_yourlibrary, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_your_library, parent, false);
         return new LibraryListHolder(v);
     }
 
@@ -53,14 +53,14 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
     }
 
     public class LibraryListHolder extends RecyclerView.ViewHolder {
-        TextView title, subTitel;
+        TextView title, subTitle;
         ImageView image;
 
         public LibraryListHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.titel_library);
-            subTitel = itemView.findViewById(R.id.subtitel_library);
+            title = itemView.findViewById(R.id.title_library);
+            subTitle = itemView.findViewById(R.id.subtitle_library);
             image = itemView.findViewById(R.id.image_library);
         }
 
@@ -69,16 +69,16 @@ public class AdapterLibraryList extends RecyclerView.Adapter<AdapterLibraryList.
             title.setText(generalItem.getName());
             if (generalItem.getExtra1() != null) {
 
-                String subtitel = "";
-                if (generalItem.getType() == Type.playlist) subtitel = "by ";
-                subtitel += generalItem.getExtra1();
-                subTitel.setText(subtitel);
+                String subtitle = "";
+                if (generalItem.getType() == Type.playlist) subtitle = "by ";
+                subtitle += generalItem.getExtra1();
+                subTitle.setText(subtitle);
 
                 Picasso.with(context).load(generalItem.getImage()).
                         resize(220, 220).into(image);
                 image.setPadding(0, 0, 0, 0);
 
-                itemView.setOnClickListener(view -> Utilitis.navigationToAAP(generalItem, context));
+                itemView.setOnClickListener(view -> Utilities.navigationToAAP(generalItem, context));
             } else {
                 image.setImageResource(R.drawable.ic_baseline_add_24);
                 image.setPadding(80, 80, 80, 80);

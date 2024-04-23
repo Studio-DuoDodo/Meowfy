@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meowtify.R;
-import com.example.meowtify.Utilitis;
+import com.example.meowtify.Utilities;
 import com.example.meowtify.adapters.AdapterMainList;
 import com.example.meowtify.adapters.AdapterSongsList;
 import com.example.meowtify.models.Album;
@@ -36,7 +36,7 @@ public class ArtistFragment extends Fragment {
 
     boolean isFollowing = false;
     ImageView imageArtist;
-    TextView nameArtist, subtitelArtist;
+    TextView nameArtist, subtitleArtist;
     Button buttonShuffel, buttonFolllow;
     RecyclerView songs, albums, relatedArtist;
     Artist artist;
@@ -61,7 +61,7 @@ public class ArtistFragment extends Fragment {
 
         imageArtist = v.findViewById(R.id.image_artist2);
         nameArtist = v.findViewById(R.id.name_artist2);
-        subtitelArtist = v.findViewById(R.id.subname_artist2);
+        subtitleArtist = v.findViewById(R.id.subname_artist2);
         buttonShuffel = v.findViewById(R.id.shuffel_artist);
         buttonFolllow = v.findViewById(R.id.follow_artist);
         songs = v.findViewById(R.id.songs);
@@ -81,8 +81,8 @@ public class ArtistFragment extends Fragment {
         }
 
         nameArtist.setText(artist.getName());
-        String subtitel = artist.getFollowers().getTotal() + " FOLLOWERS";
-        subtitelArtist.setText(subtitel);
+        String subtitle = artist.getFollowers().getTotal() + " FOLLOWERS";
+        subtitleArtist.setText(subtitle);
 
         buttonShuffel.setOnClickListener(view -> {
             GeneralItem generalItem = artist.toGeneralItem();
@@ -92,7 +92,7 @@ public class ArtistFragment extends Fragment {
             generalItem.setExtra1(String.valueOf(new Random().nextInt(adapterSongs.getItemCount())));
             generalItem.setExtra2(Type.artist.toString());
 
-            Utilitis.navigationToAAP(generalItem, getContext());
+            Utilities.navigationToAAP(generalItem, getContext());
         });
         buttonFolllow.setOnClickListener(view -> {
             //todo: add to the follow playlist
@@ -207,7 +207,7 @@ public class ArtistFragment extends Fragment {
         artist = a;
         Picasso.with(getContext()).load(a.images.get(0).url).into(imageArtist);
         nameArtist.setText(a.getName());
-        subtitelArtist.setText(a.getFollowers().getTotal() + " FOLLOWERS");
+        subtitleArtist.setText(a.getFollowers().getTotal() + " FOLLOWERS");
 
 
     }

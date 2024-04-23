@@ -18,7 +18,7 @@
             android:layout_marginTop="50dp"
             tools:src="@drawable/common_google_signin_btn_text_dark"
             tools:padding="80dp"
-            tools:background="@color/primaryLigth2"
+            tools:background="@color/primaryLight2"
             android:contentDescription="TODO" />
 
         <TextView

@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titel"
+        android:id="@+id/title"
         android:text="Search"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/search_edit"
         android:hint="Artist, songs or albums"
-        android:layout_below="@id/titel"
-        android:background="@color/primaryLigth1"
-        app:boxBackgroundColor="@color/primaryLigth1"
-        android:textColorHint="@color/primaryLigth2"
+        android:layout_below="@id/title"
+        android:background="@color/primaryLight1"
+        app:boxBackgroundColor="@color/primaryLight1"
+        android:textColorHint="@color/primaryLight2"
         app:endIconMode="clear_text"
         app:endIconDrawable="@drawable/ic_baseline_close_24"
         android:layout_marginTop="5dp">
@@ -37,7 +37,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lista_search"
+        android:id="@+id/list_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_search"
@@ -46,7 +46,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textRecycel"
+        android:id="@+id/textRecycler"
         android:text="Recent searches"
         android:layout_below="@id/search_edit"
         android:layout_marginTop="20dp"
@@ -54,10 +54,10 @@
         android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lista_recenly_search"
+        android:id="@+id/recently_search_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_recently_search"
-        android:layout_below="@id/textRecycel"/>
+        android:layout_below="@id/textRecycler"/>
 
 </RelativeLayout>

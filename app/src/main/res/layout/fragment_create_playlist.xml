@@ -42,7 +42,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_marginEnd="200dp"
         android:layout_below="@id/new_name"
-        android:textColor="@color/primaryLigth2"/>
+        android:textColor="@color/primaryLight2"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -39,7 +39,7 @@ public class MainFragment extends Fragment {
     private SongService songService;
     private PlaylistService playlistService;
     private TextView missatgePersonalitzat;
-    private RecyclerView lista1, lista2, lista3, lista4, lista5;
+    private RecyclerView list1, list2, list3, list4, list5;
 
     public MainFragment() {
     }
@@ -63,11 +63,11 @@ public class MainFragment extends Fragment {
         adapters.add(new AdapterMainList(defaultItem, v.getContext(), 400));
         adapters.add(new AdapterMainList(defaultItem, v.getContext(), 400));
         missatgePersonalitzat = v.findViewById(R.id.missatgePersonalitzat);
-        lista1 = v.findViewById(R.id.listaRecently);
-        lista2 = v.findViewById(R.id.listaYourPlaylist);
-        lista3 = v.findViewById(R.id.listaJumpBack);
-        lista4 = v.findViewById(R.id.listaJumpBack2);
-        lista5 = v.findViewById(R.id.listaRecomendedByDeveloper);
+        list1 = v.findViewById(R.id.listRecently);
+        list2 = v.findViewById(R.id.listYourPlaylist);
+        list3 = v.findViewById(R.id.listJumpBack);
+        list4 = v.findViewById(R.id.listJumpBack2);
+        list5 = v.findViewById(R.id.listRecommendedByDeveloper);
         int date = Integer.parseInt(new SimpleDateFormat("H", Locale.UK).format(new Date().getTime()));
         System.out.println(date);
         String s;
@@ -87,16 +87,16 @@ public class MainFragment extends Fragment {
         missatgePersonalitzat.setText(s + " " + sharedPreferences.getString("username", "Unknown user"));
 
         songService = new SongService(v.getContext());
-        lista1.setAdapter(adapters.get(0));
-        lista1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        lista2.setAdapter(adapters.get(1));
-        lista2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        lista3.setAdapter(adapters.get(2));
-        lista3.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        lista4.setAdapter(adapters.get(3));
-        lista4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        lista5.setAdapter(adapters.get(4));
-        lista5.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        list1.setAdapter(adapters.get(0));
+        list1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        list2.setAdapter(adapters.get(1));
+        list2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        list3.setAdapter(adapters.get(2));
+        list3.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        list4.setAdapter(adapters.get(3));
+        list4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        list5.setAdapter(adapters.get(4));
+        list5.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         songService.getRecentlyPlayedTracks(this::IntroduceRecentlyPlayedSongs);
         playlistService.getFeaturedPlayList(this::IntroduceFeaturedPlaylists);
